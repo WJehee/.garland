@@ -39,7 +39,7 @@
   services.printing.enable = true;
 
   security.doas.enable = true;
-  security.sudo.enable = false;
+  security.sudo.enable = true;
   security.doas.extraRules = [{
     users = [ "wouter" ];
     keepEnv = true;
@@ -50,7 +50,7 @@
   users.defaultUserShell = pkgs.zsh;
   users.users.wouter = {
     isNormalUser = true;
-    extraGroups = [ "docker" ];
+    extraGroups = [ "wheel" "docker" ];
     packages = with pkgs; [
       alacritty
       firefox

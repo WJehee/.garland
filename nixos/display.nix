@@ -1,6 +1,7 @@
 { config, pkgs,... }:
 {
   services.picom.enable = true;
+  programs.hyprland.enable = true;
   services.xserver = {
     enable = true;
     layout = "us";
@@ -9,7 +10,7 @@
 
     windowManager.bspwm.enable = true;
     displayManager = {
-      defaultSession = "none+bspwm";
+      defaultSession = "hyprland";
       lightdm.enable = true;
       autoLogin.enable = true;
       autoLogin.user = "wouter";
