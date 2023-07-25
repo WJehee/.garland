@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ inputs, lib, config, pkgs, ... }:
 {
   imports =
     [
-      <home-manager/nixos>
+      inputs.home-manager.nixosModules.home-manager
       ./hardware-configuration.nix
       ./env.nix
       ./display.nix
@@ -73,7 +73,8 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.wouter = import ../home-manager;
+    extraSpecialArgs = { inherit inputs; };
+    users.wouter = import ../home-manager/home.nix;
   };
   services.openssh.enable = true;
 
