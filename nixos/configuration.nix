@@ -13,7 +13,7 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices.nixos.device = "/dev/disk/by-uuid/c0c54529-0aae-45d4-833d-b2a3c8a1dfb4";
+  boot.initrd.luks.devices.nixos.device = "/dev/disk/by-uuid/38fbea60-655c-4784-92c4-a0c0dac7d6d1";
 
   networking.hostName = "rusty-nix";
   networking.networkmanager.enable = true;
@@ -78,6 +78,5 @@
   };
   services.openssh.enable = true;
 
-  system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 }
