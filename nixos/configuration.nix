@@ -6,8 +6,10 @@
       ./hardware-configuration.nix
       ./env.nix
       ./display.nix
+      ./dev.nix
     ];
 
+  nixpkgs.config.allowUnfree = true;
   # Grub 2 bootloader
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
@@ -37,6 +39,9 @@
     pkgs.eww-wayland
     pkgs.libnotify
     pkgs.gcc
+    pkgs.wl-clipboard
+    pkgs.cliphist
+    pkgs.signal-desktop
   ];
 
   xdg.portal = {
@@ -52,6 +57,11 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+  };
+  services.syncthing = {
+    enable = true;
+    user = "wouter";
+    dataDir = "/home/wouter/";
   };
 
   # Select internationalisation properties.
