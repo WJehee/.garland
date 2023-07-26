@@ -25,6 +25,35 @@
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 30d";
 
+  programs.zsh.setOptions = [
+    "AUTO_CD"
+    "COMPLETE_ALIASES"
+  ];
+
+  environment.systemPackages = [
+    pkgs.qt6.qtwayland
+    pkgs.libsForQt5.qt5.qtwayland
+    pkgs.hyprpaper
+    pkgs.eww-wayland
+    pkgs.libnotify
+    pkgs.gcc
+  ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+  };
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -33,8 +62,6 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
   services.printing.enable = true;
 
   security.doas.enable = true;
@@ -57,9 +84,8 @@
       grim
       syncthing
       keepassxc
-      neovim
-      bspwm
       dunst
+      bspwm
       git
       docker
       libinput

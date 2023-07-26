@@ -5,20 +5,6 @@
   home.stateVersion = "23.05";
   home.packages = [];
 
-  services.picom.enable = true;
-  services.polybar.enable = true;
-  services.polybar.script = "polybar laptop-primary &";
-  xsession.windowManager.bspwm = {
-    enable = true;
-    monitors = {
-      eDP-1 = ["1" "2" "3" "4" "5" "6" "7" "8" "9" "10"];
-    };
-    startupPrograms = [
-      "xrdb $XDG_CONFIG_HOME/X11/Xresources"
-      "systemctl --user restart polybar"
-    ];
-  };
-
   programs.alacritty = {
     enable = true;
     settings.window.opacity = 0.85;
@@ -35,5 +21,16 @@
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
+    shellAliases = {
+        la = "ls -A";
+        ls = "ls --color";
+        ll = "ls -Al";
+    };
+  };
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    defaultEditor = true;
   };
 }
