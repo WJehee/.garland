@@ -35,7 +35,6 @@
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-  services.xserver.libinput.enable = true;
   services.printing.enable = true;
 
   security.doas.enable = true;
@@ -54,16 +53,12 @@
     packages = with pkgs; [
       alacritty
       firefox
-      flameshot
-      rofi
+      wofi
+      grim
       syncthing
-      picom
       keepassxc
       neovim
       bspwm
-      sxhkd
-      polybar
-      picom
       dunst
       git
       docker
