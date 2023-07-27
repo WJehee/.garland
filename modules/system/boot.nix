@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{ ... }: {
     boot = {
         loader.grub.enable = true;
         loader.grub.device = "nodev";

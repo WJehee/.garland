@@ -1,5 +1,5 @@
 {
-    description = "nix config";
+    description = "My NixOS config";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -10,16 +10,27 @@
         nix-colors.url = "github:misterio77/nix-colors";
     };
 
-    outputs = { self, nixpkgs, ... }@inputs:
-    let
-        inherit (self) outputs;
-    in
-    {
-        nixosConfigurations = {
-            rusty-nix = nixpkgs.lib.nixosSystem {
-                specialArgs = { inherit inputs outputs; };
-                modules = [ ./nixos ];
+    outputs = { nixpkgs, home-manager, nix-colors, ... }@inputs:
+    let 
+        mkSystem = pkgs: system: hostname:
+            pkgs.lib.nixosSystem {
+                system = system;
+                specialArgs = { inherit inputs; };
+                modules = [
+                    { networking.hostName = hostname; }
+                    (./. + "/hosts/${hostname}/hardware-configuration.nix")
+                    ./modules/system
+                    home-manager.nixosModules.home-manager {
+                        home-manager = {
+                            extraSpecialArgs = { inherit inputs; };
+                            users.wouter = (./. + "/hosts/${hostname}/configuration.nix");
+                        };
+                    }
+                ];
             };
+    in {
+        nixosConfigurations = {
+            rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop";
         };
     };
 }

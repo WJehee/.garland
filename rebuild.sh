@@ -1,1 +1,2 @@
-sudo nixos-rebuild switch --flake .#rusty-nix
+git add .
+sudo nixos-rebuild switch --flake .#rusty-laptop

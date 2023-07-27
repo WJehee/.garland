@@ -1,8 +1,10 @@
-{ inputs, lib, config, pkgs,... }:
-{
+{  pkgs , ... }: {
     environment.systemPackages = with pkgs; [
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
+        wl-clipboard
+        cliphist
+        grim
         hyprpaper
         libnotify
         swayidle
