@@ -4,6 +4,7 @@
             pkgs.rustup
             pkgs.cargo
             gcc
+            ripgrep
             signal-desktop
             obsidian
             flavours

@@ -7,10 +7,11 @@
         home-manager.url = "github:nix-community/home-manager/release-23.05";
         home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+        hyprland.url = "github:hyprwm/Hyprland";
         nix-colors.url = "github:misterio77/nix-colors";
     };
 
-    outputs = { nixpkgs, home-manager, nix-colors, ... }@inputs:
+    outputs = { nixpkgs, home-manager, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname:
             pkgs.lib.nixosSystem {
@@ -20,6 +21,7 @@
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/hardware-configuration.nix")
                     ./modules/system
+
                     home-manager.nixosModules.home-manager {
                         home-manager = {
                             extraSpecialArgs = { inherit inputs; };

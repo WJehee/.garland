@@ -1,17 +1,7 @@
-{  pkgs , ... }: {
-    environment.systemPackages = with pkgs; [
-        qt6.qtwayland
-        libsForQt5.qt5.qtwayland
-        wl-clipboard
-        cliphist
-        grim
-        hyprpaper
-        libnotify
-        swayidle
-        swaylock-effects
+{ pkgs, config, ... }: {
+    imports = [
+        ./hyprland.nix
     ];
-    programs.hyprland.enable = true;
-    programs.waybar.enable = true;
     security.rtkit.enable = true;
     xdg.portal = {
         enable = true;
