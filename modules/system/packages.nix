@@ -1,21 +1,33 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
         pkgs.python312
-            pkgs.rustup
-            pkgs.cargo
-            gcc
-            ripgrep
-            signal-desktop
-            obsidian
-            flavours
-            alacritty
-            firefox
-            wofi
-            syncthing
-            keepassxc
-            dunst
-            bspwm
-            git
-            docker
+        pkgs.rustup
+        pkgs.cargo
+        gcc
+        ripgrep
+        signal-desktop
+        obsidian
+        flavours
+        alacritty
+        firefox
+        wofi
+        syncthing
+        keepassxc
+        dunst
+        bspwm
+        git
+        docker
+        qt6.qtwayland
+        libsForQt5.qt5.qtwayland
+        libsForQt5.qtstyleplugins
+        wl-clipboard
+        cliphist
+        grim
+        hyprpaper
+        libnotify
+        swayidle
+        swaylock-effects
+        pavucontrol
+        vlc
     ];
 }

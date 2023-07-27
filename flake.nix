@@ -11,7 +11,7 @@
         nix-colors.url = "github:misterio77/nix-colors";
     };
 
-    outputs = { nixpkgs, home-manager, ... }@inputs:
+    outputs = { nixpkgs, home-manager, nix-colors, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname:
             pkgs.lib.nixosSystem {
@@ -20,7 +20,7 @@
                 modules = [
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/hardware-configuration.nix")
-                    ./modules/system
+                    ./modules/system/default.nix
 
                     home-manager.nixosModules.home-manager {
                         home-manager = {

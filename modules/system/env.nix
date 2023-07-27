@@ -14,6 +14,9 @@
         # Fix java issue with jetbrains stuff
         _JAVA_AWT_WM_NONREPARENTING = "1";
 
+        # Make QT theming work
+        QT_QPA_PLATFORMTHEME = "gtk2";
+
         # Clean up home
         CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
         RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
