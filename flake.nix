@@ -11,7 +11,7 @@
         nix-colors.url = "github:misterio77/nix-colors";
     };
 
-    outputs = { nixpkgs, home-manager, nix-colors, ... }@inputs:
+    outputs = { nixpkgs, home-manager, hyprland, nix-colors, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname:
             pkgs.lib.nixosSystem {

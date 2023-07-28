@@ -29,5 +29,7 @@
         swaylock-effects
         pavucontrol
         vlc
+        psmisc
+        networkmanagerapplet
     ];
 }
