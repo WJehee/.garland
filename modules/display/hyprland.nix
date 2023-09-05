@@ -85,6 +85,10 @@ device:epic-mouse-v1 {
     sensitivity = -0.5
 }
 
+misc {
+    disable_splash_rendering = true
+}
+
 # Keybinds
 $mainMod = SUPER
 
