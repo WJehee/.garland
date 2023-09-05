@@ -20,12 +20,12 @@
                 modules = [
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/hardware-configuration.nix")
-                    ./modules/system/default.nix
+                    (./. + "/hosts/${hostname}/configuration.nix")
 
                     home-manager.nixosModules.home-manager {
                         home-manager = {
                             extraSpecialArgs = { inherit inputs; };
-                            users.wouter = (./. + "/hosts/${hostname}/configuration.nix");
+                            users.wouter = (./. + "/hosts/${hostname}/home.nix");
                         };
                     }
                 ];
@@ -33,6 +33,7 @@
     in {
         nixosConfigurations = {
             rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop";
+ 	    rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop";
         };
     };
 }

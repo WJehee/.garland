@@ -16,8 +16,6 @@ vgcreate vg-name /dev/mapper/pv-name
 
 # Create 8Gb swap (optional)
 lvcreate -L 8G -n swap vg-name
-# Create 100Gb root partition (optional)
-lvcreate -L 200G -n root vg-name
 # Use rest for home partition
 lvcreate -l 100%FREE -n home vg-name
 ```
@@ -35,11 +33,10 @@ Mounting:
 mount /dev/vg-name/root /mnt
 mkdir /mnt/boot
 mount /dev/boot-disk /mnt/boot
-mkdir /mnt/home
-mount /dev/vg-name/home /mnt/home
+swapon /dev/vg-name/swap
 ```
 
-Connect to internet:
+Connect to internet (wireless):
 ```
 sudo systemctl start wpa_supplicant
 wpa_cli
@@ -55,12 +52,19 @@ Install NixOS:
 ```
 nixos-generate-config --root /mnt
 
-# Get nix config file from dotfiles
+git clone https://github.com/wjehee/.dotfiles-nix
 
-nixos-install
+cp /mnt/etc/nixos/hardware-configuration.nix ~/.dotfiles-nix/hosts/HOSTNAME/
+
+nixos-install --flake .#HOSTNAME
 ```
 
-Reboot, login as root and change the user password
+# Enter as root and change user password, then reboot
+```
+nixos-enter --root /mnt
+passwd USERNAME
+reboot
+```
 
 Thanks to :
 https://gist.github.com/martijnvermaat/76f2e24d0239470dd71050358b4d5134
