@@ -31,5 +31,10 @@
         vlc
         psmisc
         networkmanagerapplet
+        spotify
+        wget
+        unzip
+        ffmpeg
+        imagemagick
     ];
 }
