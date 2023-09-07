@@ -1,2 +1,2 @@
 git add .
-sudo nixos-rebuild switch --flake .#rusty-desktop
+doas nixos-rebuild switch --flake ".#$(hostname)"

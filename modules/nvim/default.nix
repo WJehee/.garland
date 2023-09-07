@@ -64,7 +64,6 @@
             nnoremap("<leader>hd", "<cmd>Lspsaga hover_doc<CR>")
         '';
         plugins  = with pkgs.vimPlugins; [
-            vim-airline
             nvim-treesitter.withAllGrammars
             nvim-web-devicons
             nvim-comment
