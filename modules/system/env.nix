@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
     environment.sessionVariables = {
         XDG_CACHE_HOME = "$HOME/.cache";
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -20,6 +20,7 @@
         # Clean up home
         CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
         RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
+        RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
         DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
         GOPATH = "$XDG_DATA_HOME/go";
         STACK_ROOT = "$XDG_DATA_HOME/stack";
