@@ -113,7 +113,9 @@ bind = $mainMod, Q, killactive,
 bind = $mainMod, M, exit, 
 bind = $mainMod SHIFT, L, exec, swaylock --screenshots --clock --effect-blur 7x5 --grace 3
 
+# Launch programs
 bind = $mainMod, F, exec, $BROWSER 
+bind = $mainMod SHIFT, s, exec, grimshot copy area 
 
 bind = $mainMod, P, pseudo, # dwindle
 bind = $mainMod, J, togglesplit, # dwindle

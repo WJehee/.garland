@@ -3,6 +3,9 @@
         pkgs.python312
         pkgs.rustup
         pkgs.cargo
+        rust-analyzer
+        clippy
+        rustfmt
         gcc
         ripgrep
         signal-desktop
@@ -22,7 +25,7 @@
         libsForQt5.qtstyleplugins
         wl-clipboard
         cliphist
-        grim
+        sway-contrib.grimshot
         hyprpaper
         libnotify
         swayidle
