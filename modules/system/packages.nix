@@ -1,8 +1,10 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
-        pkgs.python312
-        pkgs.rustup
-        pkgs.cargo
+        python312
+        rustup
+        cargo
+        clippy
+        rustc
         gcc
         ripgrep
         signal-desktop

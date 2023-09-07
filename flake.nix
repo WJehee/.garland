@@ -33,7 +33,7 @@
     in {
         nixosConfigurations = {
             rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop";
- 	    rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop";
+            rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop";
         };
     };
 }
