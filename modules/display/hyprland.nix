@@ -5,7 +5,22 @@
     wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
-monitor=,preferred,auto,1
+monitor=DP-2,preferred,auto,1
+monitor=DP-3,preferred,auto,1,transform,1
+monitor=HDMI-A-1,preferred,auto,1
+
+workspace=1, monitor:DP-2, default:true
+workspace=2, monitor:DP-2
+workspace=3, monitor:DP-2
+workspace=4, monitor:DP-2
+workspace=5, monitor:DP-2
+
+workspace=6, monitor:DP-3
+workspace=7, monitor:DP-3
+workspace=8, monitor:DP-3
+
+workspace=9, monitor:HDMI-A-1
+workspace=10, monitor:HDMI-A-1
 
 exec-once = waybar &
 exec-once = dunst &
@@ -98,7 +113,9 @@ bind = $mainMod, Q, killactive,
 bind = $mainMod, M, exit, 
 bind = $mainMod SHIFT, L, exec, swaylock --screenshots --clock --effect-blur 7x5 --grace 3
 
+# Launch programs
 bind = $mainMod, F, exec, $BROWSER 
+bind = $mainMod SHIFT, s, exec, grimshot copy area 
 
 bind = $mainMod, P, pseudo, # dwindle
 bind = $mainMod, J, togglesplit, # dwindle

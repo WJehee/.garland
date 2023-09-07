@@ -5,6 +5,8 @@
         ./nvim
         ./zsh
         ./display
+	./waybar
+	./firefox
     ];
     home.username = "wouter";
     home.homeDirectory = "/home/wouter";

@@ -3,8 +3,9 @@
         python312
         rustup
         cargo
+        rust-analyzer
         clippy
-        rustc
+        rustfmt
         gcc
         ripgrep
         signal-desktop
@@ -24,7 +25,7 @@
         libsForQt5.qtstyleplugins
         wl-clipboard
         cliphist
-        grim
+        sway-contrib.grimshot
         hyprpaper
         libnotify
         swayidle
@@ -33,5 +34,10 @@
         vlc
         psmisc
         networkmanagerapplet
+        spotify
+        wget
+        unzip
+        ffmpeg
+        imagemagick
     ];
 }

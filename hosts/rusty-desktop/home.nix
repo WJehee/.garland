@@ -4,5 +4,5 @@
 
         ../../modules/default.nix
     ];
-    colorscheme = inputs.nix-colors.colorSchemes.nord;
+    colorscheme = inputs.nix-colors.colorSchemes.woodland;
 }
