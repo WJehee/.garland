@@ -3,6 +3,7 @@
         ./boot.nix
         ./env.nix
         ./packages.nix
+        ./printing.nix
     ];
     # General settings
     system.stateVersion = "23.05";
