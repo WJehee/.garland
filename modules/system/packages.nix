@@ -39,5 +39,6 @@
         unzip
         ffmpeg
         imagemagick
+        gnupg
     ];
 }

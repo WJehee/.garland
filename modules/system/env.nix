@@ -36,7 +36,7 @@
         GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
 
         GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
-        GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+        # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
         WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
 
         ERRFILE = "$XDG_CACHE_HOME/X11/xsession-errors";
