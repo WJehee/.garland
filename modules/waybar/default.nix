@@ -57,6 +57,13 @@ window#waybar {
 #workspaces button.persistent,
 #workspaces button.hidden {
     background-color: transparent;
+}
+
+#workspaces button {
+    color: @base03;
+}
+
+#workspaces button.active {
     color: @base06;
 }
 
