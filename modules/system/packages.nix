@@ -40,5 +40,9 @@
         ffmpeg
         imagemagick
         gnupg
+        krita
+        gimp
+        tree
+        zola
     ];
 }

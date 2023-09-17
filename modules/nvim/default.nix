@@ -66,8 +66,8 @@
         plugins  = with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
             nvim-web-devicons
-            nvim-comment
             nvim-cmp
+            vim-commentary
             cmp-nvim-lsp
             flutter-tools-nvim
             lsp-zero-nvim
