@@ -50,14 +50,11 @@
             end
 
             local nnoremap = keymap().nnoremap
-            local saga = require('lspsaga')
-            saga.setup({})
 
             nnoremap("<leader>ff", require('telescope.builtin').find_files)
             nnoremap("<leader>fg", require('telescope.builtin').live_grep)
             nnoremap("<leader>fb", require('telescope.builtin').buffers)
 
-            -- Still have to figure out how to use lua here instead of <cmd>
             nnoremap("<leader>ca", "<cmd>Lspsaga code_action<CR>")
             nnoremap("<leader>rn", "<cmd>Lspsaga rename<CR>")
             nnoremap("<leader>gd", "<cmd>Lspsaga peek_definition<CR>")
@@ -65,16 +62,39 @@
         '';
         plugins  = with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
+            nvim-treesitter-context
             nvim-web-devicons
             nvim-cmp
             vim-commentary
             cmp-nvim-lsp
             flutter-tools-nvim
-            lsp-zero-nvim
+            {
+                plugin = lsp-zero-nvim;
+                type = "lua";
+                config = ''
+                    local lsp = require('lsp-zero')
+                    lsp.preset('recommended')
+
+                    lsp.on_attach(function(client, bufnr)
+                        local opts = {buffer = bufnr, remap=false}
+
+                        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+                    end)
+
+                    lsp.setup()
+                '';
+            }
             telescope-nvim
             popup-nvim
             plenary-nvim
-            lspsaga-nvim
+            {
+                plugin = lspsaga-nvim;
+                type = "lua";
+                config = ''
+                    local saga = require('lspsaga')
+                    saga.setup({})
+                '';
+            }
             mason-nvim
             mason-lspconfig-nvim
             rust-vim
