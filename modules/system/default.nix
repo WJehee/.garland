@@ -46,6 +46,7 @@
             "wheel"
             "docker"
             "wireshark"
+            "libvirtd"
         ];
     };
     security.rtkit.enable = true;
@@ -82,4 +83,6 @@
         pulse.enable = true;
     };
     programs.hyprland.enable = true;
+    programs.dconf.enable = true;
+    virtualisation.libvirtd.enable = true;
 }

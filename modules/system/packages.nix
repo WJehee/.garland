@@ -44,5 +44,7 @@
         gimp
         tree
         zola
+        nodejs
+        virt-manager
     ];
 }
