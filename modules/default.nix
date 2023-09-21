@@ -47,6 +47,7 @@
             "docker"
             "wireshark"
             "libvirtd"
+            "network"
         ];
     };
     security.rtkit.enable = true;

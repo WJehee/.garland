@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }: {
     imports = [
         ../../modules/boot.nix
+        ../../modules/radicale.nix
     ];
     environment.systemPackages = with pkgs; [
         git
@@ -10,10 +11,11 @@
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
 
-    programs.neovim.enable = true;
-    #networking.firewall = {
-    #    enable = true;
-    #};
+    programs.vim.enable = true;
+    networking.firewall = {
+        enable = true;
+        allowedTCPPorts = [ 22 80 443 5232 ];
+    };
     security.acme = {
         acceptTerms = true;
         defaults.email = "dev.temporator@aleeas.com";
@@ -42,23 +44,6 @@
            };
         };
     };
-    services.radicale = {
-        enable = true;
-        settings = {
-            server = {
-                hosts = [ "0.0.0.0:5232" "[::]:5232" ];
-            };
-            auth = {
-                type = "htpasswd";
-                htpasswd_filename = "/etc/radicale/users";
-                htpasswd_encryption = "bcrypt";
-            };
-            storage = {
-                filesystem_folder = "/var/lib/radicale/collections";
-            };
-        };
-    };
-# services.stalwart-mail = {
-#    enable = true;
-# };
+
+}
                        }
