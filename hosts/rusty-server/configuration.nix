@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }: {
     imports = [
-        ../../modules/system/boot.nix
+        ../../modules/boot.nix
     ];
     environment.systemPackages = with pkgs; [
         git

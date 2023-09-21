@@ -2,7 +2,7 @@
     imports = [
         inputs.nix-colors.homeManagerModules.default
 
-        ../../modules/default.nix
+        ../../home/default.nix
     ];
     colorscheme = inputs.nix-colors.colorSchemes.nord;
 }
