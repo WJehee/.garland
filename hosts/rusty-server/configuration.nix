@@ -28,19 +28,18 @@
                 enableACME = true;
                 root = "/var/www/wouterjehee.com";
             };
-           #"cal.wouterjehee.com" = {
-           #    forceSSL = true;
-           #    enableACME = true;
-           #    locations."/" = {
-           #        proxyPass = "http://localhost:5232/";
-           #        extraConfig = ''
-           #            proxy_set_header X-Script-Name /radicale;
-           #            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           #            proxy_set_header Host $http_host;
-           #            proxy_pass_header Authorization;
-           #        '';
-           #    };
-           #};
+           "cal.wouterjehee.com" = {
+               forceSSL = true;
+               enableACME = true;
+               locations."/" = {
+                   proxyPass = "http://localhost:5232/";
+                   extraConfig = ''
+                       proxy_set_header X-Script-Name /radicale;
+                       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                       proxy_pass_header Authorization;
+                   '';
+               };
+           };
         };
     };
     services.radicale = {
