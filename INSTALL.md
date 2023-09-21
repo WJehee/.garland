@@ -1,5 +1,10 @@
 # Installing NixOS
 
+Become root:
+```
+sudo su
+```
+
 Create 2 partitions:
 - EFI boot: 512 MB
 - Main: the rest of the space
@@ -38,7 +43,7 @@ swapon /dev/vg-name/swap
 
 Connect to internet (wireless):
 ```
-sudo systemctl start wpa_supplicant
+systemctl start wpa_supplicant
 wpa_cli
 add_network
 set_network 0 ssid "ssid of the network"
@@ -51,11 +56,10 @@ quit
 Install NixOS:
 ```
 nixos-generate-config --root /mnt
-
+nix-shell -p git
 git clone https://github.com/wjehee/.dotfiles-nix
-
 cp /mnt/etc/nixos/hardware-configuration.nix ~/.dotfiles-nix/hosts/HOSTNAME/
-
+git add .
 nixos-install --flake .#HOSTNAME
 ```
 

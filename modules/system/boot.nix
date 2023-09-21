@@ -1,8 +1,9 @@
 { ... }: {
-    boot = {
-        loader.grub.enable = true;
-        loader.grub.device = "nodev";
-        loader.grub.efiSupport = true;
-        loader.efi.canTouchEfiVariables = true;
+    boot.loader = {
+        grub.enable = true;
+        grub.device = "nodev";
+        grub.efiSupport = true;
+        grub.useOSProber = true;
+        efi.canTouchEfiVariables = true;
     };
 }
