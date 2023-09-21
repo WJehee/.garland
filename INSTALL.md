@@ -61,10 +61,10 @@ git clone https://github.com/wjehee/.dotfiles-nix
 cp /mnt/etc/nixos/hardware-configuration.nix ~/.dotfiles-nix/hosts/HOSTNAME/
 ```
 
-Use `lsblk -f | grep DISKNAME | awk '{print $4 }'` to get the UUID of the disk
-Then replace in configuration.nix for the respective host:  
-boot.initrd.luks.devices.nixos.device = "/dev/disk/by-uuid/UUID";
+Use `lsblk -f | grep DISKNAME | awk '{print $4 }'` to get the UUID of the disk.    
+Then replace in configuration.nix for the respective host: `boot.initrd.luks.devices.nixos.device = "/dev/disk/by-uuid/UUID";`
 
+Perform the install:
 ```
 git add .
 nixos-install --flake .#HOSTNAME

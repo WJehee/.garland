@@ -11,7 +11,7 @@
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
 
-    programs.vim.enable = true;
+    programs.neovim.enable = true;
     networking.firewall = {
         enable = true;
         allowedTCPPorts = [ 22 80 443 5232 ];
