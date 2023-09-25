@@ -1,5 +1,19 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+    screenshot = pkgs.writeShellScriptBin "screenshot" ''
+OPTIONS="copy\nsave"
+CHOICE=$(echo -e $OPTIONS | wofi -d) || exit 0
+case $CHOICE in
+    copy) grimshot copy area ;;
+    save)
+        FILENAME=$(grimshot save area)
+        mogrify -format webp $FILENAME
+        rm $FILENAME ;;
+esac
+    '';
+in {
     environment.systemPackages = with pkgs; [
+        screenshot
         python312
         rustup
         cargo
@@ -19,7 +33,6 @@
         dunst
         bspwm
         git
-        docker
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
@@ -46,5 +59,9 @@
         zola
         nodejs
         virt-manager
+        docker
+        docker-compose
+        pcmanfm
+        unrar
     ];
 }
