@@ -7,7 +7,6 @@
         git
     ];
     system.stateVersion = "23.05";
-    nixpkgs.config.allowUnfree = true;
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
 
@@ -26,7 +25,7 @@
     users.users.admin = {
         isNormalUser = true;
         extraGroups = [
-            "wheel"
+            # "wheel", not needed with doas
             "docker"
         ];
         openssh.authorizedKeys.keys = [
@@ -69,6 +68,4 @@
            };
         };
     };
-
 }
-                       }
