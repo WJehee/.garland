@@ -7,6 +7,10 @@
     ];
     system.stateVersion = "23.05";
     nixpkgs.config.allowUnfree = true;
+    nix.settings.experimental-features = [
+        "nix-command"
+        "flakes"
+    ];
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
     # Auto cleanup garbage
@@ -65,7 +69,7 @@
             autoLogin.user = "wouter";
         };
     };
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
         hack-font
         noto-fonts
         noto-fonts-cjk

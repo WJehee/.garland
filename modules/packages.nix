@@ -14,7 +14,7 @@ esac
 in {
     environment.systemPackages = with pkgs; [
         screenshot
-        python312
+        python3Full
         rustup
         cargo
         rust-analyzer
