@@ -63,15 +63,14 @@ general {
 
 decoration {
     rounding = 5
-    blur = no 
-    blur_size = 3
-    blur_passes = 1
-    blur_new_optimizations = on
-
     drop_shadow = yes
     shadow_range = 4
     shadow_render_power = 3
     col.shadow = rgba(1a1a1aee)
+
+    blur {
+        enabled = false
+    }
 }
 
 animations {
