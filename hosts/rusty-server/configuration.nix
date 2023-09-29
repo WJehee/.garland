@@ -5,6 +5,7 @@
     ];
     environment.systemPackages = with pkgs; [
         git
+        apacheHttpd
     ];
     system.stateVersion = "23.05";
     time.timeZone = "Europe/Amsterdam";
@@ -25,7 +26,6 @@
     users.users.admin = {
         isNormalUser = true;
         extraGroups = [
-            # "wheel", not needed with doas
             "docker"
         ];
         openssh.authorizedKeys.keys = [
@@ -50,17 +50,17 @@
         recommendedTlsSettings = true;
         virtualHosts = {
             "wouterjehee.com" = {
-                addSSL = true;
+                forceSSL = true;
                 enableACME = true;
                 root = "/var/www/wouterjehee.com";
             };
            "cal.wouterjehee.com" = {
                forceSSL = true;
-               enableACME = true;
+               useACMEHost = "wouterjehee.com";
                locations."/" = {
                    proxyPass = "http://localhost:5232/";
                    extraConfig = ''
-                       proxy_set_header X-Script-Name /radicale;
+                       proxy_set_header X-Script-Name /;
                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                        proxy_pass_header Authorization;
                    '';
