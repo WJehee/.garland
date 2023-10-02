@@ -11,7 +11,7 @@
             "wouterjehee.com" = {
                 forceSSL = true;
                 enableACME = true;
-                root = "/home/admin/wouterjehee.com";
+                root = "/var/www/wouterjehee.com";
                 serverAliases = [ "cal.wouterjehee.com" ];
             };
            "cal.wouterjehee.com" = {
