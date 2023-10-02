@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }: {
     imports = [
-        ./boot.nix
+        ./efi.nix
         ./env.nix
         ./packages.nix
         ./printing.nix

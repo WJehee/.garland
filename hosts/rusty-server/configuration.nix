@@ -1,9 +1,13 @@
 { inputs, pkgs, ... }: {
     imports = [
-        ../../modules/boot.nix
         ../../modules/radicale.nix
         ../../modules/nginx.nix
     ];
+    boot.loader.grub = {
+        enable = true;
+        version = 2;
+        device = "/dev/vda";
+    };
     environment.systemPackages = with pkgs; [
         git
         apacheHttpd
