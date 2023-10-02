@@ -20,9 +20,11 @@
 
     services.openssh = {
         enable = true;
-        settings.PasswordAuthentication = false;
-        settings.KbdInteractiveAuthentication = false;
-        settings.PermitRootLogin = "no";
+        settings = {
+            PasswordAuthentication = false;
+            KbdInteractiveAuthentication = false;
+            PermitRootLogin = "no";
+        };
     };
     users.users = {
         admin = {
@@ -36,11 +38,15 @@
             ];
         };
     };
-    security.sudo.enable = false;
-    security.doas.enable = true;
-    security.doas.extraRules = [{
-        users = [ "admin" ];
-        keepEnv = true;
-        persist = true;
-    }];
+    security = {
+        sudo.enable = false;
+        doas = {
+            enable = true;
+            extraRules = [{
+                users = [ "admin" ];
+                keepEnv = true;
+                persist = true;
+            }];
+        };
+    };
 }
