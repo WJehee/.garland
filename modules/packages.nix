@@ -20,6 +20,8 @@ in {
         rust-analyzer
         clippy
         rustfmt
+        trunk
+        cargo-leptos
         gcc
         ripgrep
         signal-desktop
