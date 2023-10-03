@@ -3,6 +3,7 @@
         acceptTerms = true;
         defaults.email = "dev.temporator@aleeas.com";
     };
+    services.logrotate.settings.nginx.frequency = "daily";
     services.nginx = {
         enable = true;
         recommendedProxySettings = true;

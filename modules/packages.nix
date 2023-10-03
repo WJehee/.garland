@@ -65,5 +65,6 @@ in {
         docker-compose
         pcmanfm
         unrar
+        transmission-gtk
     ];
 }
