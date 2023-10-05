@@ -2,7 +2,7 @@
     programs.alacritty = {
         enable = true;
         settings = {
-            window.opacity = 0.85;
+            window.opacity = 0.9;
             colors = {
                 draw_bold_text_with_bright_colors = false;
                 primary = {

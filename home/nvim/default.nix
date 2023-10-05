@@ -64,71 +64,112 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
-            nvim-cmp
-            vim-commentary
-            cmp-nvim-lsp
-            flutter-tools-nvim
+            luasnip
             {
-                plugin = lsp-zero-nvim;
+                plugin = nvim-cmp;
                 type = "lua";
                 config = ''
-                    local lsp = require('lsp-zero')
-                    lsp.preset('recommended')
+                    local cmp = require('cmp')
+                    cmp.setup({
+                        snippet = {
+                            expand = function(args)
+                                luasnip.lsp_expand(args.body)
+                            end,
+                        },
+                        window = {},
+                        mapping = {
+                            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                            ["<Tab>"] = cmp.mapping(function(fallback)
+                                if cmp.visible() then
+                                    cmp.select_next_item()
+                                elseif has_words_before() then
+                                    cmp.complete()
+                                else
+                                    fallback()
+                                end
+                            end, { "i", "s" }),
+                            ["<S-Tab>"] = cmp.mapping(function(fallback)
+                                if cmp.visible() then
+                                    cmp.select_prev_item()
+                                elseif luasnip.jumpable(-1) then
+                                    luasnip.jump(-1)
+                                else
+                                    fallback()
+                                end
+                            end, { "i", "s" }),
+                        },
+                        sources = cmp.config.sources({
+                            { name = 'nvim_lsp' },
+                            { name = 'luasnip' }
+                        })
+                    })
+                '';
+            }
+        vim-commentary
+        cmp-nvim-lsp
+        flutter-tools-nvim
+        {
+            plugin = lsp-zero-nvim;
+            type = "lua";
+            config = ''
+                local lsp = require('lsp-zero')
+                lsp.preset('recommended')
 
-                    lsp.on_attach(function(client, bufnr)
+                lsp.on_attach(function(client, bufnr)
                         local opts = {buffer = bufnr, remap=false}
 
                         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-                    end)
+                        end)
 
-                    lsp.setup()
+                lsp.setup()
                 '';
-            }
-            telescope-nvim
-            popup-nvim
-            plenary-nvim
-            {
-                plugin = lspsaga-nvim;
-                type = "lua";
-                config = ''
-                    local saga = require('lspsaga')
-                    saga.setup({})
+        }
+        telescope-nvim
+        popup-nvim
+        plenary-nvim
+        {
+            plugin = lspsaga-nvim;
+            type = "lua";
+            config = ''
+                local saga = require('lspsaga')
+                saga.setup({})
                 '';
-            }
-            mason-nvim
-            mason-lspconfig-nvim
-            rust-vim
-            {
-                plugin = nvim-lspconfig;
-                type = "lua";
-                config = '' 
-                    local lspconfig = require('lspconfig')
+        }
+        mason-nvim
+        mason-lspconfig-nvim
+        rust-vim
+        {
+            plugin = nvim-lspconfig;
+            type = "lua";
+            config = '' 
+                local lspconfig = require('lspconfig')
 
-                    function add_lsp(binary, server, options)
-                        if not options["cmd"] then options["cmd"] = { binary, unpack(options["cmd_args"] or {}) } end
-                        if vim.fn.executable(binary) == 1 then server.setup(options) end
-                    end
+                function add_lsp(binary, server, options)
+                if not options["cmd"] then options["cmd"] = { binary, unpack(options["cmd_args"] or {}) } end
+                    if vim.fn.executable(binary) == 1 then server.setup(options) end
+                        end
 
-                    add_lsp("docker-langserver", lspconfig.dockerls, {})
-                    add_lsp("bash-language-server", lspconfig.bashls, {})
-                    add_lsp("nil", lspconfig.nil_ls, {})
-                    add_lsp("pylsp", lspconfig.pylsp, {})
-                    add_lsp("dart", lspconfig.dartls, {})
-                    add_lsp("haskell-language-server", lspconfig.hls, {
-                      cmd_args = { "--lsp" }
-                    })
-                '';
-            }
-            { 
-                plugin = rust-tools-nvim;
-                type = "lua";
-                config = ''
-                    local rust_tools = require('rust-tools')
-                    add_lsp("rust-analyzer", rust_tools, {
-                      tools = { autoSetHints = true }
-                    })
-                '';
-            }
+                            add_lsp("docker-langserver", lspconfig.dockerls, {})
+                            add_lsp("bash-language-server", lspconfig.bashls, {})
+                            add_lsp("nil", lspconfig.nil_ls, {})
+                            add_lsp("pylsp", lspconfig.pylsp, {})
+                            add_lsp("dart", lspconfig.dartls, {})
+                            add_lsp("haskell-language-server", lspconfig.hls, {
+                                    cmd_args = { "--lsp" }
+                                    })
+            '';
+        }
+        { 
+            plugin = rust-tools-nvim;
+            type = "lua";
+            config = ''
+                local rust_tools = require('rust-tools')
+                add_lsp("rust-analyzer", rust_tools, {
+                        tools = { autoSetHints = true }
+                        })
+            '';
+        }
         ];
     };
 }
+
