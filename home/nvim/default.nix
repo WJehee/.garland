@@ -105,71 +105,55 @@
                     })
                 '';
             }
-        vim-commentary
-        cmp-nvim-lsp
-        flutter-tools-nvim
-        {
-            plugin = lsp-zero-nvim;
-            type = "lua";
-            config = ''
-                local lsp = require('lsp-zero')
-                lsp.preset('recommended')
-
-                lsp.on_attach(function(client, bufnr)
-                        local opts = {buffer = bufnr, remap=false}
-
-                        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-                        end)
-
-                lsp.setup()
+            vim-commentary
+            nvim-cmp
+            cmp-nvim-lsp
+            {
+                plugin = nvim-lspconfig;
+                type = "lua";
+                config = ''
+                    require'lspconfig'.jedi_language_server.setup{}
+                    require'lspconfig'.nil_ls.setup{}
+                    require'lspconfig'.rust_analyzer.setup{
+                        settings = {
+                            ['rust-analyzer'] = {
+                                diagnostics = {
+                                    enable = false;
+                                }
+                            }
+                        }
+                    }
                 '';
-        }
-        telescope-nvim
-        popup-nvim
-        plenary-nvim
-        {
-            plugin = lspsaga-nvim;
-            type = "lua";
-            config = ''
-                local saga = require('lspsaga')
-                saga.setup({})
-                '';
-        }
-        mason-nvim
-        mason-lspconfig-nvim
-        rust-vim
-        {
-            plugin = nvim-lspconfig;
-            type = "lua";
-            config = '' 
-                local lspconfig = require('lspconfig')
+            }
+            {
+                plugin = lsp-zero-nvim;
+                type = "lua";
+                config = ''
+                    local lsp = require('lsp-zero')
+                    lsp.preset('recommended')
 
-                function add_lsp(binary, server, options)
-                if not options["cmd"] then options["cmd"] = { binary, unpack(options["cmd_args"] or {}) } end
-                    if vim.fn.executable(binary) == 1 then server.setup(options) end
-                        end
+                    lsp.on_attach(function(client, bufnr)
+                            local opts = {buffer = bufnr, remap=false}
 
-                            add_lsp("docker-langserver", lspconfig.dockerls, {})
-                            add_lsp("bash-language-server", lspconfig.bashls, {})
-                            add_lsp("nil", lspconfig.nil_ls, {})
-                            add_lsp("pylsp", lspconfig.pylsp, {})
-                            add_lsp("dart", lspconfig.dartls, {})
-                            add_lsp("haskell-language-server", lspconfig.hls, {
-                                    cmd_args = { "--lsp" }
-                                    })
-            '';
-        }
-        { 
-            plugin = rust-tools-nvim;
-            type = "lua";
-            config = ''
-                local rust_tools = require('rust-tools')
-                add_lsp("rust-analyzer", rust_tools, {
-                        tools = { autoSetHints = true }
-                        })
-            '';
-        }
-        ];
+                            vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+                            end)
+
+                    lsp.setup()
+                    '';
+            }
+            telescope-nvim
+                popup-nvim
+                plenary-nvim
+                {
+                    plugin = lspsaga-nvim;
+                    type = "lua";
+                    config = ''
+                        local saga = require('lspsaga')
+                        saga.setup({})
+                        '';
+                }
+            rust-vim
+                ];
     };
-}
+               }
 

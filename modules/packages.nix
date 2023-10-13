@@ -14,15 +14,24 @@ esac
 in {
     environment.systemPackages = with pkgs; [
         screenshot
+
         python3Full
+        python311Packages.jedi-language-server
         rustup
-        cargo
-        rust-analyzer
         clippy
         rustfmt
-        trunk
-        cargo-leptos
+        cargo
+        cargo-generate
+        cargo-watch
         gcc
+        git
+        zola
+        nodejs
+        docker
+        docker-compose
+        tmux
+        nil
+
         ripgrep
         signal-desktop
         obsidian
@@ -34,7 +43,6 @@ in {
         keepassxc
         dunst
         bspwm
-        git
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
@@ -58,11 +66,7 @@ in {
         krita
         gimp
         tree
-        zola
-        nodejs
         virt-manager
-        docker
-        docker-compose
         pcmanfm
         unrar
         transmission-gtk
