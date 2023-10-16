@@ -13,8 +13,44 @@ esac
     '';
 in {
     environment.systemPackages = with pkgs; [
+        # Custom packages
         screenshot
 
+        # Required
+        alacritty
+        networkmanagerapplet
+        flavours
+        wofi
+        syncthing
+        dunst
+        bspwm
+        qt6.qtwayland
+        libsForQt5.qt5.qtwayland
+        libsForQt5.qtstyleplugins
+        wl-clipboard
+        wl-clip-persist
+        sway-contrib.grimshot
+        hyprpaper
+        hyprpicker
+        libnotify
+        swayidle
+        swaylock-effects
+        gnupg
+        pavucontrol
+        pcmanfm
+        imv
+
+        # Command line
+        ripgrep
+        tree
+        psmisc
+        wget
+        unzip
+        unrar
+        ffmpeg
+        imagemagick
+        
+        # Dev tools
         python3Full
         python311Packages.jedi-language-server
         rustup
@@ -31,44 +67,18 @@ in {
         docker-compose
         tmux
         nil
+        rlwrap
 
-        ripgrep
+        # Programs
+        virt-manager
+        transmission-gtk
+        spotify
+        firefox
         signal-desktop
         obsidian
-        flavours
-        alacritty
-        firefox
-        wofi
-        syncthing
         keepassxc
-        dunst
-        bspwm
-        qt6.qtwayland
-        libsForQt5.qt5.qtwayland
-        libsForQt5.qtstyleplugins
-        wl-clipboard
-        cliphist
-        sway-contrib.grimshot
-        hyprpaper
-        libnotify
-        swayidle
-        swaylock-effects
-        pavucontrol
-        vlc
-        psmisc
-        networkmanagerapplet
-        spotify
-        wget
-        unzip
-        ffmpeg
-        imagemagick
-        gnupg
         krita
         gimp
-        tree
-        virt-manager
-        pcmanfm
-        unrar
-        transmission-gtk
+        vlc
     ];
 }

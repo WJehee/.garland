@@ -22,12 +22,12 @@ workspace=8, monitor:DP-3
 workspace=9, monitor:HDMI-A-1
 workspace=10, monitor:HDMI-A-1
 
-exec-once = waybar &
-exec-once = dunst &
-exec-once = hyprpaper &
-exec-once = wl-paste --watch cliphist &
+exec-once = waybar
+exec-once = dunst
+exec-once = hyprpaper
 exec-once = swayidle & disown
-exec-once = nm-applet &
+exec-once = nm-applet
+exec-once = wl-clip-persist --clipboard both
 
 # Source a file (multi-file configs)
 # source = ~/.config/hypr/myColors.conf
