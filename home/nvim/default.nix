@@ -57,10 +57,13 @@
 
             nnoremap("<leader>ca", "<cmd>Lspsaga code_action<CR>")
             nnoremap("<leader>rn", "<cmd>Lspsaga rename<CR>")
-            nnoremap("<leader>gd", "<cmd>Lspsaga peek_definition<CR>")
             nnoremap("<leader>hd", "<cmd>Lspsaga hover_doc<CR>")
+
+            nnoremap("<leader>pd", "<cmd>Lspsaga peek_definition<CR>")
+            nnoremap("<leader>gd", "<cmd>Lspsaga goto_definition<CR>")
+            nnoremap("<leader>fd", "<cmd>Lspsaga finder<CR>")
         '';
-        plugins  = with pkgs.vimPlugins; [
+        plugins = with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
@@ -114,15 +117,22 @@
                 config = ''
                     require'lspconfig'.jedi_language_server.setup{}
                     require'lspconfig'.nil_ls.setup{}
-                    require'lspconfig'.rust_analyzer.setup{
-                        settings = {
-                            ['rust-analyzer'] = {
-                                diagnostics = {
-                                    enable = false;
-                                }
-                            }
-                        }
-                    }
+                '';
+            }
+            {
+                plugin = rust-tools-nvim;
+                type = "lua";
+                config = ''
+                    local rt = require("rust-tools")
+
+                    rt.setup({
+                        server = {
+                            on_attach = function(_, bufnr)
+                                -- Hover actions
+                                vim.keymap.set("n", "<Leader>ha", rt.hover_actions.hover_actions, { buffer = bufnr })
+                            end,
+                        },
+                    })
                 '';
             }
             {
@@ -142,18 +152,17 @@
                     '';
             }
             telescope-nvim
-                popup-nvim
-                plenary-nvim
-                {
-                    plugin = lspsaga-nvim;
-                    type = "lua";
-                    config = ''
-                        local saga = require('lspsaga')
-                        saga.setup({})
-                        '';
-                }
-            rust-vim
-                ];
+            popup-nvim
+            plenary-nvim
+            {
+                plugin = lspsaga-nvim;
+                type = "lua";
+                config = ''
+                    local saga = require('lspsaga')
+                    saga.setup({})
+                '';
+            }
+            ];
     };
-               }
+}
 

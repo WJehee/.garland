@@ -42,11 +42,10 @@
     users.users.wouter = {
         isNormalUser = true;
         extraGroups = [
-            "wheel"
             "docker"
             "wireshark"
             "libvirtd"
-            "network"
+            "networkmanager"
         ];
     };
     security.rtkit.enable = true;

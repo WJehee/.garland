@@ -15,7 +15,7 @@
                 format = "{capacity}% {icon}";
                 format-icons = ["" "" "" "" ""];
             };
-            clock.format-alt = "{:%a, %d. %b | %H:%M}";
+            clock.format = "{:%a, %d. %b | %H:%M}";
             tray = {
                 icon-size = 21;
                 spacing = 10;

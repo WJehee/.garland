@@ -49,6 +49,7 @@ in {
         unrar
         ffmpeg
         imagemagick
+        just
         
         # Dev tools
         python3Full
