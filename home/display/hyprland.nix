@@ -22,18 +22,17 @@ workspace=8, monitor:DP-3
 workspace=9, monitor:HDMI-A-1
 workspace=10, monitor:HDMI-A-1
 
+env = XCURSOR_SIZE,24
+env = MOZ_ENABLE_WAYLAND,1
+env = _JAVA_AWT_WM_NONREPARENTING,1
+
 exec-once = waybar
 exec-once = dunst
 exec-once = hyprpaper
 exec-once = swayidle & disown
 exec-once = nm-applet
 exec-once = wl-clip-persist --clipboard both
-
-# Source a file (multi-file configs)
-# source = ~/.config/hypr/myColors.conf
-
-# Some default env vars.
-env = XCURSOR_SIZE,24
+exec-once = my-opensnitch
 
 input {
     kb_layout = us

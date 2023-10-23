@@ -11,10 +11,16 @@ case $CHOICE in
         rm $FILENAME ;;
 esac
     '';
+    # Hacky workaround for making QT theme work
+    my-opensnitch = pkgs.writeShellScriptBin "my-opensnitch" ''
+source /home/wouter/.zshenv
+opensnitch-ui
+    '';
 in {
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot
+        my-opensnitch
 
         # Required
         alacritty
@@ -27,6 +33,7 @@ in {
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
+
         wl-clipboard
         wl-clip-persist
         sway-contrib.grimshot
@@ -50,7 +57,7 @@ in {
         ffmpeg
         imagemagick
         just
-        
+
         # Dev tools
         python3Full
         python311Packages.jedi-language-server
@@ -68,7 +75,6 @@ in {
         docker-compose
         tmux
         nil
-        rlwrap
 
         # Programs
         virt-manager
@@ -81,5 +87,6 @@ in {
         krita
         gimp
         vlc
+        opensnitch-ui
     ];
 }

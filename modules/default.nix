@@ -1,9 +1,10 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, lib, ... }: {
     imports = [
         ./efi.nix
         ./env.nix
         ./packages.nix
         ./printing.nix
+        ./opensnitch.nix
     ];
     system.stateVersion = "23.05";
     nixpkgs.config.allowUnfree = true;
@@ -23,6 +24,11 @@
         dataDir = "/home/wouter/";
     };
     networking.networkmanager.enable = true;
+    # Fix for wait-online daemon thing, temporary
+    systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+    systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+
+    networking.nftables.enable = true; 
     services.printing.enable = true;
     services.openssh.enable = true;
     security.pam.services.swaylock = {};
@@ -33,6 +39,7 @@
         keepEnv = true;
         persist = true;
     }];
+
     programs.zsh.enable = true;
     programs.zsh.setOptions = [
         "AUTO_CD"

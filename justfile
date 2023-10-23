@@ -1,4 +1,5 @@
 alias r := rebuild
+alias u := update
 
 hostname := `hostname`
 
