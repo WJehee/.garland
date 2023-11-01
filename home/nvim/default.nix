@@ -119,6 +119,18 @@
                     require'lspconfig'.nil_ls.setup{}
                 '';
             }
+            vim-elixir
+            {
+                plugin = elixir-tools-nvim;
+                type = "lua";
+                config = ''
+                    require("elixir").setup({
+                        nextls = {enable = false},
+                        credo = {enable = true},
+                        elixirls = {enable = true},
+                    })
+                '';
+            }
             {
                 plugin = rust-tools-nvim;
                 type = "lua";

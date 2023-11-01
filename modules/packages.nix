@@ -69,12 +69,13 @@ in {
         cargo-watch
         gcc
         git
-        zola
         nodejs
         docker
         docker-compose
         tmux
         nil
+        elixir
+        # elixir-ls
 
         # Programs
         virt-manager
@@ -88,5 +89,8 @@ in {
         gimp
         vlc
         opensnitch-ui
+
+        # VPN
+        openvpn
     ];
 }
