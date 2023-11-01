@@ -5,6 +5,7 @@
     wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
+monitor=eDP-1,preferred,auto,1.5
 monitor=DP-2,preferred,auto,1
 monitor=DP-3,preferred,auto,1,transform,1
 monitor=HDMI-A-1,preferred,auto,1
@@ -67,9 +68,6 @@ decoration {
     shadow_render_power = 3
     col.shadow = rgba(1a1a1aee)
 
-    blur {
-        enabled = false
-    }
 }
 
 animations {
