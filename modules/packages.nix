@@ -46,6 +46,8 @@ in {
         pavucontrol
         pcmanfm
         imv
+        inetutils
+        handlr
 
         # Command line
         ripgrep
@@ -75,7 +77,6 @@ in {
         tmux
         nil
         elixir
-        # elixir-ls
 
         # Programs
         virt-manager

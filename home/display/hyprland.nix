@@ -115,8 +115,8 @@ bind = $mainMod SHIFT, L, exec, swaylock --screenshots --clock --effect-blur 7x5
 bind = $mainMod, F, exec, $BROWSER 
 bind = $mainMod SHIFT, s, exec, screenshot
 
-bind = $mainMod, P, pseudo, # dwindle
-bind = $mainMod, J, togglesplit, # dwindle
+# bind = $mainMod, P, pseudo, # dwindle
+# bind = $mainMod, J, togglesplit, # dwindle
 
 # Move focus with mainMod + h j k l
 bind = $mainMod, L, movefocus, r
