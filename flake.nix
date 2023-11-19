@@ -21,7 +21,6 @@
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/hardware-configuration.nix")
                     (./. + "/hosts/${hostname}/configuration.nix")
-
                     
                     home-manager.nixosModules.home-manager {
                         home-manager = if builtins.pathExists (./. + "/hosts/${hostname}/home.nix")

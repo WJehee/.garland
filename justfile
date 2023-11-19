@@ -10,5 +10,5 @@ rebuild:
 
 # Update packages
 update:
-    nix flake update
+    doas nix flake update
 
