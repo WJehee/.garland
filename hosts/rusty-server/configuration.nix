@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ pkgs, ... }: {
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix

@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, ... }: {
+{ pkgs, lib, ... }: {
     imports = [
         ./efi.nix
         ./env.nix

@@ -1,11 +1,11 @@
-{ inputs, pkgs, ... }: {
+{ inputs, ... }: {
     imports = [
         inputs.hyprland.homeManagerModules.default
     ];
     wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
-monitor=eDP-1,preferred,auto,1.5
+monitor=eDP-1,preferred,auto,1.25
 monitor=DP-2,preferred,auto,1
 monitor=DP-3,preferred,auto,1,transform,1
 monitor=HDMI-A-1,preferred,auto,1
@@ -106,7 +106,8 @@ misc {
 $mainMod = SUPER
 
 bind = $mainMod, Return, exec, alacritty
-bind = $mainMod SHIFT, Return, exec, wofi --show run
+# --normal-window as temp fix
+bind = $mainMod SHIFT, Return, exec, wofi --show run --normal-window
 bind = $mainMod, Q, killactive, 
 bind = $mainMod, M, exit, 
 bind = $mainMod SHIFT, L, exec, swaylock --screenshots --clock --effect-blur 7x5 --grace 3

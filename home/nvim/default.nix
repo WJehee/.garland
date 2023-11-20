@@ -115,6 +115,7 @@
                 plugin = nvim-lspconfig;
                 type = "lua";
                 config = ''
+                    local lsp = require('lsp-zero')
                     require'lspconfig'.jedi_language_server.setup{}
                     require'lspconfig'.nil_ls.setup{}
                 '';
