@@ -12,9 +12,6 @@
             TERM = "xterm-256color";
             BROWSER = "firefox";
 
-            # Electron + wayland
-            NIXOS_OZONE_WL = "1";
-
             # Clean up home
             CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
             RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
