@@ -52,7 +52,7 @@
             extraRules = [{
                 users = [ "admin" ];
                 keepEnv = true;
-                persist = true;
+                noPass = true;
             }];
         };
     };

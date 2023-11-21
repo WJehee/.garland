@@ -27,6 +27,7 @@ env = XCURSOR_SIZE,24
 env = MOZ_ENABLE_WAYLAND,1
 env = _JAVA_AWT_WM_NONREPARENTING,1
 
+exec-once = dbus-update-activation-environment --systemd --all
 exec-once = waybar
 exec-once = dunst
 exec-once = hyprpaper

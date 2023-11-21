@@ -5,6 +5,7 @@
         ./packages.nix
         ./printing.nix
         ./opensnitch.nix
+        ./syncthing.nix
     ];
     system.stateVersion = "23.05";
     nixpkgs.config.allowUnfree = true;
@@ -18,11 +19,6 @@
     nix.gc.automatic = true;
     nix.gc.dates = "weekly";
     nix.gc.options = "--delete-older-than 30d";
-    services.syncthing = {
-        enable = true;
-        user = "wouter";
-        dataDir = "/home/wouter/";
-    };
     networking.networkmanager.enable = true;
     # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
