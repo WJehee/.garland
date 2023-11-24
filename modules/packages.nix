@@ -48,6 +48,8 @@ in {
         imv
         inetutils
         handlr
+        teams-for-linux
+        ledger-live-desktop
 
         # Command line
         ripgrep
