@@ -68,7 +68,6 @@ decoration {
     shadow_range = 4
     shadow_render_power = 3
     col.shadow = rgba(1a1a1aee)
-
 }
 
 animations {
@@ -103,11 +102,14 @@ misc {
     mouse_move_focuses_monitor = false
 }
 
+# Make --normal-window look as before for wofi
+windowrulev2 = stayfocused,class:(wofi)
+windowrulev2 = noborder,class:(wofi)
+
 # Keybinds
 $mainMod = SUPER
 
 bind = $mainMod, Return, exec, alacritty
-# --normal-window as temp fix
 bind = $mainMod SHIFT, Return, exec, wofi --show run --normal-window
 bind = $mainMod, Q, killactive, 
 bind = $mainMod, M, exit, 
