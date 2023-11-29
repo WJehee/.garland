@@ -8,11 +8,10 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        hyprland.url = "github:hyprwm/Hyprland";
         nix-colors.url = "github:misterio77/nix-colors";
     };
 
-    outputs = { nixpkgs, home-manager, hyprland, nix-colors, ... }@inputs:
+    outputs = { nixpkgs, home-manager, nix-colors, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname:
             pkgs.lib.nixosSystem {
