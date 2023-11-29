@@ -50,6 +50,7 @@ in {
         handlr
         teams-for-linux
         ledger-live-desktop
+        # espanso-wayland
 
         # Command line
         ripgrep

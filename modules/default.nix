@@ -26,7 +26,9 @@
 
     networking.nftables.enable = true; 
     services.printing.enable = true;
+
     services.openssh.enable = true;
+    programs.ssh.startAgent = true;
     security.pam.services.swaylock = {};
     security.sudo.enable = true;
     security.doas.enable = true;
