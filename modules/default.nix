@@ -33,7 +33,7 @@
     security.doas.extraRules = [{
         users = [ "wouter" ];
         keepEnv = true;
-        persist = true;
+        noPass = true;
     }];
 
     programs.zsh.enable = true;

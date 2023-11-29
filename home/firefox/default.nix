@@ -20,7 +20,6 @@
                                 ];
                             }
                         ];
-
                         icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                         definedAliases = [ "@np" ];
                     };
@@ -33,6 +32,7 @@
                                 ];
                             }
                         ];
+                        definedAliases = [ "@nh" ];
                     };
                     "Google".metaData.hidden = true;
                     "Amazon.com".metaData.hidden = true;
