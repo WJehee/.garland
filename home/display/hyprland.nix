@@ -127,26 +127,5 @@
                 "noborder,class:(wofi)"
             ];
         };
-        extraConfig = ''
-monitor=eDP-1,preferred,auto,1.25
-monitor=DP-2,preferred,auto,1
-monitor=DP-3,preferred,auto,1,transform,1
-# monitor=DP-3,preferred,auto,1
-monitor=HDMI-A-1,preferred,auto,1
-
-workspace=1, monitor:DP-2, default:true
-workspace=2, monitor:DP-2
-workspace=3, monitor:DP-2
-workspace=4, monitor:DP-2
-workspace=5, monitor:DP-2
-
-workspace=6, monitor:DP-1
-workspace=6, monitor:DP-3
-workspace=7, monitor:DP-3
-workspace=8, monitor:DP-3
-
-workspace=9, monitor:HDMI-A-1
-workspace=10, monitor:HDMI-A-1
-        '';
     };
 }
