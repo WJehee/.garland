@@ -2,7 +2,7 @@
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix
-		../../modules/stalwart-mail.nix
+		# ../../modules/stalwart-mail.nix
     ];
     boot.loader.grub = {
         enable = true;
@@ -41,7 +41,7 @@
         };
     };
     users = {
-        admin = {
+        users.admin = {
             isNormalUser = true;
             extraGroups = [
                 "docker"
