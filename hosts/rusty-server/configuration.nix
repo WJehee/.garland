@@ -2,7 +2,7 @@
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix
-	../../modules/stalwart-mail.nix
+		../../modules/stalwart-mail.nix
     ];
     boot.loader.grub = {
         enable = true;
@@ -11,23 +11,27 @@
     environment.systemPackages = with pkgs; [
         git
         apacheHttpd
-	just
-	patchelf
+	    just
+	    patchelf
     ];
     system.stateVersion = "23.05";
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
-
     programs.neovim = {
         enable = true;
         viAlias = true;
         vimAlias = true;
+        configure.customRC = ''
+            set expandtab
+            set tabstop=4
+            set softtabstop=4
+            set shiftwidth=4
+        '';
     };
     networking.firewall = {
         enable = true;
         allowedTCPPorts = [ 22 80 443 ];
     };
-
     services.openssh = {
         enable = true;
         settings = {
@@ -36,7 +40,7 @@
             PermitRootLogin = "no";
         };
     };
-    users.users = {
+    users = {
         admin = {
             isNormalUser = true;
             extraGroups = [
