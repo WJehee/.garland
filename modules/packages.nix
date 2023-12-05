@@ -11,16 +11,10 @@ case $CHOICE in
         rm $FILENAME ;;
 esac
     '';
-    # Hacky workaround for making QT theme work
-    my-opensnitch = pkgs.writeShellScriptBin "my-opensnitch" ''
-source /home/wouter/.zshenv
-opensnitch-ui
-    '';
 in {
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot
-        my-opensnitch
 
         # Required
         alacritty
@@ -92,7 +86,6 @@ in {
         krita
         gimp
         vlc
-        opensnitch-ui
 
         # VPN
         openvpn

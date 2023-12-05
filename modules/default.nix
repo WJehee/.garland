@@ -4,7 +4,6 @@
         ./env.nix
         ./packages.nix
         ./printing.nix
-        ./opensnitch.nix
         ./syncthing.nix
     ];
     system.stateVersion = "23.05";

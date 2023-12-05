@@ -18,5 +18,4 @@
 
     programs.home-manager.enable = true;
     services.gpg-agent.enable = true;
-    services.opensnitch-ui.enable = true;
 }
