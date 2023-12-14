@@ -44,7 +44,6 @@ in {
         handlr
         teams-for-linux
         ledger-live-desktop
-        # espanso-wayland
 
         # Command line
         ripgrep
@@ -71,7 +70,6 @@ in {
         nodejs
         docker
         docker-compose
-        tmux
         nil
         elixir
 
@@ -86,6 +84,7 @@ in {
         krita
         gimp
         vlc
+        discord
 
         # VPN
         openvpn

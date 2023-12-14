@@ -7,7 +7,12 @@
         ./syncthing.nix
     ];
     system.stateVersion = "23.05";
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [
+            "electron-25.9.0"           
+        ];
+    };
     nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -22,6 +27,8 @@
     # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+
+    boot.tmp.useTmpfs = true;
 
     networking.nftables.enable = true; 
     services.printing.enable = true;
