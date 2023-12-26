@@ -183,7 +183,9 @@
                     saga.setup({})
                 '';
             }
-            ];
+            # TODO: add codeium, for now auth does not work
+            # codeium-vim
+        ];
     };
 }
 

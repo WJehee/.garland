@@ -14,5 +14,8 @@
     home.packages = [];
 
     programs.home-manager.enable = true;
-    services.gpg-agent.enable = true;
+    services.gpg-agent = {
+        enable = true;
+        pinentryFlavor = "qt";
+    };
 }
