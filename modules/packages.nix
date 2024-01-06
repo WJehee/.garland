@@ -12,6 +12,9 @@ case $CHOICE in
 esac
     '';
 in {
+    imports = [
+        ./dev.nix
+    ];
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot
@@ -54,24 +57,6 @@ in {
         unrar
         ffmpeg
         imagemagick
-        just
-
-        # Dev tools
-        python3Full
-        python311Packages.jedi-language-server
-        rustup
-        clippy
-        rustfmt
-        cargo
-        cargo-generate
-        cargo-watch
-        gcc
-        git
-        nodejs
-        docker
-        docker-compose
-        nil
-        elixir
 
         # Programs
         virt-manager

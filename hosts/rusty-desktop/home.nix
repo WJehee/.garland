@@ -18,7 +18,7 @@
             "4, monitor:DP-2"
             "5, monitor:DP-2"
 
-            "6, monitor:DP-3, layoutopt:orientation:bottom"
+            "6, monitor:DP-3, layoutopt:orientation:top"
             "7, monitor:DP-3, layoutopt:orientation:top"
             "8, monitor:DP-3, layoutopt:orientation:top"
 
