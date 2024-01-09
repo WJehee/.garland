@@ -57,6 +57,7 @@ in {
         unrar
         ffmpeg
         imagemagick
+        file
 
         # Programs
         virt-manager

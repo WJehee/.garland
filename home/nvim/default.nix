@@ -67,7 +67,7 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
-            luasnip
+            # luasnip
             {
                 plugin = nvim-cmp;
                 type = "lua";

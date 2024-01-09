@@ -36,7 +36,7 @@
     services.openssh.enable = true;
     programs.ssh.startAgent = true;
     security.pam.services.swaylock = {};
-    security.sudo.enable = true;
+    security.sudo.enable = false;
     security.doas.enable = true;
     security.doas.extraRules = [{
         users = [ "wouter" ];
