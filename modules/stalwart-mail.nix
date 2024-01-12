@@ -1,4 +1,15 @@
 { ... }: {
+    users = {
+        users.stalwart-mail = {
+            isSystemUser = true;
+            home = "/var/lib/stalwart-mail";
+            group = "stalwart-mail";
+            extraGroups = [
+                "nginx"
+            ];
+        };
+        groups.stalwart-mail = {};
+    };
     services.stalwart-mail = {
         enable = true;
 	    settings = {
