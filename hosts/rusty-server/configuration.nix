@@ -8,14 +8,20 @@
         enable = true;
         device = "/dev/vda";
     };
-    environment.systemPackages = with pkgs; [
-        git
-        apacheHttpd
-        just
-        patchelf
-        file
-        sqlite
-    ];
+    environment = {
+        sessionVariables = {
+            GIT_EDITOR = "nvim";
+            VISUAL = "nvim";
+        };
+        systemPackages = with pkgs; [
+            git
+            apacheHttpd
+            just
+            patchelf
+            file
+            sqlite
+        ];
+    };
     system.stateVersion = "23.05";
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
