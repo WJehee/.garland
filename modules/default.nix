@@ -4,11 +4,15 @@
         ./env.nix
         ./packages.nix
         ./printing.nix
-        ./opensnitch.nix
         ./syncthing.nix
     ];
     system.stateVersion = "23.05";
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [
+            "electron-25.9.0"           
+        ];
+    };
     nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -24,13 +28,15 @@
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
+    boot.tmp.useTmpfs = true;
+
     networking.nftables.enable = true; 
     services.printing.enable = true;
 
     services.openssh.enable = true;
     programs.ssh.startAgent = true;
     security.pam.services.swaylock = {};
-    security.sudo.enable = true;
+    security.sudo.enable = false;
     security.doas.enable = true;
     security.doas.extraRules = [{
         users = [ "wouter" ];
@@ -58,6 +64,7 @@
         enable = true;
         extraPortals = [
             pkgs.xdg-desktop-portal-gtk
+            pkgs.xdg-desktop-portal-hyprland
         ];
     };
     services.xserver = {

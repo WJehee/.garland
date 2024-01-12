@@ -13,10 +13,9 @@
     home.stateVersion = "23.05";
     home.packages = [];
 
-    # Temporary fix for build issues
-    manual.manpages.enable = false;
-
     programs.home-manager.enable = true;
-    services.gpg-agent.enable = true;
-    services.opensnitch-ui.enable = true;
+    services.gpg-agent = {
+        enable = true;
+        pinentryFlavor = "qt";
+    };
 }

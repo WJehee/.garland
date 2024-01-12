@@ -18,9 +18,9 @@
             "4, monitor:DP-2"
             "5, monitor:DP-2"
 
-            "6, monitor:DP-3"
-            "7, monitor:DP-3"
-            "8, monitor:DP-3"
+            "6, monitor:DP-3, layoutopt:orientation:top"
+            "7, monitor:DP-3, layoutopt:orientation:top"
+            "8, monitor:DP-3, layoutopt:orientation:top"
 
             "9, monitor:HDMI-A-1"
             "10, monitor:HDMI-A-1"

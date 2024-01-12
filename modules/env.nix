@@ -11,7 +11,7 @@
             TERMINAL = "alacritty";
             TERM = "xterm-256color";
             BROWSER = "firefox";
-
+            
             # Clean up home
             CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
             RUSTUP_HOME = "$XDG_DATA_HOME/rustup";

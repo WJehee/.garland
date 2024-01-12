@@ -7,5 +7,14 @@
             ".env"
             "_pycache_/"
         ];
+        extraConfig = {
+            url = {
+                "https://gitlab.esa.int/" = {
+                    insteadOf = [
+                        "git@gitlab.esa.int:"
+                    ];
+                };
+            };
+        };
     };
 }

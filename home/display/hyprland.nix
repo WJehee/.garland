@@ -107,14 +107,12 @@
                 "$mainMod, mouse:273, resizewindow"
             ];
             exec-once = [
-               "dbus-update-activation-environment --systemd --all"
                "waybar"
                "dunst"
                "hyprpaper"
                "swayidle & disown"
                "nm-applet"
                "wl-clip-persist --clipboard both"
-               "my-opensnitch"
             ];
             env = [
                 "XCURSOR_SIZE,24"

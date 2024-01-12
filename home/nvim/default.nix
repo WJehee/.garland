@@ -67,7 +67,7 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
-            luasnip
+            # luasnip
             {
                 plugin = nvim-cmp;
                 type = "lua";
@@ -183,7 +183,9 @@
                     saga.setup({})
                 '';
             }
-            ];
+            # TODO: add codeium, for now auth does not work
+            # codeium-vim
+        ];
     };
 }
 

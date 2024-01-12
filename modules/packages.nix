@@ -11,16 +11,13 @@ case $CHOICE in
         rm $FILENAME ;;
 esac
     '';
-    # Hacky workaround for making QT theme work
-    my-opensnitch = pkgs.writeShellScriptBin "my-opensnitch" ''
-source /home/wouter/.zshenv
-opensnitch-ui
-    '';
 in {
+    imports = [
+        ./dev.nix
+    ];
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot
-        my-opensnitch
 
         # Required
         alacritty
@@ -50,7 +47,6 @@ in {
         handlr
         teams-for-linux
         ledger-live-desktop
-        # espanso-wayland
 
         # Command line
         ripgrep
@@ -61,25 +57,7 @@ in {
         unrar
         ffmpeg
         imagemagick
-        just
-
-        # Dev tools
-        python3Full
-        python311Packages.jedi-language-server
-        rustup
-        clippy
-        rustfmt
-        cargo
-        cargo-generate
-        cargo-watch
-        gcc
-        git
-        nodejs
-        docker
-        docker-compose
-        tmux
-        nil
-        elixir
+        file
 
         # Programs
         virt-manager
@@ -92,7 +70,7 @@ in {
         krita
         gimp
         vlc
-        opensnitch-ui
+        discord
 
         # VPN
         openvpn
