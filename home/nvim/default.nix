@@ -51,6 +51,11 @@
 
             local nnoremap = keymap().nnoremap
 
+            nnoremap("<Up>", "<Nop>")
+            nnoremap("<Down>", "<Nop>")
+            nnoremap("<Left>", "<Nop>")
+            nnoremap("<Right>", "<Nop>")
+
             nnoremap("<leader>ff", require('telescope.builtin').find_files)
             nnoremap("<leader>fg", require('telescope.builtin').live_grep)
             nnoremap("<leader>fb", require('telescope.builtin').buffers)
@@ -67,7 +72,7 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
-            # luasnip
+            luasnip
             {
                 plugin = nvim-cmp;
                 type = "lua";

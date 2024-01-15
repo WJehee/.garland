@@ -45,8 +45,10 @@ in {
         imv
         inetutils
         handlr
-        teams-for-linux
         ledger-live-desktop
+        teams-for-linux
+        xwayland
+        xwaylandvideobridge
 
         # Command line
         ripgrep
@@ -71,8 +73,6 @@ in {
         gimp
         vlc
         discord
-
-        # VPN
         openvpn
     ];
 }
