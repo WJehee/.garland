@@ -9,6 +9,7 @@
         cargo-generate
         cargo-watch
         gcc
+        clang-tools
         git
         nodejs
         docker
