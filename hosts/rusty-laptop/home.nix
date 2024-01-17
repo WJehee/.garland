@@ -7,7 +7,7 @@
     colorscheme = inputs.nix-colors.colorSchemes.nord;
     wayland.windowManager.hyprland.settings = {
         monitor = [
-            "eDP-1, preferred, auto, 1.25"
+            "eDP-1, preferred, auto, 1.175"
         ];
         workspace = [
             "1, monitor:DP-1"

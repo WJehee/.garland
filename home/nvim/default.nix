@@ -72,7 +72,6 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
-            luasnip
             {
                 plugin = nvim-cmp;
                 type = "lua";
@@ -84,14 +83,8 @@
                     end
 
                     local cmp = require('cmp')
-                    local luasnip = require('luasnip')
 
                     cmp.setup({
-                        snippet = {
-                            expand = function(args)
-                                luasnip.lsp_expand(args.body)
-                            end,
-                        },
                         window = {},
                         mapping = {
                             ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -107,8 +100,6 @@
                             ["<S-Tab>"] = cmp.mapping(function(fallback)
                                 if cmp.visible() then
                                     cmp.select_prev_item()
-                                elseif luasnip.jumpable(-1) then
-                                    luasnip.jump(-1)
                                 else
                                     fallback()
                                 end
@@ -116,13 +107,11 @@
                         },
                         sources = cmp.config.sources({
                             { name = 'nvim_lsp' },
-                            { name = 'luasnip' }
                         })
                     })
                 '';
             }
             vim-commentary
-            nvim-cmp
             cmp-nvim-lsp
             {
                 plugin = nvim-lspconfig;
