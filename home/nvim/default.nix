@@ -72,6 +72,7 @@
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
             nvim-web-devicons
+            vim-commentary
             {
                 plugin = nvim-cmp;
                 type = "lua";
@@ -111,7 +112,7 @@
                     })
                 '';
             }
-            vim-commentary
+            cmp_luasnip
             cmp-nvim-lsp
             {
                 plugin = nvim-lspconfig;
