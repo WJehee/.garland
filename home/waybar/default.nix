@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, ... }: {
     programs.waybar = {
         enable = true;
         settings = [{
@@ -29,22 +29,22 @@
 *
 */
 
-@define-color base00 #2e3440;
-@define-color base01 #3b4252;
-@define-color base02 #434c5e;
-@define-color base03 #4c566a;
-@define-color base04 #d8dee9;
-@define-color base05 #e5e9f0;
-@define-color base06 #eceff4;
-@define-color base07 #8fbcbb;
-@define-color base08 #bf616a;
-@define-color base09 #d08770;
-@define-color base0A #ebcb8b;
-@define-color base0B #a3be8c;
-@define-color base0C #88c0d0;
-@define-color base0D #81a1c1;
-@define-color base0E #b48ead;
-@define-color base0F #5e81ac;
+@define-color base00 #${config.colorScheme.colors.base00};
+@define-color base01 #${config.colorScheme.colors.base01};
+@define-color base02 #${config.colorScheme.colors.base02};
+@define-color base03 #${config.colorScheme.colors.base03};
+@define-color base04 #${config.colorScheme.colors.base04};
+@define-color base05 #${config.colorScheme.colors.base05};
+@define-color base06 #${config.colorScheme.colors.base06};
+@define-color base07 #${config.colorScheme.colors.base07};
+@define-color base08 #${config.colorScheme.colors.base08};
+@define-color base09 #${config.colorScheme.colors.base09};
+@define-color base0A #${config.colorScheme.colors.base0A};
+@define-color base0B #${config.colorScheme.colors.base0B};
+@define-color base0C #${config.colorScheme.colors.base0C};
+@define-color base0D #${config.colorScheme.colors.base0D};
+@define-color base0E #${config.colorScheme.colors.base0E};
+@define-color base0F #${config.colorScheme.colors.base0F};
 
 window#waybar {
     background-color: @base00;
