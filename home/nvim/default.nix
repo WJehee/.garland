@@ -112,7 +112,7 @@
                     })
                 '';
             }
-            cmp_luasnip
+            luasnip
             cmp-nvim-lsp
             {
                 plugin = nvim-lspconfig;
@@ -122,20 +122,12 @@
                     require'lspconfig'.jedi_language_server.setup{}
                     require'lspconfig'.nil_ls.setup{}
                     require'lspconfig'.clangd.setup{}
+                    require'lspconfig'.elixirls.setup{
+                        cmd = { "/run/current-system/sw/bin/elixir-ls" }
+                    }
                 '';
             }
             vim-elixir
-            {
-                plugin = elixir-tools-nvim;
-                type = "lua";
-                config = ''
-                    require("elixir").setup({
-                        nextls = {enable = false},
-                        credo = {enable = true},
-                        elixirls = {enable = true},
-                    })
-                '';
-            }
             {
                 plugin = rust-tools-nvim;
                 type = "lua";

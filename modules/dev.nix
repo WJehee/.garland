@@ -16,6 +16,7 @@
         docker-compose
         nil
         elixir
+        elixir-ls
         just
     ];
 }

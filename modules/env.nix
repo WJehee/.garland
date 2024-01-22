@@ -12,28 +12,35 @@
             TERM = "xterm-256color";
             BROWSER = "firefox";
             
-            # Clean up home
+            ### Clean up home
             CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
             RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
             RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
-            DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
-            GOPATH = "$XDG_DATA_HOME/go";
-            STACK_ROOT = "$XDG_DATA_HOME/stack";
-            IPYTHONDIR = "$XDG_CONFIG_HOME/jupyter";
-            NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+
+            PYTHON_HISTORY = "$XDG_STATE_HOME/python/history";
+            PYTHONPYCACHEPREFIX = "$XDG_CACHE_HOME/python";
+            PYTHONUSERBASE = "$XDG_DATA_HOME";
+            CONDARC = "$XDG_CONFIG_HOME/conda/condarc";
             JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
-            LEIN_HOME = "$XDG_DATA_HOME/lein";
-            GHCUP_USE_XDG_DIRS = "true";
+            IPYTHONDIR = "$XDG_CONFIG_HOME/jupyter";
+
+            STACK_ROOT = "$XDG_DATA_HOME/stack";
             CABAL_CONFIG = "$XDG_CONFIG_HOME/cabal/config";
             CABAL_DIR = "$XDG_CACHE_HOME/cabal";
-            WGETRC = "$XDG_CONFIG_HOME/wgetrc";
-            CONDARC = "$XDG_CONFIG_HOME/conda/condarc";
-            GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+            GHCUP_USE_XDG_DIRS = "true";
 
+            MIX_XDG = "true";
+            LEIN_HOME = "$XDG_DATA_HOME/lein";
+            GOPATH = "$XDG_DATA_HOME/go";
+            NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+            HISTFILE = "$XDG_STATE_HOME/bash";
+
+            WGETRC = "$XDG_CONFIG_HOME/wgetrc";
+            GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+            DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
             GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
             # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
             WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
-
             ERRFILE = "$XDG_CACHE_HOME/X11/xsession-errors";
             ICEAUTHORITY = "$XDG_CACHE_HOME/ICEauthority";
         };
