@@ -5,6 +5,7 @@
         ./packages.nix
         ./printing.nix
         ./syncthing.nix
+        ./usb_backup.nix
     ];
     system.stateVersion = "23.05";
     nixpkgs.config = {
@@ -23,6 +24,7 @@
     nix.gc.automatic = true;
     nix.gc.dates = "weekly";
     nix.gc.options = "--delete-older-than 30d";
+
     networking.networkmanager.enable = true;
     # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;

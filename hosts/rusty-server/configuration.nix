@@ -2,7 +2,6 @@
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix
-		# ../../modules/stalwart-mail.nix
     ];
     boot.loader.grub = {
         enable = true;

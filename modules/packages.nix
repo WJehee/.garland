@@ -60,12 +60,13 @@ in {
         ffmpeg
         imagemagick
         file
+        usbutils
 
         # Programs
+        firefox
         virt-manager
         transmission-gtk
         spotify
-        firefox
         signal-desktop
         obsidian
         keepassxc
