@@ -82,6 +82,7 @@
             autoLogin.user = "wouter";
         };
     };
+    hardware.opengl.enable = true;
     fonts.packages = with pkgs; [
         hack-font
         noto-fonts

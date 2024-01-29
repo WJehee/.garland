@@ -35,14 +35,20 @@
             NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
             HISTFILE = "$XDG_STATE_HOME/bash";
 
+            XCOMPOSEFILE = "$XDG_CONFIG_HOME/X11/xcompose";
+            XCOMPOSECACHE = "$XDG_CACHE_HOME/X11/xcompose";
+            USERXSESSION = "$XDG_CACHE_HOME/X11/xsession";
+            USERXSESSIONRC = "$XDG_CACHE_HOME/X11/xsessionrc";
+            ALTUSERXSESSION = "$XDG_CACHE_HOME/X11/Xsession";
+            ERRFILE = "$XDG_CACHE_HOME/X11/xsession-errors";
+
             WGETRC = "$XDG_CONFIG_HOME/wgetrc";
             GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
             DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
             GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
-            # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
             WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
-            ERRFILE = "$XDG_CACHE_HOME/X11/xsession-errors";
             ICEAUTHORITY = "$XDG_CACHE_HOME/ICEauthority";
+            # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
         };
     };
 }
