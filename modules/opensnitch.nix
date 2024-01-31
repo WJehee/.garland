@@ -1,4 +1,5 @@
 { lib, pkgs, ... }: {
+    networking.nftables.enable = true; 
     services.opensnitch = {
         enable = true;
         settings = {

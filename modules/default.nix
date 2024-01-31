@@ -6,6 +6,7 @@
         ./printing.nix
         ./syncthing.nix
         ./usb_backup.nix
+        ./firewall.nix
     ];
     system.stateVersion = "23.05";
     nixpkgs.config = {
@@ -32,7 +33,6 @@
 
     boot.tmp.useTmpfs = true;
 
-    networking.nftables.enable = true; 
     services.printing.enable = true;
 
     services.openssh.enable = true;
