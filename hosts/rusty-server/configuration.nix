@@ -2,6 +2,7 @@
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix
+        ../../modules/ntfy.nix
     ];
     boot.loader.grub = {
         enable = true;
