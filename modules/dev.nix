@@ -1,4 +1,6 @@
 { pkgs, ... }: {
+    virtualisation.libvirtd.enable = true;
+    virtualisation.docker.enable = true;
     environment.systemPackages = with pkgs; [
         python3Full
         python311Packages.jedi-language-server

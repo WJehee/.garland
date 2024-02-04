@@ -49,6 +49,7 @@ in {
         teams-for-linux
         xwayland
         xwaylandvideobridge
+        lxqt.lxqt-openssh-askpass
 
         # Command line
         ripgrep

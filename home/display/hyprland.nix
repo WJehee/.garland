@@ -119,10 +119,12 @@
                 "MOZ_ENABLE_WAYLAND,1"
                 "_JAVA_AWT_WM_NONREPARENTING,1"
             ];
-            # Make --normal-window look as before for wofi
             windowrulev2 = [
+                # Make --normal-window look as before for wofi
                 "stayfocused,class:(wofi)"
                 "noborder,class:(wofi)"
+                # Make ssh-askpass always focused
+                "stayfocused,class:(SshAskpass)"
             ];
         };
     };
