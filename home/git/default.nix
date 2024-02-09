@@ -8,6 +8,7 @@
             "_pycache_/"
         ];
         extraConfig = {
+            credential.helper = "store";
             url = {
                 "https://gitlab.esa.int/" = {
                     insteadOf = [

@@ -7,6 +7,7 @@
         ./packages.nix
         ./printing.nix
         ./syncthing.nix
+        ./starship.nix
         ./usb_backup.nix
         ./firewall.nix
     ];
