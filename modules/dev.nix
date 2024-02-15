@@ -20,5 +20,6 @@
         elixir
         elixir-ls
         just
+        texlab
     ];
 }

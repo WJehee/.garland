@@ -16,10 +16,8 @@ in {
         ./dev.nix
     ];
     environment.systemPackages = with pkgs; [
-        # Custom packages
         screenshot
 
-        # Required
         alacritty
         networkmanagerapplet
         flavours
@@ -50,8 +48,8 @@ in {
         xwayland
         xwaylandvideobridge
         lxqt.lxqt-openssh-askpass
+        texlive.combined.scheme-full
 
-        # Command line
         ripgrep
         tree
         psmisc
@@ -63,7 +61,6 @@ in {
         file
         usbutils
 
-        # Programs
         firefox
         virt-manager
         transmission-gtk

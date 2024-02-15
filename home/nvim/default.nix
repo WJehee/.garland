@@ -122,6 +122,7 @@
                     require'lspconfig'.jedi_language_server.setup{}
                     require'lspconfig'.nil_ls.setup{}
                     require'lspconfig'.clangd.setup{}
+                    require'lspconfig'.texlab.setup{}
                     require'lspconfig'.elixirls.setup{
                         cmd = { "/run/current-system/sw/bin/elixir-ls" }
                     }

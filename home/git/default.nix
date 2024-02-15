@@ -15,6 +15,11 @@
                         "git@gitlab.esa.int:"
                     ];
                 };
+                "https://gitlab.freedesktop.org/" = {
+                    insteadOf = [
+                        "git@gitlab.freedesktop.org:"
+                    ];
+                };
             };
         };
     };
