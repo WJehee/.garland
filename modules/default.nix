@@ -3,7 +3,7 @@
         ./efi.nix
         ./env.nix
         ./pipewire.nix
-        ./window.nix
+        ./graphics.nix
         ./packages.nix
         ./printing.nix
         ./syncthing.nix
@@ -16,6 +16,7 @@
         allowUnfree = true;
         permittedInsecurePackages = [
             "electron-25.9.0"           
+            "freeimage-unstable-2021-11-01"
         ];
     };
     nix.settings.experimental-features = [
@@ -31,8 +32,6 @@
     nix.gc.options = "--delete-older-than 30d";
 
     boot.tmp.useTmpfs = true;
-    hardware.opengl.enable = true;
-
     networking.networkmanager.enable = true;
     # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;

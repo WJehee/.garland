@@ -1,4 +1,13 @@
 { pkgs, ... }: {
+    hardware.opengl = {
+        enable = true;
+        driSupport = true;
+        driSupport32Bit = true;
+        extraPackages = with pkgs; [
+            mesa.drivers
+            amdvlk
+        ];
+    };
     xdg.portal = {
         enable = true;
         extraPortals = [
@@ -8,9 +17,11 @@
     };
     services.xserver = {
         enable = true;
-        layout = "us";
-        xkbOptions = "eurosign:e,caps:escape";
-        videoDrivers = ["modesetting"];
+        xkb = {
+            layout = "us";
+            options = "eurosign:e,caps:escape";
+        };
+        videoDrivers = [ "modesetting" ];
 
         displayManager = {
             defaultSession = "hyprland";
