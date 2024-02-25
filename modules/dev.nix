@@ -21,5 +21,8 @@
         elixir-ls
         just
         texlab
+
+        vscode
+        zulu
     ];
 }

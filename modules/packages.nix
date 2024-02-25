@@ -20,6 +20,7 @@ in {
 
         alacritty
         networkmanagerapplet
+        blueman
         flavours
         wofi
         syncthing
