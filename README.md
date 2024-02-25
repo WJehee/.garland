@@ -6,3 +6,8 @@ Thanks to:
 
 See [install.md](INSTALL.md) for installation instructions.
 
+## Server
+
+These files also include the configuration for my personal web server,
+which can be found under `hosts/rusty-server/`.
+
