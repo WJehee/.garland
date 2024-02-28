@@ -21,6 +21,9 @@
         elixir-ls
         just
         texlab
+        zig
+        zls
+        act
 
         vscode
         zulu

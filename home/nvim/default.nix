@@ -126,6 +126,7 @@
                     require'lspconfig'.elixirls.setup{
                         cmd = { "/run/current-system/sw/bin/elixir-ls" }
                     }
+                    require'lspconfig'.zls.setup{}
                 '';
             }
             vim-elixir
