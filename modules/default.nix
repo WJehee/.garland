@@ -19,10 +19,13 @@
             "freeimage-unstable-2021-11-01"
         ];
     };
-    nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-    ];
+    nix.settings = {
+        use-xdg-base-directories = true;
+        experimental-features = [
+            "nix-command"
+            "flakes"
+        ];
+    };
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
 
@@ -62,11 +65,13 @@
     };
 
     # Zsh
-    programs.zsh.enable = true;
-    programs.zsh.setOptions = [
-        "AUTO_CD"
-        "COMPLETE_ALIASES"
-    ];
+    programs.zsh = {
+        enable = true;
+        setOptions = [
+            "AUTO_CD"
+            "COMPLETE_ALIASES"
+        ];
+    };
     users.defaultUserShell = pkgs.zsh;
 
     # Fonts

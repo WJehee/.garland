@@ -8,9 +8,11 @@
         ./waybar
         ./firefox
     ];
-    home.username = "wouter";
-    home.homeDirectory = "/home/wouter";
-    home.stateVersion = "23.05";
-    home.packages = [];
+    home = {
+        username = "wouter";
+        homeDirectory = "/home/wouter";
+        stateVersion = "23.05";
+        packages = [];
+    };
     programs.home-manager.enable = true;
 }

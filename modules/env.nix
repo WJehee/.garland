@@ -1,11 +1,6 @@
 { pkgs, ... }: {
     environment = {
         sessionVariables = {
-            XDG_CACHE_HOME = "$HOME/.cache";
-            XDG_CONFIG_HOME = "$HOME/.config";
-            XDG_DATA_HOME = "$HOME/.local/share";
-            XDG_STATE_HOME = "$HOME/.local/state";
-
             GIT_EDITOR = "nvim";
             VISUAL = "nvim";
             TERMINAL = "alacritty";
@@ -48,7 +43,7 @@
             GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
             WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
             ICEAUTHORITY = "$XDG_CACHE_HOME/ICEauthority";
-            # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+            GNUPGHOME = "$XDG_DATA_HOME/gnupg";
         };
     };
 }

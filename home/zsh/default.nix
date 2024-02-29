@@ -1,13 +1,14 @@
-{ ... }: {
+{ config, ... }: {
     programs.zsh = {
         enable = true;
-        dotDir = ".config/zsh";
         autocd = true;
         shellAliases = {
             la = "ls -A";
             ls = "ls --color";
             ll = "ls -Al";
         };
+        dotDir = ".config/zsh";
+        history.path = "${config.xdg.dataHome}/zsh/history";
         initExtra = ''
 ex () {
   if [ -f $1 ] ; then
