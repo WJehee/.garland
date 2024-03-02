@@ -8,13 +8,14 @@
         nil
         just
 
-        elixir
+        # Language servers
         elixir-ls
         texlab
-        zig
         zls
-        act         # Github actions locally
 
+        act         # Github actions locally
+    
+        # Temporary for a course
         vscode
         zulu
     ];
