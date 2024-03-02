@@ -37,5 +37,6 @@
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop";
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server"; 
         };
+        templates = import ./templates;
     };
-}
+ }
