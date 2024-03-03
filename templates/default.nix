@@ -24,15 +24,17 @@
         path = ./elixir;
         description = "An elixir project";
         welcomeText = ''
-            
+            # Getting started
+
+            - nix develop
+            - mix new .
+
+            The name of the folder you are in can only contain letters and _!
         '';
     };
     # TODO
     python = {
         path = ./python;
         description = "A python project";
-        welcomeText = ''
-            
-        '';
     };
 }

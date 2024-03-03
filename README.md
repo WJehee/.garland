@@ -1,9 +1,10 @@
 # NixOS configuration
 
 Thanks to:
-- [Misterio77](https://github.com/Misterio77) for their awesome tools and dotfiles
-- [Notusknot](https://github.com/notusknot) for their [dotfiles](https://github.com/notusknot/dotfiles-nix)
-- [Akirak](https://github.com/akirak) for their [templates](https://github.com/akirak/flake-templates)
+- [Misterio77](https://github.com/Misterio77)
+- [Notusknot](https://github.com/notusknot)
+- [Akirak](https://github.com/akirak)
+- [Luc Perkins](https://github.com/the-nix-way)
 
 See [install.md](INSTALL.md) for installation instructions.
 
