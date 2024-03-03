@@ -14,6 +14,7 @@
                 enableACME = true;
                 root = "/var/www/wouterjehee.com";
                 serverAliases = [ 
+                    "www.wouterjehee.com"
                     "cal.wouterjehee.com"
                     "ntfy.wouterjehee.com"
                 ];
@@ -45,6 +46,9 @@
             "loodsenboekje.com" = {
                 forceSSL = true;
                 enableACME = true;
+                serverAliases = [
+                    "www.loodsenboekje.com"
+                ];
                 locations."/" = {
                     proxyPass = "http://localhost:1744";
                     extraConfig = ''
