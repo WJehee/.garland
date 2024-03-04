@@ -1,23 +1,23 @@
 {
-  description = "TEMPLATE";
+    description = "TEMPLATE";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-  };
+    inputs = {
+        nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    };
 
-  outputs = { self, nixpkgs }:
-  let
+    outputs = { self, nixpkgs }:
+    let
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
-  in {
+    in {
         devShells.${system}.default = with pkgs; mkShell {
             buildInputs = [
-               python311
+                python311
             ] ++ (with python311Packages; [
                 # python packages
             ]);
             shellHook = ''
             '';
         };
-  };
+    };
 }
