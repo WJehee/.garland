@@ -12,11 +12,8 @@
     in {
         devShells.${system}.default = with pkgs; mkShell {
             buildInputs = [
-                python311
-                
-            ] ++ (with python311Packages; [
-                jedi-language-server
-            ]);
+                gleam
+            ];
             shellHook = ''
             '';
         };

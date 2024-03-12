@@ -7,11 +7,7 @@
         docker-compose
         nil
         just
-
-        # Language servers
-        elixir-ls
         texlab
-        zls
 
         act         # Github actions locally
     
