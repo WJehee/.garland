@@ -5,9 +5,10 @@
         git
         docker
         docker-compose
-        nil
         just
         texlab
+        nil
+        nurl
 
         act         # Github actions locally
     

@@ -8,6 +8,10 @@
         enable = true;
         device = "/dev/vda";
     };
+    nix.settings.experimental-features = [
+        "nix-command"
+        "flakes"
+    ];
     environment = {
         sessionVariables = {
             GIT_EDITOR = "nvim";
