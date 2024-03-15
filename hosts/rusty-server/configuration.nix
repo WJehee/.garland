@@ -75,4 +75,5 @@
             }];
         };
     };
+    # services.loodsenboekje.enable = true;
 }

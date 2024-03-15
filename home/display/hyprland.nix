@@ -51,9 +51,6 @@
             gestures = {
                 workspace_swipe = "off";
             };
-            "device:epic-mouse-v1" = {
-                sensitivity = -0.5;
-            };
             misc = {
                 disable_hyprland_logo = true;
                 disable_splash_rendering = true;
