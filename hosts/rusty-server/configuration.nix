@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
     imports = [
         ../../modules/radicale.nix
         ../../modules/nginx.nix
@@ -8,10 +8,15 @@
         enable = true;
         device = "/dev/vda";
     };
-    nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-    ];
+    nix.settings = {
+        trusted-users = lib.mkOptionDefault [
+            "admin"
+        ];
+        experimental-features = [
+            "nix-command"
+            "flakes"
+        ];
+    };
     environment = {
         sessionVariables = {
             GIT_EDITOR = "nvim";
@@ -75,5 +80,5 @@
             }];
         };
     };
-    # services.loodsenboekje.enable = true;
+    services.loodsenboekje.enable = true;
 }
