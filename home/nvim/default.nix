@@ -128,25 +128,10 @@
                     }
                     require'lspconfig'.zls.setup{}
                     require'lspconfig'.gleam.setup{}
+                    require'lspconfig'.rust_analyzer.setup {}
                 '';
             }
             vim-elixir
-            {
-                plugin = rust-tools-nvim;
-                type = "lua";
-                config = ''
-                    local rt = require("rust-tools")
-
-                    rt.setup({
-                        server = {
-                            on_attach = function(_, bufnr)
-                                -- Hover actions
-                                vim.keymap.set("n", "<Leader>ha", rt.hover_actions.hover_actions, { buffer = bufnr })
-                            end,
-                        },
-                    })
-                '';
-            }
             {
                 plugin = lsp-zero-nvim;
                 type = "lua";
