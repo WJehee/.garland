@@ -30,7 +30,6 @@ in {
         wofi
         syncthing
         dunst
-        bspwm
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
