@@ -23,10 +23,11 @@ nix flake init -t github:wjehee/.dotfiles-nix#TEMPLATE
 
 ### Currently available templates
 
-- rust
-- zig
-- elixir
-- python
+- Rust
+- Zig
+- Elixir
+- Python
+- Gleam
 
 ## Server
 

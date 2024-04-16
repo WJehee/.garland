@@ -33,7 +33,6 @@ in {
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
-        glib
 
         wl-clipboard
         wl-clip-persist
@@ -49,7 +48,6 @@ in {
         imv
         inetutils
         handlr
-        ledger-live-desktop
         teams-for-linux
         xwayland
         xwaylandvideobridge
