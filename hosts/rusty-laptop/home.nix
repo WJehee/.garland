@@ -25,6 +25,7 @@
     };
     xdg.configFile."hypr/hyprpaper.conf".text = ''
         splash = false
+        preload = ~/Pictures/wallpaper.jpg
         wallpaper = eDP-1, ~/Pictures/wallpaper.jpg
     '';
 }
