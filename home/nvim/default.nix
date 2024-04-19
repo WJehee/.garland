@@ -69,8 +69,20 @@
             nnoremap("<leader>fd", "<cmd>Lspsaga finder<CR>")
         '';
         plugins = with pkgs.vimPlugins; [
-            nvim-treesitter.withAllGrammars
             nvim-treesitter-context
+            {
+                plugin = nvim-treesitter.withAllGrammars;
+                type = "lua";
+                config = ''
+                    require'nvim-treesitter.configs'.setup {
+                        highlight = {
+                            enable = true,
+                            additional_vim_regex_highlighting = false,
+                        }
+                    }
+                '';
+            }
+            rainbow-delimiters-nvim
             nvim-web-devicons
             vim-commentary
             {
@@ -123,12 +135,9 @@
                     require'lspconfig'.nil_ls.setup{}
                     require'lspconfig'.clangd.setup{}
                     require'lspconfig'.texlab.setup{}
-                    require'lspconfig'.elixirls.setup{
-                        cmd = { "/run/current-system/sw/bin/elixir-ls" }
-                    }
                     require'lspconfig'.zls.setup{}
                     require'lspconfig'.gleam.setup{}
-                    require'lspconfig'.rust_analyzer.setup {}
+                    require'lspconfig'.rust_analyzer.setup{}
                 '';
             }
             vim-elixir
