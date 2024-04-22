@@ -8,6 +8,16 @@
             amdvlk
         ];
     };
+    boot = {
+        initrd.kernelModules = [ "amdgpu" ];
+        kernelParams = [
+            "radeon.cik_support=0"
+            "amdgpu.cik_support=1"
+            "quiet"
+            "splash"
+        ];
+    };
+
     xdg.portal = {
         enable = true;
         extraPortals = [

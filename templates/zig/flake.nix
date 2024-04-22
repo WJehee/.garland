@@ -14,6 +14,7 @@
             buildInputs = [
                 zig 
                 zls
+                zig-shell-completions
             ];
             shellHook = ''
             '';

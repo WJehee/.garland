@@ -35,6 +35,7 @@
     nix.gc.options = "--delete-older-than 30d";
 
     boot.tmp.useTmpfs = true;
+
     networking.networkmanager.enable = true;
     # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
