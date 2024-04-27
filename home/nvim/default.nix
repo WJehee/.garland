@@ -131,6 +131,12 @@
                 type = "lua";
                 config = ''
                     local lsp = require('lsp-zero')
+                    local capabilities = vim.lsp.protocol.make_client_capabilities()
+                    capabilities.textDocument.completion.completionItem.snippetSupport = true
+                    require'lspconfig'.html.setup {
+                        capabilities = capabilities,
+                    }
+                    require'lspconfig'.htmx.setup{}
                     require'lspconfig'.jedi_language_server.setup{}
                     require'lspconfig'.nil_ls.setup{}
                     require'lspconfig'.clangd.setup{}
