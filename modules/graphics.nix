@@ -11,8 +11,8 @@
     boot = {
         # initrd.kernelModules = [ "amdgpu" ];
         kernelParams = [
-            # "radeon.cik_support=0"
-            # "amdgpu.cik_support=1"
+            "radeon.cik_support=0"
+            "amdgpu.cik_support=1"
             "quiet"
             "splash"
         ];
@@ -31,7 +31,8 @@
             layout = "us";
             options = "eurosign:e,caps:escape";
         };
-        videoDrivers = [ "modesetting" ];
+        # videoDrivers = [ "modesetting" ];
+        videoDrivers = [ "amdgpu" ];
 
         displayManager = {
             defaultSession = "hyprland";

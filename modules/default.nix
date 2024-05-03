@@ -10,6 +10,8 @@
         ./starship.nix
         ./usb_backup.nix
         ./firewall.nix
+
+        # ./gaming.nix
     ];
     system.stateVersion = "23.05";
     nixpkgs.config = {
