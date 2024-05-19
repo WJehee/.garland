@@ -6,12 +6,11 @@
         docker
         docker-compose
         just
+        nurl
+
         texlab
         nil
-        nurl
         vscode-langservers-extracted
         htmx-lsp
-
-        act         # Github actions locally
     ];
 }

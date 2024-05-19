@@ -4,9 +4,9 @@
         ./git
         ./nvim
         ./zsh
-        ./display
         ./waybar
-        ./firefox
+        ./firefox.nix
+        ./hyprland.nix
     ];
     home = {
         username = "wouter";
@@ -15,4 +15,12 @@
         packages = [];
     };
     programs.home-manager.enable = true;
+    services.dunst = {
+        enable = true;    
+        settings = {
+            global = {
+                monitor = 0;
+            };
+        };
+    };
 }

@@ -1,10 +1,8 @@
-{ inputs, ... }: {
+{ pkgs, ... }: {
     imports = [
-        inputs.nix-colors.homeManagerModules.default
-
         ../../home/default.nix
     ];
-    colorscheme = inputs.nix-colors.colorSchemes.nord;
+    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
     wayland.windowManager.hyprland.settings = {
         monitor = [
             "eDP-1, preferred, auto, 1.175"

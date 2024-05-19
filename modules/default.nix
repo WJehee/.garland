@@ -10,6 +10,7 @@
         ./starship.nix
         ./usb_backup.nix
         ./firewall.nix
+        ./stylix.nix
 
         # ./gaming.nix
     ];
@@ -76,15 +77,6 @@
         ];
     };
     users.defaultUserShell = pkgs.zsh;
-
-    # Fonts
-    fonts.packages = with pkgs; [
-        hack-font
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        line-awesome
-    ];
 
     # Hyprland
     nix.settings = {
