@@ -12,6 +12,7 @@
         ./firewall.nix
         ./stylix.nix
 
+        # ./music.nix
         # ./gaming.nix
     ];
     system.stateVersion = "23.05";
@@ -84,4 +85,6 @@
         trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
     programs.hyprland.enable = true;
+
+    services.tailscale.enable = true;
 }

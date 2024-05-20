@@ -62,6 +62,8 @@ in {
         imagemagick
         file
         usbutils
+        fzf
+        zoxide
 
         firefox
         virt-manager
