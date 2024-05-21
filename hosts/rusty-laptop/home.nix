@@ -2,7 +2,8 @@
     imports = [
         ../../home/default.nix
     ];
-    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
+    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    stylix.targets.vim.enable = false;
     wayland.windowManager.hyprland.settings = {
         monitor = [
             "eDP-1, preferred, auto, 1.175"
