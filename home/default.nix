@@ -1,12 +1,14 @@
 { ... }: {
     imports = [
-        ./alacritty
-        ./git
         ./nvim
-        ./zsh
-        ./waybar
+
+        ./alacritty.nix
+        ./git.nix
+        ./zsh.nix
+        ./waybar.nix
         ./firefox.nix
         ./hyprland.nix
+        ./dunst.nix
     ];
     home = {
         username = "wouter";
@@ -15,12 +17,4 @@
         packages = [];
     };
     programs.home-manager.enable = true;
-    services.dunst = {
-        enable = true;    
-        settings = {
-            global = {
-                monitor = 2;
-            };
-        };
-    };
 }
