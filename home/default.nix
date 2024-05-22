@@ -19,7 +19,7 @@
         enable = true;    
         settings = {
             global = {
-                monitor = 0;
+                monitor = 2;
             };
         };
     };
