@@ -7,7 +7,7 @@
                 "general.smoothScroll" = true;
             };
             search = {
-                default = "DuckDuckGo";
+                default = "Qwant";
                 force = true;
                 engines = {
                     "My NixOS" = {
@@ -20,6 +20,27 @@
                             }
                         ];
                         definedAliases = [ "@np" ];
+                    };
+                    "Qwant" = {
+                        urls = [
+                            {
+                                template = "https://www.qwant.com/";
+                                params = [
+                                    { name = "q"; value = "{searchTerms}"; }
+                                ];
+                            }
+                        ];
+                    };
+                    "Ecosia" = {
+                        urls = [
+                            {
+                                template = "https://www.ecosia.org/search";
+                                params = [
+                                    { name = "q"; value = "{searchTerms}"; } 
+                                ];
+                            }
+                        ];
+                        definedAliases = [ "@ec" ];
                     };
                     "Google".metaData.hidden = true;
                     "Amazon.com".metaData.hidden = true;

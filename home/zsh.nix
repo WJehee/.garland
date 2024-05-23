@@ -7,8 +7,7 @@
             ls = "ls --color";
             ll = "ls -Al";
 
-            "nix-shell" = "nix-shell --command zsh";
-            "nix develop" = "nix develop --comand zsh";
+            nd = "nix develop -c zsh";
         };
         dotDir = ".config/zsh";
         history.path = "${config.xdg.dataHome}/zsh/history";
