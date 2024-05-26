@@ -62,6 +62,10 @@
             nnoremap("<leader>ff", require('telescope.builtin').find_files)
             nnoremap("<leader>fg", require('telescope.builtin').live_grep)
             nnoremap("<leader>fb", require('telescope.builtin').buffers)
+            nnoremap("<leader>gs", require('telescope.builtin').git_status)
+            nnoremap("<leader>gl", require('telescope.builtin').git_commits)
+
+            nnoremap("<leader>gp", require('gitsigns').preview_hunk)
 
             nnoremap("<leader>ca", "<cmd>Lspsaga code_action<CR>")
             nnoremap("<leader>rn", "<cmd>Lspsaga rename<CR>")

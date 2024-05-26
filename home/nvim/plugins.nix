@@ -105,5 +105,19 @@
                 saga.setup({})
             '';
         }
+        {
+            plugin = neogit;
+            type = "lua";
+            config = ''
+                require('neogit').setup()
+            '';
+        }
+        {
+            plugin = gitsigns-nvim;
+            type = "lua";
+            config = ''
+                require('gitsigns').setup()
+            '';
+        }
     ];
 }

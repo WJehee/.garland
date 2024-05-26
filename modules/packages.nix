@@ -56,6 +56,7 @@ in {
         tree
         psmisc
         wget
+        zip
         unzip
         unrar
         ffmpeg
