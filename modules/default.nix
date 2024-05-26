@@ -19,8 +19,6 @@
     nixpkgs.config = {
         allowUnfree = true;
         permittedInsecurePackages = [
-            "electron-25.9.0"           
-            "freeimage-unstable-2021-11-01"
         ];
     };
     nix.settings = {
@@ -41,16 +39,11 @@
     boot.tmp.useTmpfs = true;
 
     networking.networkmanager.enable = true;
-    # Fix for wait-online daemon thing, temporary
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
     services.openssh.enable = true;
-    programs.ssh = {
-        startAgent = true;
-        # TODO: make this look nicer
-        # askPassword = "${pkgs.lxqt.lxqt-openssh-askpass}/bin/lxqt-openssh-askpass";
-    };
+    programs.ssh.startAgent = true;
     security.pam.services.swaylock = {};
     security.sudo.enable = false;
     security.doas.enable = true;
@@ -69,7 +62,6 @@
         ];
     };
 
-    # Zsh
     programs.zsh = {
         enable = true;
         setOptions = [
@@ -79,7 +71,6 @@
     };
     users.defaultUserShell = pkgs.zsh;
 
-    # Hyprland
     nix.settings = {
         substituters = ["https://hyprland.cachix.org"];
         trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];

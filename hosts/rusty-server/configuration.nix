@@ -1,8 +1,8 @@
 { lib, pkgs, ... }: {
     imports = [
-        ../../modules/radicale.nix
-        ../../modules/nginx.nix
-        ../../modules/ntfy.nix
+        ../../modules/server/radicale.nix
+        ../../modules/server/nginx.nix
+        ../../modules/server/ntfy.nix
     ];
     boot.loader.grub = {
         enable = true;

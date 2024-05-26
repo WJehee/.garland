@@ -19,7 +19,6 @@
             - zig init-exe or zig init-lib
         '';
     };
-    # TODO
     elixir = {
         path = ./elixir;
         description = "An elixir project";
@@ -30,7 +29,6 @@
             - mix new .
         '';
     };
-    # TODO
     python = {
         path = ./python;
         description = "A python project";

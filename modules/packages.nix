@@ -65,6 +65,7 @@ in {
         usbutils
         fzf
         zoxide
+        inotify-tools
 
         firefox
         virt-manager
