@@ -10,7 +10,7 @@ rebuild:
 
 # Update packages
 update:
-    doas nix flake update
+    nix flake update
 
 # Mount borg backup
 mount:
