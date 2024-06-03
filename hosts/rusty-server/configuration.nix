@@ -48,7 +48,9 @@
     networking.firewall = {
         enable = true;
         allowedTCPPorts = [
-            22 80 443       # ssh, https, https
+            22      # ssh
+            80      # http
+            443     # https
         ];
     };
     services.openssh = {
@@ -81,4 +83,5 @@
         };
     };
     services.loodsenboekje.enable = true;
+    services.tailscale.enable = true;
 }
