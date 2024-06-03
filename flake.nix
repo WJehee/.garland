@@ -22,7 +22,6 @@
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/hardware-configuration.nix")
                     (./. + "/hosts/${hostname}/configuration.nix")
-                    inputs.stylix.nixosModules.stylix
 
                     home-manager.nixosModules.home-manager {
                         home-manager = if builtins.pathExists (./. + "/hosts/${hostname}/home.nix")
@@ -35,8 +34,12 @@
             };
     in {
         nixosConfigurations = {
-            rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [];
-            rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [];
+            rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [
+                    inputs.stylix.nixosModules.stylix
+            ];
+            rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
+                    inputs.stylix.nixosModules.stylix
+            ];
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
                 loodsenboekje.nixosModules.loodsenboekje
             ]; 
