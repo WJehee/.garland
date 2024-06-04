@@ -21,6 +21,10 @@
                     ];
                 };
             };
+            safe.directory = [
+                "/home/wouter/.dotfiles-nix/.git"
+                "/home/admin/.dotfiles-nix/.git"
+            ];
         };
     };
 }
