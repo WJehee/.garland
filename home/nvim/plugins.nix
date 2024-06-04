@@ -74,7 +74,15 @@
                 require'lspconfig'.texlab.setup{}
                 require'lspconfig'.zls.setup{}
                 require'lspconfig'.gleam.setup{}
-                require'lspconfig'.rust_analyzer.setup{}
+                require'lspconfig'.rust_analyzer.setup {
+                    settings = {
+                        ["rust-analyzer"] = {
+                            cargo = {
+			    	allFeatures = true,
+			    },
+                        }
+                    },
+                }
             '';
         }
         vim-elixir

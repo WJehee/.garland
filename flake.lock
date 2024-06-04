@@ -250,11 +250,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1717500458,
-        "narHash": "sha256-l6AeK3VEsFNp1Qk2jJVds91O+D3GY9qGBF+0A2tDVK8=",
+        "lastModified": 1717519511,
+        "narHash": "sha256-3W55eLy2LUlR+QyYbG1ILvhyTBX/iSqwdq1flHkA7z8=",
         "owner": "wjehee",
         "repo": "loodsenboekje.com",
-        "rev": "100e70eafa63bbf8ad26e4bf8daf1cf8beda0e91",
+        "rev": "4ac27f11e17d140cc60379e9ddc481cf3ccbcc2c",
         "type": "github"
       },
       "original": {
@@ -369,11 +369,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1717419189,
-        "narHash": "sha256-3J6GHIbA0f/bkHc7qxe1JlpgHJFawuC2ZNepYAjToQM=",
+        "lastModified": 1717514652,
+        "narHash": "sha256-ry2AlcYSSYl31gOcVBxgk2sISlu10EJs+bBMaNWsW+E=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "c760f63a44a98b2324fdebaee32831b1297172a1",
+        "rev": "85a0a92c3173ceebbca9b7ec692db79cff8ce91a",
         "type": "github"
       },
       "original": {
