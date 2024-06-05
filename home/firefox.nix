@@ -7,7 +7,7 @@
                 "general.smoothScroll" = true;
             };
             search = {
-                default = "Qwant";
+                default = "DuckDuckGo";
                 force = true;
                 engines = {
                     "My NixOS" = {
