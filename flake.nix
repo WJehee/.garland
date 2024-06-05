@@ -35,10 +35,10 @@
     in {
         nixosConfigurations = {
             rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [
-                    inputs.stylix.nixosModules.stylix
+                inputs.stylix.nixosModules.stylix
             ];
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
-                    inputs.stylix.nixosModules.stylix
+                inputs.stylix.nixosModules.stylix
             ];
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
                 loodsenboekje.nixosModules.loodsenboekje

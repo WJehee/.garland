@@ -2,7 +2,7 @@
     programs.git = {
         enable = true;
         userName = "Wouter Jehee";
-        userEmail = "wouterjehee@tutanota.com";
+        userEmail = "wouter@wouterjehee.com";
         ignores = [
             ".env"
             "_pycache_/"
@@ -21,10 +21,6 @@
                     ];
                 };
             };
-            safe.directory = [
-                "/home/wouter/.dotfiles-nix/.git"
-                "/home/admin/.dotfiles-nix/.git"
-            ];
         };
     };
 }

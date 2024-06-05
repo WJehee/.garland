@@ -78,4 +78,8 @@
     programs.hyprland.enable = true;
 
     services.tailscale.enable = true;
+    programs.git.config.safe.directory = [
+        "/home/wouter/.dotfiles-nix/.git"
+        "/home/admin/.dotfiles-nix/.git"
+    ];
 }
