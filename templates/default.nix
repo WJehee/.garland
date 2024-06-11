@@ -16,7 +16,7 @@
             ## Getting started
             
             - nix develop
-            - zig init-exe or zig init-lib
+            - zig init
         '';
     };
     elixir = {

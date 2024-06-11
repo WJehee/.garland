@@ -85,6 +85,7 @@
                 }
             '';
         }
+        vim-just
         vim-elixir
         {
             plugin = lsp-zero-nvim;
