@@ -1,15 +1,39 @@
 { pkgs, ... }:
 let
     screenshot = pkgs.writeShellScriptBin "screenshot" ''
-OPTIONS="copy\nsave"
-CHOICE=$(echo -e $OPTIONS | wofi -d) || exit 0
-case $CHOICE in
-    copy) grimshot copy area ;;
-    save)
-        FILENAME=$(grimshot save area)
-        mogrify -format webp $FILENAME
-        rm $FILENAME ;;
-esac
+        OPTIONS="copy\nsave"
+        CHOICE=$(echo -e $OPTIONS | wofi -d) || exit 0
+        case $CHOICE in
+            copy) grimshot copy area ;;
+            save)
+                FILENAME=$(grimshot save area)
+                mogrify -format webp $FILENAME
+                rm $FILENAME ;;
+        esac
+    '';
+    ex = pkgs.writeShellScriptBin "ex" ''
+        if [ -f $1 ] ; then
+          case $1 in
+            *.tar.bz2)   tar xjf $1   ;;
+            *.tar.gz)    tar xzf $1   ;;
+            *.bz2)       bunzip2 $1   ;;
+            *.rar)       unrar x $1   ;;
+            *.gz)        gunzip $1    ;;
+            *.tar)       tar xf $1    ;;
+            *.tbz2)      tar xjf $1   ;;
+            *.tgz)       tar xzf $1   ;;
+            *.zip)       unzip $1     ;;
+            *.Z)         uncompress $1;;
+            *.7z)        7z x $1      ;;
+            *.deb)       ar x $1      ;;
+            *.tar.xz)    tar xf $1    ;;
+            *.tar.zst)   unzstd $1    ;;
+            *.xz)        unxz $1      ;;
+            *)           echo "'$1' cannot be extracted via ex" ;;
+          esac
+        else
+          echo "'$1' is not a valid file"
+        fi
     '';
 in {
     imports = [
@@ -21,6 +45,7 @@ in {
     ];
     environment.systemPackages = with pkgs; [
         screenshot
+        ex
 
         alacritty
         networkmanagerapplet
@@ -47,8 +72,6 @@ in {
         inetutils
         handlr
         teams-for-linux
-        xwayland
-        xwaylandvideobridge
         lxqt.lxqt-openssh-askpass
         texlive.combined.scheme-full
 

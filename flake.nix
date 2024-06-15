@@ -19,7 +19,7 @@
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
 
-    outputs = { nixpkgs, home-manager, nixvim, loodsenboekje, ... }@inputs:
+    outputs = { nixpkgs, home-manager, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname: extra_modules:
             pkgs.lib.nixosSystem {
@@ -43,12 +43,14 @@
         nixosConfigurations = {
             rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [
                 inputs.stylix.nixosModules.stylix
+                inputs.nixvim.nixosModules.nixvim
             ];
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
                 inputs.stylix.nixosModules.stylix
+                inputs.nixvim.nixosModules.nixvim
             ];
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
-                loodsenboekje.nixosModules.loodsenboekje
+                inputs.loodsenboekje.nixosModules.loodsenboekje
             ]; 
         };
         templates = import ./templates;

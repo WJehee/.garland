@@ -1,6 +1,5 @@
-{ pkgs, lib, ... }: {
+{ lib, ... }: {
     imports = [
-        ./efi.nix
         ./env.nix
         ./pipewire.nix
         ./graphics.nix
@@ -8,9 +7,10 @@
         ./printing.nix
         ./syncthing.nix
         ./starship.nix
-        ./usb_backup.nix
         ./firewall.nix
         ./stylix.nix
+        ./zsh.nix
+        # ./nixvim.nix
 
         # ./music.nix
         # ./gaming.nix
@@ -21,29 +21,44 @@
         permittedInsecurePackages = [
         ];
     };
-    nix.settings = {
-        use-xdg-base-directories = true;
-        experimental-features = [
-            "nix-command"
-            "flakes"
-        ];
+    nix = {
+        settings = {
+            use-xdg-base-directories = true;
+            experimental-features = [
+                "nix-command"
+                "flakes"
+            ];
+            substituters = ["https://hyprland.cachix.org"];
+            trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+        };
+        gc = {
+            automatic = true;
+            dates = "weekly";
+            options = "--delete-older-than 30d";
+        };
     };
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
 
-    # Auto cleanup garbage
-    nix.gc.automatic = true;
-    nix.gc.dates = "weekly";
-    nix.gc.options = "--delete-older-than 30d";
-
-    boot.tmp.useTmpfs = true;
+    boot = {
+        tmp.useTmpfs = true;
+        loader = {
+            grub.enable = true;
+            grub.device = "nodev";
+            grub.efiSupport = true;
+            efi.canTouchEfiVariables = true;
+            # grub.useOSProber = true;
+        };
+    };
 
     networking.networkmanager.enable = true;
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
+    services.tailscale.enable = true;
     services.openssh.enable = true;
     programs.ssh.startAgent = true;
+
     security.pam.services.swaylock = {};
     security.sudo.enable = false;
     security.doas.enable = true;
@@ -61,23 +76,7 @@
             "networkmanager"
         ];
     };
-
-    programs.zsh = {
-        enable = true;
-        setOptions = [
-            "AUTO_CD"
-            "COMPLETE_ALIASES"
-        ];
-    };
-    users.defaultUserShell = pkgs.zsh;
-
-    nix.settings = {
-        substituters = ["https://hyprland.cachix.org"];
-        trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    };
     programs.hyprland.enable = true;
-
-    services.tailscale.enable = true;
     programs.git.config.safe.directory = [
         "/home/wouter/.dotfiles-nix/.git"
         "/home/admin/.dotfiles-nix/.git"

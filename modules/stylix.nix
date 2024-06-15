@@ -1,5 +1,6 @@
 { pkgs, ... }: {
     stylix = {
+        enable = true;
         image = ./wallpaper.jpg;
         targets.grub.useImage = true;
         polarity = "dark";
@@ -13,8 +14,8 @@
         };
 
         opacity.terminal = 0.8;
-        #targets.waybar = {
-        #    enableCenterBackColors = true;
-        #};
+        # targets.waybar = {
+        #     enableCenterBackColors = true;
+        # };
     };
 }

@@ -2,7 +2,6 @@
     imports = [
         ./nvim
 
-        # ./stylix.nix
         ./alacritty.nix
         ./git.nix
         ./zsh.nix
