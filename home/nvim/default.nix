@@ -65,8 +65,6 @@
             nnoremap("<leader>gs", require('telescope.builtin').git_status)
             nnoremap("<leader>gl", require('telescope.builtin').git_commits)
 
-            nnoremap("<leader>gp", require('gitsigns').preview_hunk)
-
             nnoremap("<leader>ca", "<cmd>Lspsaga code_action<CR>")
             nnoremap("<leader>rn", "<cmd>Lspsaga rename<CR>")
             nnoremap("<leader>hd", "<cmd>Lspsaga hover_doc<CR>")

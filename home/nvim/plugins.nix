@@ -103,6 +103,23 @@
                 lsp.setup()
                 '';
         }
+        {
+            plugin = neogit;
+            type = "lua";
+            config = ''
+                local neogit = require('neogit')
+                neogit.setup({})
+            '';
+        }
+        {
+            plugin = gitsigns-nvim;
+            type = "lua";
+            config = ''
+                local gitsigns = require('gitsigns')
+                gitsigns.setup({}) 
+                nnoremap("<leader>gp", gitsigns.preview_hunk)
+            '';
+        }
         telescope-nvim
         popup-nvim
         plenary-nvim
@@ -112,20 +129,6 @@
             config = ''
                 local saga = require('lspsaga')
                 saga.setup({})
-            '';
-        }
-        {
-            plugin = neogit;
-            type = "lua";
-            config = ''
-                require('neogit').setup()
-            '';
-        }
-        {
-            plugin = gitsigns-nvim;
-            type = "lua";
-            config = ''
-                require('gitsigns').setup()
             '';
         }
     ];

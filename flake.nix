@@ -7,12 +7,19 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        stylix.url = "github:danth/stylix";
+        stylix = {
+            url = "github:danth/stylix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        nixvim = {
+            url = "github:nix-community/nixvim";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
 
-    outputs = { nixpkgs, home-manager, loodsenboekje, ... }@inputs:
+    outputs = { nixpkgs, home-manager, nixvim, loodsenboekje, ... }@inputs:
     let 
         mkSystem = pkgs: system: hostname: extra_modules:
             pkgs.lib.nixosSystem {
