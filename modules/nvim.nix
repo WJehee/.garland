@@ -13,10 +13,11 @@
             tabstop = 4;
             softtabstop = 4;
             shiftwidth = 4;
-            signcolumns = true;
+            signcolumn = "yes";
+        };
+        globals = {
             mapleader = " ";
         };
-        # colorscheme = "nord";
 
         plugins = {
             treesitter.enable = true;
@@ -24,7 +25,14 @@
             treesitter-refactor.enable = true;
             lsp = {
                 enable = true;
+                keymaps = {
+                    lspBuf = {
+                        gd = "definition";
+                        gi = "implementation";
+                    };
+                };
                 servers = {
+                    clangd.enable = true;
                     elixirls.enable = true;
                     emmet-ls.enable = true;
                     gleam.enable = true;
@@ -36,6 +44,24 @@
                         enable = true;
                     };
                     zls.enable = true;
+                };
+            };
+            luasnip.enable = true;
+
+            cmp-nvim-lsp.enable = true;
+            cmp_luasnip.enable = true;
+            cmp = {
+                enable = true;
+                settings = {
+                    sources = [
+                        { name = "nvim_lsp"; }
+                        { name = "luasnip"; }
+                    ];
+                    mapping = {
+                        "<CR>" = "cmp.mapping.confirm({ select = true })";
+                        "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+                        "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+                    };
                 };
             };
 
@@ -54,13 +80,12 @@
                     "<leader>gl" = "git_commits";
                 };
             };
+
             lspsaga = {
                 enable = true;
                 codeAction.keys.exec = "<leader>ca";
                 rename.keys.exec = "<leader>rn";
-                
             };
-
             neogit.enable = true;
         };
     };

@@ -25,6 +25,14 @@
             pkgs.xdg-desktop-portal-hyprland
         ];
     };
+    programs.hyprland.enable = true;
+    services.displayManager = {
+        defaultSession = "hyprland";
+        autoLogin = {
+            enable = true;
+            user = "wouter";
+        };
+    };
     services.xserver = {
         enable = true;
         xkb = {
@@ -33,12 +41,5 @@
         };
         # videoDrivers = [ "modesetting" ];
         videoDrivers = [ "amdgpu" ];
-
-        displayManager = {
-            defaultSession = "hyprland";
-            lightdm.enable = true;
-            autoLogin.enable = true;
-            autoLogin.user = "wouter";
-        };
     };
 }

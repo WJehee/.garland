@@ -10,7 +10,7 @@
         ./firewall.nix
         ./stylix.nix
         ./zsh.nix
-        # ./nixvim.nix
+        ./nvim.nix
 
         # ./music.nix
         # ./gaming.nix
@@ -76,7 +76,6 @@
             "networkmanager"
         ];
     };
-    programs.hyprland.enable = true;
     programs.git.config.safe.directory = [
         "/home/wouter/.dotfiles-nix/.git"
         "/home/admin/.dotfiles-nix/.git"

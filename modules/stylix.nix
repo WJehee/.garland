@@ -1,10 +1,17 @@
 { pkgs, ... }: {
     stylix = {
         enable = true;
-        image = ./wallpaper.jpg;
-        targets.grub.useImage = true;
-        polarity = "dark";
         autoEnable = true;
+
+        polarity = "dark";
+        image = ./wallpaper.jpg;
+        targets = {
+            grub.useImage = true;
+            nixvim.transparent_bg = {
+                main = true;
+                sign_column = true;
+            };
+        };
 
         fonts = {
             monospace = {
@@ -12,10 +19,6 @@
                 package = pkgs.hack-font;
             };
         };
-
-        opacity.terminal = 0.8;
-        # targets.waybar = {
-        #     enableCenterBackColors = true;
-        # };
+        opacity.terminal = 0.9;
     };
 }
