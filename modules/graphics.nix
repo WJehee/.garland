@@ -1,7 +1,6 @@
 { pkgs, ... }: {
-    hardware.opengl = {
+    hardware.graphics = {
         enable = true;
-        driSupport32Bit = true;
         extraPackages = with pkgs; [
             mesa.drivers
             amdvlk
@@ -38,7 +37,6 @@
             layout = "us";
             options = "eurosign:e,caps:escape";
         };
-        # videoDrivers = [ "modesetting" ];
         videoDrivers = [ "amdgpu" ];
     };
 }
