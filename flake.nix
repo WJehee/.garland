@@ -48,6 +48,7 @@
             rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
+                inputs.disko.nixosModules.disko
             ];
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
                 inputs.stylix.nixosModules.stylix
