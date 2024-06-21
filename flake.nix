@@ -15,6 +15,10 @@
             url = "github:nix-community/nixvim";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        disko = {
+            url = "github:nix-community/disko";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
