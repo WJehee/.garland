@@ -42,6 +42,8 @@
                     pyright.enable = true;
                     rust-analyzer = {
                         enable = true;
+                        installCargo = false;
+                        installRustc = false;
                     };
                     zls.enable = true;
                 };
