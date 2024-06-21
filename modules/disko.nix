@@ -2,35 +2,38 @@
     disko.devices = {
         disk = {
             main = {
-                device = "...";
                 type = "disk";
+                device = "...";
                 content = {
-                    ESP = {
-                        size = "500M";
-                        type = "EF00";
-                        content = {
-                            type = "filesystem";
-                            format = "vfat";
-                            mountpoint = "/boot";
-                            mountOptions = [
-                                "defaults"
-                            ];
-                        };
-                    };
-                    luks = {
-                        size = "100%";
-                        content = {
-                            type = "luks";
-                            name = "crypted";
-                            extraOpenArgs = [ ];
-                            settings = {
-                                keyFile = "/tmp/secret.key";
-                                allowDiscards = true;
-                            };
-                            additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                    type = "gpt";
+                    partitions = {
+                        ESP = {
+                            size = "500M";
+                            type = "EF00";
                             content = {
-                                type = "lvm_pv";
-                                vg = "pool";
+                                type = "filesystem";
+                                format = "vfat";
+                                mountpoint = "/boot";
+                                mountOptions = [
+                                    "defaults"
+                                ];
+                            };
+                        };
+                        luks = {
+                            size = "100%";
+                            content = {
+                                type = "luks";
+                                name = "crypted";
+                                extraOpenArgs = [ ];
+                                settings = {
+                                    keyFile = "/tmp/secret.key";
+                                    allowDiscards = true;
+                                };
+                                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                                content = {
+                                    type = "lvm_pv";
+                                    vg = "pool";
+                                };
                             };
                         };
                     };

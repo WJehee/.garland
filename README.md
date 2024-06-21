@@ -6,7 +6,15 @@ Thanks to:
 - [Akirak](https://github.com/akirak)
 - [Luc Perkins](https://github.com/the-nix-way)
 
-See [install.md](INSTALL.md) for installation instructions.
+## Installing
+
+```sh
+sudo nix
+--extra-experimental-features nix-command
+--extra-experimental-features flakes
+run 'github:nix-community/disko#disko-install' -- --flake
+'github:wjehee/.dotfiles-nix#HOSTNAME' --disk main /dev/DISK_UUID
+```
 
 ## Templates
 
