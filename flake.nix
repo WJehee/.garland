@@ -31,7 +31,6 @@
                 specialArgs = { inherit inputs; };
                 modules = extra_modules ++ [
                     { networking.hostName = hostname; }
-                    (./. + "/hosts/${hostname}/hardware-configuration.nix")
                     (./. + "/hosts/${hostname}/configuration.nix")
 
                     home-manager.nixosModules.home-manager {
@@ -49,13 +48,16 @@
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
                 inputs.disko.nixosModules.disko
+
             ];
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
+                (./. + "/hosts/rusty-desktop/hardware-configuration.nix")
             ];
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
                 inputs.loodsenboekje.nixosModules.loodsenboekje
+                (./. + "/hosts/rusty-server/hardware-configuration.nix")
             ]; 
         };
         templates = import ./templates;
