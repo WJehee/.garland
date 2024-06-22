@@ -1,4 +1,4 @@
-{ disk ? "/PATH/TO/DISK", ... }: {
+{ disk ? null, ... }: {
     disko.devices = {
         disk = {
             main = {

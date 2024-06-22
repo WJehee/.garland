@@ -8,15 +8,18 @@ Thanks to:
 
 ## Installing
 
-Create the password for full disk encryption: `echo "MY_PASSWORD" > /tmp/secret.key`
+Using my [custom installer image]()  
 
-Using my [custom installer image](), one can run:  
-`custom-install HOSTNAME PATH_TO_DISK`
+1. Become root `sudo su`
+2. Create the password for full disk encryption: `echo "MY_PASSWORD" > /tmp/secret.key`
+3. `disko-format /PATH/TO/DISK`
+4: `install-flake HOSTNAME`
 
 After the install has finished, do the following:  
 ```sh
 nixos-enter --root /mnt
 passwd USERNAME
+exit
 reboot
 ```
 
