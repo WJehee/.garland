@@ -1,9 +1,9 @@
-{ ... }: {
+{ disk ? "/PATH/TO/DISK", ... }: {
     disko.devices = {
         disk = {
             main = {
                 type = "disk";
-                device = "PATH/TO/DISK";
+                device = builtins.toPath disk;
                 content = {
                     type = "gpt";
                     partitions = {
@@ -49,7 +49,7 @@
                         };
                     };
                     rest = {
-                        size = "100%";
+                        size = "100%FREE";
                         content = {
                             type = "filesystem";
                             format = "ext4";
