@@ -60,6 +60,8 @@
                 (./. + "/hosts/rusty-server/hardware-configuration.nix")
             ]; 
         };
+        diskoConfigurations.disko = import ./disk-config.nix;
         templates = import ./templates;
     };
  }
+

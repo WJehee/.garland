@@ -3,7 +3,7 @@
         disk = {
             main = {
                 type = "disk";
-                device = "...";
+                device = "PATH/TO/DISK";
                 content = {
                     type = "gpt";
                     partitions = {
@@ -24,12 +24,8 @@
                             content = {
                                 type = "luks";
                                 name = "crypted";
-                                extraOpenArgs = [ ];
-                                settings = {
-                                    keyFile = "/tmp/secret.key";
-                                    allowDiscards = true;
-                                };
-                                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                                passwordFile = "/tmp/secret.key";
+                                settings.allowDiscards = true;
                                 content = {
                                     type = "lvm_pv";
                                     vg = "pool";

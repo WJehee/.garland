@@ -8,12 +8,16 @@ Thanks to:
 
 ## Installing
 
+Create the password for full disk encryption: `echo "MY_PASSWORD" > /tmp/secret.key`
+
+Using my [custom installer image](), one can run:  
+`custom-install HOSTNAME PATH_TO_DISK`
+
+After the install has finished, do the following:  
 ```sh
-sudo nix
---extra-experimental-features nix-command
---extra-experimental-features flakes
-run 'github:nix-community/disko#disko-install' -- --flake
-'github:wjehee/.dotfiles-nix#HOSTNAME' --disk main /dev/DISK_UUID
+nixos-enter --root /mnt
+passwd USERNAME
+reboot
 ```
 
 ## Templates
