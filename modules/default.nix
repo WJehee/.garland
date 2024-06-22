@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ pkgs, lib, ... }: {
     imports = [
         ./env.nix
         ./pipewire.nix
@@ -18,8 +18,7 @@
     system.stateVersion = "23.05";
     nixpkgs.config = {
         allowUnfree = true;
-        permittedInsecurePackages = [
-        ];
+        permittedInsecurePackages = [];
     };
     nix = {
         settings = {
@@ -57,7 +56,11 @@
 
     services.tailscale.enable = true;
     services.openssh.enable = true;
-    programs.ssh.startAgent = true;
+    programs.ssh = {
+        startAgent = true;
+        enableAskPassword = true;
+        askPassword = lib.mkForce "${pkgs.lxqt.lxqt-openssh-askpass}/bin/lxqt-openssh-askpass";
+    };
 
     security.pam.services.swaylock = {};
     security.sudo.enable = false;
