@@ -32,6 +32,7 @@
                 modules = extra_modules ++ [
                     { networking.hostName = hostname; }
                     (./. + "/hosts/${hostname}/configuration.nix")
+                    (./. + "/hosts/${hostname}/hardware-configuration.nix")
 
                     home-manager.nixosModules.home-manager {
                         home-manager = if builtins.pathExists (./. + "/hosts/${hostname}/home.nix")
@@ -48,20 +49,18 @@
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
                 inputs.disko.nixosModules.disko
-
             ];
             rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
-                (./. + "/hosts/rusty-desktop/hardware-configuration.nix")
             ];
             rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
                 inputs.loodsenboekje.nixosModules.loodsenboekje
-                (./. + "/hosts/rusty-server/hardware-configuration.nix")
             ]; 
         };
         diskoConfigurations.disko = import ./disk-config.nix;
         templates = import ./templates;
     };
  }
+
 
