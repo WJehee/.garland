@@ -1,5 +1,5 @@
 {
-    description = "TEMPLATE";
+    description = "Python template";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";

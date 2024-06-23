@@ -7,6 +7,10 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        disko = {
+            url = "github:nix-community/disko";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         stylix = {
             url = "github:danth/stylix";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -15,52 +19,53 @@
             url = "github:nix-community/nixvim";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        disko = {
-            url = "github:nix-community/disko";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
+        # firefox-addons = {
+        #     url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+        #     inputs.nixpkgs.follows = "nixpkgs";
+        # };
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
 
-    outputs = { nixpkgs, home-manager, ... }@inputs:
-    let 
-        mkSystem = pkgs: system: hostname: extra_modules:
-            pkgs.lib.nixosSystem {
+    outputs = { nixpkgs, home-manager, ... }@inputs: let
+        mkSystem = system: hostname: extra_modules:
+            inputs.nixpkgs.lib.nixosSystem {
                 system = system;
                 specialArgs = { inherit inputs; };
                 modules = extra_modules ++ [
                     { networking.hostName = hostname; }
-                    (./. + "/hosts/${hostname}/configuration.nix")
-                    (./. + "/hosts/${hostname}/hardware-configuration.nix")
+                    ./nixos/${hostname}/configuration.nix
+                    ./nixos/${hostname}/hardware-configuration.nix
 
                     home-manager.nixosModules.home-manager {
-                        home-manager = if builtins.pathExists (./. + "/hosts/${hostname}/home.nix")
-                        then {
-                            extraSpecialArgs = { inherit inputs; };
-                            users.wouter = (./. + "/hosts/${hostname}/home.nix");
-                        } else {};
+                        home-manager = if builtins.pathExists ./nixos/${hostname}/home.nix
+                            then {
+                                extraSpecialArgs = { inherit inputs; };
+                                users.wouter = ./nixos/${hostname}/home.nix;
+                            } else {};
                     }
                 ];
             };
     in {
         nixosConfigurations = {
-            rusty-laptop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-laptop" [
+            rusty-laptop = mkSystem "x86_64-linux" "rusty-laptop" [
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
                 inputs.disko.nixosModules.disko
             ];
-            rusty-desktop = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-desktop" [
+            rusty-desktop = mkSystem "x86_64-linux" "rusty-desktop" [
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
             ];
-            rusty-server = mkSystem inputs.nixpkgs "x86_64-linux" "rusty-server" [
+            rusty-server = mkSystem "x86_64-linux" "rusty-server" [
                 inputs.loodsenboekje.nixosModules.loodsenboekje
             ]; 
         };
-        diskoConfigurations.disko = import ./disk-config.nix;
-        templates = import ./templates;
+        diskoConfigurations.disko = import ./nixos/disk-config.nix;
+        templates = ./templates;
+        # nvim = inputs.nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
+        #     module = import ../modules/dev/nvim.nix;
+        #     extraSpecialArgs.inputs = inputs;
+        # };
     };
- }
-
-
+}

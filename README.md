@@ -5,6 +5,7 @@ Thanks to:
 - [Notusknot](https://github.com/notusknot)
 - [Akirak](https://github.com/akirak)
 - [Luc Perkins](https://github.com/the-nix-way)
+- [Gaétan Lepage](https://github.com/GaetanLepage)
 
 ## Installing
 
@@ -48,5 +49,5 @@ nix flake init -t github:wjehee/.dotfiles-nix#TEMPLATE
 ## Server
 
 These files also include the configuration for my personal web server,
-which can be found under `hosts/rusty-server/`.
+which can be found under `nixos/rusty-server/`.
 
