@@ -1,19 +1,13 @@
 { pkgs, lib, ... }: {
     imports = [
         ./env.nix
-        ./pipewire.nix
-        ./graphics.nix
         ./packages.nix
-        ./printing.nix
-        ./syncthing.nix
-        ./starship.nix
-        ./firewall.nix
         ./stylix.nix
-        ./zsh.nix
-        ./nvim.nix
+        ./user.nix
 
-        # ./music.nix
-        # ./gaming.nix
+        ./dev
+        ./media
+        ./security
     ];
     system.stateVersion = "23.05";
     nixpkgs.config = {
@@ -49,34 +43,8 @@
             # grub.useOSProber = true;
         };
     };
-
     networking.networkmanager.enable = true;
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
-    services.tailscale.enable = true;
-    services.openssh.enable = true;
-    programs.ssh = {
-        startAgent = true;
-        enableAskPassword = true;
-        askPassword = lib.mkForce "${pkgs.lxqt.lxqt-openssh-askpass}/bin/lxqt-openssh-askpass";
-    };
-
-    security.pam.services.swaylock = {};
-    security.sudo.enable = false;
-    security.doas.enable = true;
-    security.doas.extraRules = [{
-        users = [ "wouter" ];
-        keepEnv = true;
-        noPass = true;
-    }];
-    users.users.wouter = {
-        isNormalUser = true;
-        extraGroups = [
-            "docker"
-            "wireshark"
-            "libvirtd"
-            "networkmanager"
-        ];
-    };
 }

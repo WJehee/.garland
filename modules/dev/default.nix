@@ -1,4 +1,9 @@
 { pkgs, ... }: {
+    imports = [
+        ./nvim.nix
+        ./zsh.nix
+        ./starship.nix
+    ];
     virtualisation.libvirtd.enable = true;
     virtualisation.docker.enable = true;
     environment.systemPackages = with pkgs; [
