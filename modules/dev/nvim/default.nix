@@ -1,4 +1,7 @@
 { ... }: {
+    imports = [
+        ./keys.nix
+    ];
     programs.nixvim = {
         enable = true;
         viAlias = true;
@@ -14,9 +17,6 @@
             softtabstop = 4;
             shiftwidth = 4;
             signcolumn = "yes";
-        };
-        globals = {
-            mapleader = " ";
         };
 
         plugins = {
@@ -48,6 +48,7 @@
                     zls.enable = true;
                 };
             };
+            lspsaga.enable = true;
             luasnip.enable = true;
 
             cmp-nvim-lsp.enable = true;
@@ -81,12 +82,6 @@
                     "<leader>gs" = "git_status";
                     "<leader>gl" = "git_commits";
                 };
-            };
-
-            lspsaga = {
-                enable = true;
-                codeAction.keys.exec = "<leader>ca";
-                rename.keys.exec = "<leader>rn";
             };
             neogit.enable = true;
         };

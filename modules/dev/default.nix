@@ -1,6 +1,6 @@
 { pkgs, ... }: {
     imports = [
-        ./nvim.nix
+        ./nvim
         ./zsh.nix
         ./starship.nix
     ];
