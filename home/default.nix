@@ -7,6 +7,7 @@
         ./firefox.nix
         ./hyprland.nix
         ./dunst.nix
+        ./clipboard.nix
     ];
     home = {
         username = "wouter";

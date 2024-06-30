@@ -18,6 +18,7 @@
             shiftwidth = 4;
             signcolumn = "yes";
         };
+        clipboard.register = "unnamedplus";
 
         plugins = {
             treesitter.enable = true;

@@ -53,9 +53,8 @@ in {
         qt6.qtwayland
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
-
         wl-clipboard
-        wl-clip-persist
+
         sway-contrib.grimshot
         hyprpaper
         hyprpicker

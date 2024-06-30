@@ -65,14 +65,13 @@
                 # Launch programs
                 "$mainMod, F, exec, $BROWSER"
                 "$mainMod SHIFT, s, exec, screenshot"
-                # Layouts
-                # "$mainMod, P, pseudo," # dwindle
-                # "$mainMod, J, togglesplit," # dwindle
+
                 # Move focus with mainMod + h j k l
                 "$mainMod, L, movefocus, r"
                 "$mainMod, H, movefocus, l"
                 "$mainMod, K, movefocus, u"
                 "$mainMod, J, movefocus, d"
+
                 # Switch workspaces with mainMod + [0-9]
                 "$mainMod, 1, workspace, 1"
                 "$mainMod, 2, workspace, 2"
@@ -84,6 +83,7 @@
                 "$mainMod, 8, workspace, 8"
                 "$mainMod, 9, workspace, 9"
                 "$mainMod, 0, workspace, 10"
+
                 # Move active window to a workspace with mainMod + SHIFT + [0-9]
                 "$mainMod SHIFT, 1, movetoworkspace, 1"
                 "$mainMod SHIFT, 2, movetoworkspace, 2"
@@ -95,6 +95,8 @@
                 "$mainMod SHIFT, 8, movetoworkspace, 8"
                 "$mainMod SHIFT, 9, movetoworkspace, 9"
                 "$mainMod SHIFT, 0, movetoworkspace, 10"
+
+                "$mainMod, v, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
             ];
             bindm = [
                 # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -106,7 +108,6 @@
                "hyprpaper"
                "swayidle & disown"
                "nm-applet"
-               "wl-clip-persist --clipboard both"
             ];
             env = [
                 "XCURSOR_SIZE,24"
