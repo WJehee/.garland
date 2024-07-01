@@ -19,10 +19,7 @@
             url = "github:nix-community/nixvim";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        # firefox-addons = {
-        #     url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-        #     inputs.nixpkgs.follows = "nixpkgs";
-        # };
+        # firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };

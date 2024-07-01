@@ -1,15 +1,8 @@
 { pkgs, ... }:
 let
     screenshot = pkgs.writeShellScriptBin "screenshot" ''
-        OPTIONS="copy\nsave"
-        CHOICE=$(echo -e $OPTIONS | wofi -d) || exit 0
-        case $CHOICE in
-            copy) grimshot copy area ;;
-            save)
-                FILENAME=$(grimshot save area)
-                mogrify -format webp $FILENAME
-                rm $FILENAME ;;
-        esac
+        grimblast --freeze copysave area /tmp/screenshot.png && swappy -f /tmp/screenshot.png
+        rm /tmp/screenshot.png
     '';
     ex = pkgs.writeShellScriptBin "ex" ''
         if [ -f $1 ] ; then
@@ -55,7 +48,8 @@ in {
         libsForQt5.qtstyleplugins
         wl-clipboard
 
-        sway-contrib.grimshot
+        grimblast
+        swappy
         hyprpaper
         hyprpicker
         libnotify

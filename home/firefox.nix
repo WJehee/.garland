@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
     programs.firefox = {
         enable = true;
         profiles.wouter = {
@@ -6,6 +6,13 @@
                 "dom.security.https_only_mode" = true;
                 "general.smoothScroll" = true;
             };
+            # extensions = with pkgs.inputs.firefox-addons; [
+            #     ublock-origin
+            #     keepassxc-browser
+            #     darkreader
+            #     decentraleyes
+            #     foxyproxy-standard
+            # ];
             search = {
                 default = "DuckDuckGo";
                 force = true;
