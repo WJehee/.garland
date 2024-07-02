@@ -6,7 +6,7 @@ hostname := `hostname`
 # Rebuild OS
 rebuild:
     git add .
-    doas nixos-rebuild switch --flake ".#{{hostname}}" &>nixos-switch.log || grep -C 2 --color error nixos-switch.log
+    doas nixos-rebuild switch --flake ".#{{hostname}}" &>rebuild.log || grep -C 2 --color error rebuild.log
 
 # Update packages
 update:

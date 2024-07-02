@@ -46,8 +46,14 @@ nix flake init -t github:wjehee/.dotfiles-nix#TEMPLATE
 - Python
 - Gleam
 
+## Installing custom packages
+
+You can build any packages in `pkgs/`, by running `nix build .#PACKAGE_NAME`  
+You can install it into your profile by running `nix profile .#PACKAGE_NAME`
+
 ## Server
 
 These files also include the configuration for my personal web server,
 which can be found under `nixos/rusty-server/`.
+
 

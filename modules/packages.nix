@@ -82,7 +82,7 @@ in {
 
         firefox
         virt-manager
-        transmission-gtk
+        transmission_4-gtk
         spotify
         signal-desktop
         obsidian

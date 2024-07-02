@@ -25,6 +25,9 @@
     };
 
     outputs = { nixpkgs, home-manager, ... }@inputs: let
+        systems = [ "x86_64-linux" ];
+        forAllSystems = nixpkgs.lib.genAttrs systems;
+
         mkSystem = system: hostname: extra_modules:
             inputs.nixpkgs.lib.nixosSystem {
                 system = system;
@@ -64,5 +67,7 @@
             module = import ../modules/dev/nvim.nix;
             extraSpecialArgs.inputs = inputs;
         };
+        packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     };
 }
+
