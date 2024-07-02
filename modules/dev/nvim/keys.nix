@@ -3,6 +3,18 @@
         globals.mapleader = " ";
         keymaps = [
             {
+                # Apply macro in register q and move down
+                mode = "n";
+                key = "Q";
+                action = "@qj";
+            }
+            {
+                # Apply macro in register q on visual selection
+                mode = "n";
+                key = "Q";
+                action = ":norm @q<CR>";
+            }
+            {
                 mode = "n";
                 key = "<leader>ca";
                 action = "<cmd>Lspsaga code_action<CR>";
