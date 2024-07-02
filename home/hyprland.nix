@@ -43,9 +43,6 @@
                         "workspaces, 0, 6, default"
                 ];
             };
-            master = {
-                new_is_master = false;
-            };
             gestures = {
                 workspace_swipe = "off";
             };
