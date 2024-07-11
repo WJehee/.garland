@@ -8,6 +8,11 @@
         vimAlias = true;
         defaultEditor = true;
         opts = {
+            showmode =false;
+            number = true;
+            hidden = true;
+            relativenumber = true;
+            errorbells = false;
             expandtab = true;
             smartindent = false;
             fixendofline = false;
@@ -47,6 +52,7 @@
                         installRustc = false;
                     };
                     zls.enable = true;
+                    texlab.enable = true;
                 };
             };
             lspsaga.enable = true;
