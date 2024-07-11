@@ -11,8 +11,5 @@
         };
         dotDir = ".config/zsh";
         history.path = "${config.xdg.dataHome}/zsh/history";
-        initExtra = ''
-            eval "$(zoxide init zsh --cmd cd)"
-        '';
     };
 }

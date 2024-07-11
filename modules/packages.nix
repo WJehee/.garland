@@ -77,7 +77,6 @@ in {
         file
         usbutils
         fzf
-        zoxide
         inotify-tools
 
         firefox
