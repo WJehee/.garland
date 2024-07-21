@@ -12,3 +12,7 @@ rebuild:
 update:
     nix flake update
 
+# If home manager does activation does not work
+fix:
+    nix-env -iE 'p: {}'
+
