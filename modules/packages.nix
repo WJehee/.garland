@@ -80,7 +80,6 @@ in {
         inotify-tools
 
         firefox
-        virt-manager
         transmission_4-gtk
         spotify
         signal-desktop

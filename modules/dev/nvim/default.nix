@@ -22,8 +22,22 @@
             softtabstop = 4;
             shiftwidth = 4;
             signcolumn = "yes";
+            spelllang = [ "en_us" ];
         };
         clipboard.register = "unnamedplus";
+        autoCmd = [
+            {
+                command = "setlocal spell";
+                event = [
+                    "BufEnter"
+                    "BufWinEnter"
+                ];
+                pattern = [
+                    "*.md"
+                    "*.tex"
+                ];
+            }
+        ];
 
         plugins = {
             treesitter.enable = true;
