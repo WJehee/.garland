@@ -63,7 +63,6 @@ in {
         handlr
         teams-for-linux
         lxqt.lxqt-openssh-askpass
-        texlive.combined.scheme-full
 
         ripgrep
         tree
@@ -80,6 +79,7 @@ in {
         inotify-tools
 
         firefox
+        chromium
         transmission_4-gtk
         spotify
         signal-desktop
