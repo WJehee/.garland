@@ -70,3 +70,4 @@
         packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     };
 }
+

@@ -5,7 +5,7 @@
     stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     wayland.windowManager.hyprland.settings = {
         monitor = [
-            "eDP-1, preferred, auto, 1.175"
+            "eDP-1, preferred, auto, 1.2"
         ];
         workspace = [
             "1, monitor:DP-1"
