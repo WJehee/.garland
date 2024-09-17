@@ -1,8 +1,8 @@
 { pkgs, ... }: {
     imports = [
         ./nvim
-        ./zsh.nix
         ./starship.nix
+        # ./zsh.nix
     ];
     virtualisation.libvirtd.enable = true;
     virtualisation.docker.enable = true;

@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
     users.users.wouter = {
         isNormalUser = true;
         extraGroups = [
@@ -7,5 +7,6 @@
             "libvirtd"
             "networkmanager"
         ];
+        shell = pkgs.nushell;
     };
 }

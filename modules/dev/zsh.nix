@@ -6,5 +6,4 @@
             "COMPLETE_ALIASES"
         ];
     };
-    users.defaultUserShell = pkgs.zsh;
 }

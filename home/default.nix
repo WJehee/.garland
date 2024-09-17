@@ -2,12 +2,13 @@
     imports = [
         ./alacritty.nix
         ./git.nix
-        ./zsh.nix
         ./waybar.nix
         ./firefox.nix
         ./hyprland.nix
         ./dunst.nix
         ./clipboard.nix
+        ./nushell.nix
+        # ./zsh.nix
     ];
     home = {
         username = "wouter";
