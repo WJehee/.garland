@@ -7,18 +7,14 @@
         image = ./wallpaper.jpg;
         targets = {
             grub.useImage = true;
-            nixvim.transparent_bg = {
+            nixvim.transparentBackground = {
                 main = true;
-                sign_column = true;
-            };
-        };
-
-        fonts = {
-            monospace = {
-                name = "Hack";
-                package = pkgs.hack-font;
+                signColumn = true;
             };
         };
         opacity.terminal = 0.9;
     };
+    fonts.packages = with pkgs; [
+        (nerdfonts.override { fonts = ["Hack"]; })
+    ];
 }

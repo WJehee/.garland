@@ -93,6 +93,13 @@
                 enable = true;
             };
             rainbow-delimiters.enable = true;
+            web-devicons = {
+                enable = true;
+                settings = {
+                    color_icons = true;
+                    strict = true;
+                };
+            };
 
             telescope = {
                 enable = true;
