@@ -37,6 +37,16 @@
                     "*.tex"
                 ];
             }
+            {
+                command = "TSBufEnable highlight";
+                event = [
+                    "BufEnter"
+                    "BufWinEnter"
+                ];
+                pattern = [
+                    "*.gleam"
+                ];
+            }
         ];
 
         plugins = {
