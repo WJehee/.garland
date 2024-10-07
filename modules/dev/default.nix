@@ -2,6 +2,7 @@
     imports = [
         ./nvim
         ./starship.nix
+        ./android.nix
         # ./zsh.nix
     ];
     virtualisation.libvirtd.enable = true;
