@@ -5,5 +5,7 @@
         android-studio
         android-studio-tools
         apktool
+        apksigner
+        zulu
     ];
 }

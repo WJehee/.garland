@@ -18,5 +18,7 @@
         nil
         vscode-langservers-extracted
         htmx-lsp
+
+        nushellPlugins.query
     ];
 }

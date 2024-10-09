@@ -69,6 +69,7 @@
                     gopls.enable = true;
                     html.enable = true;
                     nil-ls.enable = true;
+                    nushell.enable = true;
                     pyright.enable = true;
                     rust-analyzer = {
                         enable = true;

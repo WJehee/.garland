@@ -62,7 +62,6 @@ in {
         imv
         inetutils
         handlr
-        teams-for-linux
         lxqt.lxqt-openssh-askpass
         doas-sudo-shim
 

@@ -56,4 +56,9 @@ You can install it into your profile by running `nix profile .#PACKAGE_NAME`
 These files also include the configuration for my personal web server,
 which can be found under `nixos/rusty-server/`.
 
+# Notes
+
+Old version of rebuild command, this should work but there is some doas stuff: https://github.com/WJehee/.dotfiles-nix/issues/31
+
+`doas nixos-rebuild switch --flake ".#{{hostname}}" &>rebuild.log || grep -C 2 --color error rebuild.log`
 
