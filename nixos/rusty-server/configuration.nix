@@ -29,6 +29,7 @@
             patchelf
             file
             sqlite
+            systemctl-tui
         ];
     };
     system.stateVersion = "23.05";

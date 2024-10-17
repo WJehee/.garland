@@ -6,7 +6,7 @@
         ./firefox.nix
         ./hyprland.nix
         ./dunst.nix
-        ./clipboard.nix
+        # ./clipboard.nix
         ./nushell.nix
         # ./zsh.nix
     ];

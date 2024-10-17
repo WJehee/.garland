@@ -6,7 +6,6 @@
             modules-left = ["hyprland/workspaces"];
             modules-right = [
                 "wireplumber"
-                "network"
                 "battery"
                 "clock"
                 "tray"

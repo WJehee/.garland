@@ -21,8 +21,8 @@
         hashcat-utils
 
         # Reverse engineering
-        cutter
-        frida-tools
+        # cutter
+        # frida-tools
 
         # Finding secrets
         trufflehog
@@ -34,6 +34,7 @@
         # cantoolz
         # esptool
         # aircrack-ng
+        # massdns (sanicdns is an alternative, not yet packaged for nix)
     ];
     environment.sessionVariables.WIRESHARK_PLUGIN_DIR = "$HOME/.local/lib/wireshark/plugins/";
     # Make hosts file writeable (by root)

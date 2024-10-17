@@ -29,14 +29,16 @@ let
         fi
     '';
 in {
-    programs.nix-ld.enable = true;
-    programs.nix-ld.libraries = with pkgs; [
-        libGL
-    ];
+    # programs.nix-ld.enable = true;
+    # programs.nix-ld.libraries = with pkgs; [
+    #     libGL
+    # ];
     environment.systemPackages = with pkgs; [
+        # Custom packages
         screenshot
         ex
 
+        # Desktop environment
         alacritty
         networkmanagerapplet
         blueman
@@ -48,7 +50,6 @@ in {
         libsForQt5.qtstyleplugins
         wl-clipboard
         starship
-
         grimblast
         swappy
         hyprpaper
@@ -64,7 +65,8 @@ in {
         handlr
         lxqt.lxqt-openssh-askpass
         doas-sudo-shim
-
+        
+        # Command line utilities
         ripgrep
         tree
         psmisc
@@ -78,7 +80,9 @@ in {
         usbutils
         fzf
         inotify-tools
+        systemctl-tui
 
+        # Applications
         firefox
         chromium
         transmission_4-gtk
@@ -91,5 +95,6 @@ in {
         vlc
         discord
         openvpn
+        teams-for-linux
     ];
 }

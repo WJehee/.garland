@@ -1,16 +1,19 @@
 { pkgs, ... }: {
-    hardware.graphics = {
-        enable = true;
-        extraPackages = with pkgs; [
-            mesa.drivers
-            amdvlk
-        ];
+    environment.systemPackages = with pkgs; [
+        clinfo
+    ];
+    hardware = {
+        graphics = {
+            enable = true;
+            enable32Bit = true;
+            # extraPackages = with pkgs; [
+            #     amdvlk
+            # ];
+        };
     };
     boot = {
-        # initrd.kernelModules = [ "amdgpu" ];
+        initrd.kernelModules = [ "amdgpu" ];
         kernelParams = [
-            "radeon.cik_support=0"
-            "amdgpu.cik_support=1"
             "quiet"
             "splash"
         ];

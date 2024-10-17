@@ -1,7 +1,7 @@
 { ... }: {
     imports = [
         ../../modules/default.nix
-        ../../modules/pentest.nix
+        ../../modules/hacking.nix
         ../disk-config.nix
     ];
     boot = {

@@ -7,6 +7,9 @@
             ".env"
             "_pycache_/"
         ];
+        aliases = {
+            s = "status";
+        };
         extraConfig = {
             credential.helper = "store";
             url = {
