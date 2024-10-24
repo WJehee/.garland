@@ -68,7 +68,7 @@
                     gleam.enable = true;
                     gopls.enable = true;
                     html.enable = true;
-                    nil-ls.enable = true;
+                    nixd.enable = true;
                     nushell.enable = true;
                     pyright.enable = true;
                     rust-analyzer = {

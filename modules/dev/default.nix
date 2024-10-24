@@ -14,7 +14,7 @@
         nurl
 
         texlab
-        nil
+        nixd
         vscode-langservers-extracted
         htmx-lsp
 
