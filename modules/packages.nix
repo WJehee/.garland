@@ -29,10 +29,6 @@ let
         fi
     '';
 in {
-    # programs.nix-ld.enable = true;
-    # programs.nix-ld.libraries = with pkgs; [
-    #     libGL
-    # ];
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot

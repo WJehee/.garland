@@ -64,14 +64,14 @@
                 servers = {
                     clangd.enable = true;
                     elixirls.enable = true;
-                    emmet-ls.enable = true;
+                    emmet_ls.enable = true;
                     gleam.enable = true;
                     gopls.enable = true;
                     html.enable = true;
-                    nil-ls.enable = true;
+                    nil_ls.enable = true;
                     nushell.enable = true;
                     pyright.enable = true;
-                    rust-analyzer = {
+                    rust_analyzer = {
                         enable = true;
                         installCargo = false;
                         installRustc = false;

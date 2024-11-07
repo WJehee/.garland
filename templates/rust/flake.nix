@@ -23,7 +23,7 @@
             buildInputs = [
                 rust-toolchain
                 cargo-watch
-                rust-analyzer
+                rust_analyzer
                 rustfmt
                 clippy
             ];

@@ -2,6 +2,7 @@
     imports = [
         ../../modules/default.nix
         ../../modules/hacking.nix
+        ../../modules/dev/android.nix
         ../disk-config.nix
     ];
     boot = {
