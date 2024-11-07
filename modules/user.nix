@@ -6,6 +6,7 @@
             "wireshark"
             "libvirtd"
             "networkmanager"
+            "dialout"
         ];
         shell = pkgs.zsh;
     };
