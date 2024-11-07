@@ -32,6 +32,13 @@
     python = {
         path = ./python;
         description = "A python project";
+        welcomeText = ''
+            ## Getting started
+
+            - nix develop
+            - uv init
+            - uv venv
+        '';
     };
     gleam = {
         path = ./gleam;

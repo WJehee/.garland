@@ -1,5 +1,5 @@
 {
-    description = "Python template";
+    description = "Python template with UV";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -12,11 +12,8 @@
     in {
         devShells.${system}.default = with pkgs; mkShell {
             buildInputs = [
-                python311
-                
-            ] ++ (with python311Packages; [
-                jedi-language-server
-            ]);
+                uv 
+            ];
             shellHook = ''
             '';
         };

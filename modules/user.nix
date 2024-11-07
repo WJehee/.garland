@@ -7,6 +7,6 @@
             "libvirtd"
             "networkmanager"
         ];
-        shell = pkgs.nushell;
+        shell = pkgs.zsh;
     };
 }

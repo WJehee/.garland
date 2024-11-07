@@ -6,9 +6,10 @@
         ./firefox.nix
         ./hyprland.nix
         ./dunst.nix
-        # ./clipboard.nix
         ./nushell.nix
-        # ./zsh.nix
+        ./zsh.nix
+
+        # ./clipboard.nix
     ];
     home = {
         username = "wouter";

@@ -5,7 +5,7 @@ let
         rm /tmp/screenshot.png
     '';
     ex = pkgs.writeShellScriptBin "ex" ''
-        if [ -f $1 ] ; then
+        if [ -n $1 ] ; then
           case $1 in
             *.tar.bz2)   tar xjf $1   ;;
             *.tar.gz)    tar xzf $1   ;;
@@ -28,11 +28,19 @@ let
           echo "'$1' is not a valid file"
         fi
     '';
+    flake-template = pkgs.writeShellScriptBin "flake-template" ''
+        if [ -n $1 ] ; then
+            nix flake init -t "github:wjehee/.dotfiles-nix#$1"
+        else
+            echo "must provide an argument"
+        fi
+    '';
 in {
     environment.systemPackages = with pkgs; [
         # Custom packages
         screenshot
         ex
+        flake-template
 
         # Desktop environment
         alacritty

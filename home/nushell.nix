@@ -25,7 +25,7 @@
             '';
             shellAliases = {
                 la = "ls -a";
-                nd = "nix develop -c nu";
+                nd = "nix develop -c $STARSHIP_SHELL";
             };
         };
         carapace = {

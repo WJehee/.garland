@@ -1,0 +1,7 @@
+
+_default:
+    just --list
+
+venv:
+    source .venv/bin/activate
+

@@ -2,8 +2,7 @@
     imports = [
         ./nvim
         ./starship.nix
-        # ./android.nix
-        # ./zsh.nix
+        ./zsh.nix
     ];
     virtualisation = {
         libvirtd.enable = true;
@@ -17,7 +16,7 @@
         nurl
 
         texlab
-        nil
+        nixd
         vscode-langservers-extracted
         htmx-lsp
 
