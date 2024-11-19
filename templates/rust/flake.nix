@@ -22,9 +22,10 @@
         devShells.${system}.default = with pkgs; mkShell {
             buildInputs = [
                 rust-toolchain
-                cargo-watch
-                rust_analyzer
+                rust-analyzer
                 rustfmt
+                cargo-deny
+                cargo-watch
                 clippy
             ];
             shellHook = ''
