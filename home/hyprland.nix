@@ -25,9 +25,11 @@
             };
             decoration = {
                 rounding = 5;
-                drop_shadow = "yes";
-                shadow_range = 4;
-                shadow_render_power = 3;
+                shadow = {
+                    enabled = true;
+                    range = 4;
+                    render_power = 3;
+                };
             };
             animations = {
                 enabled = "yes";

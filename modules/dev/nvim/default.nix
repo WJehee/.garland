@@ -45,6 +45,9 @@
                 ];
                 pattern = [
                     "*.gleam"
+                    "*.ex"
+                    "*.exs"
+                    "*.heex"
                 ];
             }
         ];
