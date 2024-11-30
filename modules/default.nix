@@ -2,6 +2,7 @@
     imports = [
         ./env.nix
         ./packages.nix
+        ./custom.nix
         ./stylix.nix
         ./user.nix
 

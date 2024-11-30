@@ -48,6 +48,7 @@
                     "*.ex"
                     "*.exs"
                     "*.heex"
+                    "*.nu"
                 ];
             }
         ];
@@ -67,10 +68,22 @@
                 servers = {
                     clangd.enable = true;
                     elixirls.enable = true;
-                    emmet_ls.enable = true;
+                    emmet_ls = {
+                        enable = true;
+                        filetypes = [
+                            "html"
+                            "heex"
+                        ];
+                    };
                     gleam.enable = true;
                     gopls.enable = true;
-                    html.enable = true;
+                    html = {
+                        enable = true;
+                        filetypes = [
+                            "html"
+                            "heex"
+                        ];
+                    };
                     nixd.enable = true;
                     nushell.enable = true;
                     pyright.enable = true;
@@ -79,6 +92,7 @@
                         installCargo = false;
                         installRustc = false;
                     };
+                    tailwindcss.enable = true;
                     zls.enable = true;
                     texlab.enable = true;
                 };
@@ -86,14 +100,14 @@
             lspsaga.enable = true;
             luasnip.enable = true;
 
-            cmp-nvim-lsp.enable = true;
-            cmp_luasnip.enable = true;
             cmp = {
                 enable = true;
+                autoEnableSources = true;
                 settings = {
                     sources = [
                         { name = "nvim_lsp"; }
                         { name = "luasnip"; }
+                        { name = "path"; }
                     ];
                     mapping = {
                         "<CR>" = "cmp.mapping.confirm({ select = true })";

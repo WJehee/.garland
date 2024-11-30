@@ -17,8 +17,6 @@
 
         texlab
         nixd
-        vscode-langservers-extracted
-        htmx-lsp
 
         nushellPlugins.query
     ];

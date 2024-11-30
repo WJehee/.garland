@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-    programs.wireshark.enable = true;
+    programs = {
+        wireshark.enable = true;
+        # minipro.enable = true;
+    };
     environment.systemPackages = with pkgs; [
         # Network
         nmap
@@ -19,13 +22,16 @@
         john
         hashcat
         hashcat-utils
-
+    
         # Reverse engineering
         # cutter
         # frida-tools
 
+        # Firmware
+        binwalk
+
         # Finding secrets
-        trufflehog
+        # trufflehog
 
         # httpx
         # gowitness
