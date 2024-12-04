@@ -1,4 +1,4 @@
-{}: {
+{ ... }: {
     services.caddy = {
         enable = true;
         virtualHosts = {
@@ -8,7 +8,7 @@
                 file_server
             '';
             "cal.wouterjehee.com".extraConfig = ''
-                http://localhost:5232
+                reverse_proxy http://localhost:5232
             '';
             "ntfy.wouterjehee.com".extraConfig = ''
                 reverse_proxy http://localhost:2555
