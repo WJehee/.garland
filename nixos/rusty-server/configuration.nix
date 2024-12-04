@@ -9,7 +9,7 @@
         device = "/dev/vda";
     };
     nix.settings = {
-        trusted-users = lib.mkOptionDefault [
+        trusted-users = [
             "admin"
         ];
         experimental-features = [
