@@ -1,7 +1,7 @@
 { ... }: {
     security.acme = {
         acceptTerms = true;
-        defaults.email = "dev.temporator@aleeas.com";
+        defaults.email = "contact@wouterjehee.com";
     };
     services.logrotate.settings.nginx.frequency = "daily";
     services.nginx = {
@@ -49,6 +49,27 @@
                 serverAliases = [
                     "www.loodsenboekje.com"
                 ];
+                locations."/" = {
+                    proxyPass = "http://localhost:1744/";
+                    extraConfig = ''
+                        proxy_set_header X-Script-Name /;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_pass_header Authorization;
+                    '';
+                };
+            };
+            "dorusrijkers.club" = {
+                forceSSL = true;
+                enableACME = true;
+                root = "/var/www/dorusrijkers.club";
+                serverAliases = [
+                    "www.dorusrijkers.club"
+                    "loodsenboekje.dorusrijkers.club"
+                ];
+            };
+            "loodsenboekje.dorusrijkers.club" = {
+                forceSSL = true;
+                useACMEHost = "dorusrijkers.club";
                 locations."/" = {
                     proxyPass = "http://localhost:1744/";
                     extraConfig = ''

@@ -3,7 +3,6 @@
         ../../modules/server/radicale.nix
         ../../modules/server/nginx.nix
         ../../modules/server/ntfy.nix
-        ../../modules/security/doas.nix
     ];
     boot.loader.grub = {
         enable = true;
@@ -31,6 +30,7 @@
             file
             sqlite
             systemctl-tui
+            doas-sudo-shim
         ];
     };
     system.stateVersion = "23.05";
@@ -80,7 +80,7 @@
             extraRules = [{
                 users = [ "admin" ];
                 keepEnv = true;
-                noPass = true;
+                noPass = false;
             }];
         };
     };
