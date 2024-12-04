@@ -70,10 +70,10 @@
                     elixirls.enable = true;
                     emmet_ls = {
                         enable = true;
-                        filetypes = [
-                            "html"
-                            "heex"
-                        ];
+                        # filetypes = [
+                        #     "html"
+                        #     "heex"
+                        # ];
                     };
                     gleam.enable = true;
                     gopls.enable = true;

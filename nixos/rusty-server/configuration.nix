@@ -3,6 +3,7 @@
         ../../modules/server/radicale.nix
         ../../modules/server/nginx.nix
         ../../modules/server/ntfy.nix
+        ../../modules/security/doas.nix
     ];
     boot.loader.grub = {
         enable = true;

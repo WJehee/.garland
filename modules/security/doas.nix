@@ -1,10 +1,12 @@
-{ ... }: {
-    security.pam.services.swaylock = {};
-    security.sudo.enable = false;
-    security.doas.enable = true;
-    security.doas.extraRules = [{
-        users = [ "wouter" ];
-        keepEnv = true;
-        noPass = true;
-    }];
+{ pkgs, ... }: {
+    environment.systemPackages = with pkgs; [ doas-sudo-shim ];
+    security = {
+        sudo.enable = false;
+        doas.enable = true;
+        doas.extraRules = [{
+            users = [ "wouter" ];
+            keepEnv = true;
+            noPass = true;
+        }];
+    };
 }

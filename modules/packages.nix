@@ -26,7 +26,6 @@
         inetutils
         handlr
         lxqt.lxqt-openssh-askpass
-        doas-sudo-shim
         
         # Command line utilities
         ripgrep
