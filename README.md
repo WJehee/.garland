@@ -40,10 +40,10 @@ nix flake init -t github:wjehee/.dotfiles-nix#TEMPLATE
 
 ### Currently available templates
 
+- Python
 - Rust
 - Zig
 - Elixir
-- Python
 - Gleam
 
 ## Installing custom packages

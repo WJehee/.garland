@@ -43,18 +43,15 @@
                     "BufEnter"
                     "BufWinEnter"
                 ];
-                pattern = [
-                    "*.gleam"
-                    "*.ex"
-                    "*.exs"
-                    "*.heex"
-                    "*.nu"
-                ];
+                pattern = [ "*" ];
             }
         ];
 
         plugins = {
-            treesitter.enable = true;
+            treesitter = {
+                enable = true;
+                settings.indent.enable = true;
+            };
             treesitter-context.enable = true;
             treesitter-refactor.enable = true;
             lsp = {
@@ -68,22 +65,10 @@
                 servers = {
                     clangd.enable = true;
                     elixirls.enable = true;
-                    emmet_ls = {
-                        enable = true;
-                        # filetypes = [
-                        #     "html"
-                        #     "heex"
-                        # ];
-                    };
+                    emmet_ls.enable = true;
                     gleam.enable = true;
                     gopls.enable = true;
-                    html = {
-                        enable = true;
-                        filetypes = [
-                            "html"
-                            "heex"
-                        ];
-                    };
+                    html.enable = true;
                     nixd.enable = true;
                     nushell.enable = true;
                     pyright.enable = true;
@@ -92,7 +77,7 @@
                         installCargo = false;
                         installRustc = false;
                     };
-                    tailwindcss.enable = true;
+                    # tailwindcss.enable = true;
                     zls.enable = true;
                     texlab.enable = true;
                 };
@@ -108,6 +93,7 @@
                         { name = "nvim_lsp"; }
                         { name = "luasnip"; }
                         { name = "path"; }
+                        { name = "treesitter"; }
                     ];
                     mapping = {
                         "<CR>" = "cmp.mapping.confirm({ select = true })";
@@ -116,6 +102,7 @@
                     };
                 };
             };
+            cmp-treesitter.enable = true;
 
             gitsigns = {
                 enable = true;
