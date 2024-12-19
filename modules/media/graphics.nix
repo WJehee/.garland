@@ -27,19 +27,21 @@
         ];
     };
     programs.hyprland.enable = true;
-    services.displayManager = {
-        defaultSession = "hyprland";
-        autoLogin = {
+    services = {
+        displayManager = {
+            defaultSession = "hyprland";
+            autoLogin = {
+                enable = true;
+                user = "wouter";
+            };
+        };
+        xserver = {
             enable = true;
-            user = "wouter";
+            xkb = {
+                layout = "us";
+                options = "eurosign:e,caps:escape";
+            };
+            videoDrivers = [ "amdgpu" ];
         };
-    };
-    services.xserver = {
-        enable = true;
-        xkb = {
-            layout = "us";
-            options = "eurosign:e,caps:escape";
-        };
-        videoDrivers = [ "amdgpu" ];
     };
 }

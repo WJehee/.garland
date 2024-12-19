@@ -16,5 +16,7 @@
     };
     fonts.packages = with pkgs; [
         nerd-fonts.hack
+        nerd-fonts.geist-mono
+        noto-fonts-emoji
     ];
 }

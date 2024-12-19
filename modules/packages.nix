@@ -1,6 +1,11 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
         # Desktop environment
+        hyprpaper
+        hyprpicker
+        hyprpolkitagent
+        hyprshot
+
         alacritty
         networkmanagerapplet
         blueman
@@ -14,18 +19,15 @@
         starship
         grimblast
         swappy
-        hyprpaper
-        hyprpicker
         libnotify
-        swayidle
-        swaylock-effects
         gnupg
         pavucontrol
         pcmanfm
         imv
+        brightnessctl
         inetutils
         handlr
-        lxqt.lxqt-openssh-askpass
+        playerctl
         
         # Command line utilities
         ripgrep

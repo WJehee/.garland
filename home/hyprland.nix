@@ -1,4 +1,5 @@
 { ... }: {
+
     wayland.windowManager.hyprland = {
         enable = true;
         xwayland.enable = true;
@@ -56,14 +57,13 @@
             # Keybinds
             "$mainMod" = "SUPER";
             bind = [
-                "$mainMod, Return, exec, alacritty"
-                "$mainMod SHIFT, Return, exec, wofi --show run --normal-window"
-                "$mainMod, Q, killactive,"
-                "$mainMod, M, exit,"
-                "$mainMod SHIFT, L, exec, swaylock --screenshots --clock --effect-blur 7x5 --grace 3"
-                # Launch programs
-                "$mainMod, F, exec, $BROWSER"
-                "$mainMod SHIFT, s, exec, screenshot"
+                "$mainMod, F, exec, $BROWSER"                                       # Open browser
+                "$mainMod, Return, exec, $TERMINAL"                                 # Open terminal
+                "$mainMod SHIFT, Return, exec, wofi --show run --normal-window"     # Run application launcher
+                "$mainMod, Q, killactive,"                                          # Kill focused window
+                "$mainMod SHIFT, L, exec, hyprlock"                                 # Lock screen
+                "$mainMod, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"     # Mute toggle
+                "$mainMod SHIFT, s, exec, hyprshot -m region -z --clipboard-only"   # Screenshot
 
                 # Move focus with mainMod + h j k l
                 "$mainMod, L, movefocus, r"
@@ -105,8 +105,8 @@
             exec-once = [
                "waybar"
                "hyprpaper"
-               "swayidle & disown"
                "nm-applet"
+                "systemctl --user start hyprpolkitagent"
             ];
             env = [
                 "XCURSOR_SIZE,24"

@@ -27,14 +27,19 @@
         systems = [ "x86_64-linux" ];
         forAllSystems = nixpkgs.lib.genAttrs systems;
 
-        mkSystem = system: hostname: extra_modules:
+        mkSystem = system: hostname:
             inputs.nixpkgs.lib.nixosSystem {
                 system = system;
                 specialArgs = { inherit inputs; };
-                modules = extra_modules ++ [
+                modules = [
                     { networking.hostName = hostname; }
                     ./nixos/${hostname}/configuration.nix
                     ./nixos/${hostname}/hardware-configuration.nix
+
+                    inputs.stylix.nixosModules.stylix
+                    inputs.nixvim.nixosModules.nixvim
+                    inputs.disko.nixosModules.disko
+                    inputs.loodsenboekje.nixosModules.loodsenboekje
 
                     home-manager.nixosModules.home-manager {
                         home-manager = if builtins.pathExists ./nixos/${hostname}/home.nix
@@ -47,18 +52,9 @@
             };
     in {
         nixosConfigurations = {
-            rusty-laptop = mkSystem "x86_64-linux" "rusty-laptop" [
-                inputs.stylix.nixosModules.stylix
-                inputs.nixvim.nixosModules.nixvim
-                inputs.disko.nixosModules.disko
-            ];
-            rusty-desktop = mkSystem "x86_64-linux" "rusty-desktop" [
-                inputs.stylix.nixosModules.stylix
-                inputs.nixvim.nixosModules.nixvim
-            ];
-            rusty-server = mkSystem "x86_64-linux" "rusty-server" [
-                inputs.loodsenboekje.nixosModules.loodsenboekje
-            ]; 
+            rusty-laptop = mkSystem "x86_64-linux" "rusty-laptop";
+            rusty-desktop = mkSystem "x86_64-linux" "rusty-desktop";
+            rusty-server = mkSystem "x86_64-linux" "rusty-server"; 
         };
         diskoConfigurations.disko = import ./nixos/disk-config.nix;
         templates = import ./templates;

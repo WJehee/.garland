@@ -5,11 +5,11 @@
         ./waybar.nix
         ./firefox.nix
         ./hyprland.nix
+        ./hyprlock.nix
+        ./hypridle.nix
         ./dunst.nix
         ./nushell.nix
         ./zsh.nix
-
-        # ./clipboard.nix
     ];
     home = {
         username = "wouter";

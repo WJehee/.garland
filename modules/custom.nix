@@ -1,9 +1,5 @@
 { pkgs, ... }:
 let
-    screenshot = pkgs.writeShellScriptBin "screenshot" ''
-        grimblast --freeze copysave area /tmp/screenshot.png && swappy -f /tmp/screenshot.png
-        rm /tmp/screenshot.png
-    '';
     ex = pkgs.writeShellScriptBin "ex" ''
         if [ -n $1 ] ; then
           case $1 in
@@ -37,7 +33,6 @@ let
     '';
 in {
     environment.systemPackages = [
-        screenshot
         ex
         flake-template
     ];
