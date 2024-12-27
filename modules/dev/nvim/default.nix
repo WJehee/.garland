@@ -77,7 +77,7 @@
                         installCargo = false;
                         installRustc = false;
                     };
-                    # tailwindcss.enable = true;
+                    tailwindcss.enable = true;
                     zls.enable = true;
                     texlab.enable = true;
                 };

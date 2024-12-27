@@ -90,12 +90,16 @@ window#waybar {
     color: @base06;
 }
 
-#battery {
+#custom-spotify {
     border-bottom: 3px solid @base0B;
 }
 
-#clock {
+#battery {
     border-bottom: 3px solid @base0A;
+}
+
+#clock {
+    border-bottom: 3px solid @base0C;
 }
 
 #wireplumber {
