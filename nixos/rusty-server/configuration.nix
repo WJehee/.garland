@@ -2,7 +2,7 @@
     imports = [
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
-        ../../modules/server/ntfy.nix
+        # ../../modules/server/ntfy.nix
     ];
     boot.loader.grub = {
         enable = true;

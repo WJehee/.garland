@@ -1,7 +1,7 @@
 { ... }: {
     imports = [
 	    ../../modules/default.nix
-        ../../modules/hacking.nix
+        # ../../modules/hacking.nix
     ];
     boot = {
         initrd.luks.devices.nixos = {
