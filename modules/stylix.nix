@@ -13,10 +13,19 @@
             };
         };
         opacity.terminal = 0.9;
+        fonts = {
+            sansSerif = {
+                package = pkgs.geist-font;
+                name = "Geist";
+            };
+            monospace = {
+                package = pkgs.nerd-fonts.geist-mono;
+                name = "Geist Mono";
+            };
+            emoji = {
+                package = pkgs.noto-fonts-emoji;
+                name = "Noto Fonts Emoji";
+            };
+        };
     };
-    fonts.packages = with pkgs; [
-        nerd-fonts.hack
-        nerd-fonts.geist-mono
-        noto-fonts-emoji
-    ];
 }
