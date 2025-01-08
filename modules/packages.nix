@@ -44,6 +44,7 @@
         fzf
         inotify-tools
         systemctl-tui
+        nomino
 
         # Applications
         firefox

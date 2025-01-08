@@ -10,13 +10,19 @@
         caido
         wireshark
         # masscan
+
+        # DNS
         # dig
         # dnschef
+        # massdns
 
         # Discovery
-        wordlists
         feroxbuster
         ffuf
+
+        # Wordlists
+        wordlists
+        # cewl
 
         # Passwords
         john
@@ -34,13 +40,12 @@
         # trufflehog
 
         # httpx
+        # sqlmap
         # gowitness
         # mitmproxy
-        # cewl
         # cantoolz
         # esptool
         # aircrack-ng
-        # massdns (sanicdns is an alternative, not yet packaged for nix)
     ];
     environment.sessionVariables.WIRESHARK_PLUGIN_DIR = "$HOME/.local/lib/wireshark/plugins/";
     # Make hosts file writeable (by root)
