@@ -4,19 +4,21 @@
         # minipro.enable = true;
     };
     environment.systemPackages = with pkgs; [
-        # Network
         nmap
+        masscan
         tcpdump
         caido
         wireshark
-        # masscan
+        # responder
+        # netexec
+        # sqlmap
 
         # DNS
         # dig
         # dnschef
         # massdns
 
-        # Discovery
+        # Discovery / fuzzing
         feroxbuster
         ffuf
 
@@ -36,11 +38,15 @@
         # Firmware
         binwalk
 
+        # metasploit
+        # package for nix? 
+        # https://github.com/AzeemIdrisi/PhoneSploit-Pro
+        # https://github.com/PentestPad/subzy
+
         # Finding secrets
         # trufflehog
 
         # httpx
-        # sqlmap
         # gowitness
         # mitmproxy
         # cantoolz

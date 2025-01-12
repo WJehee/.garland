@@ -50,7 +50,6 @@
         firefox
         chromium
         transmission_4-gtk
-        spotify
         signal-desktop
         obsidian
         keepassxc

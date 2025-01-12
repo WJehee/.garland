@@ -1,17 +1,17 @@
-{ pkgs, ... }: {
-    services = {
-        mopidy = {
-            enable = true;
-            extensionPackages = with pkgs; [
-                mopidy-mpd
-                mopidy-spotify
-            ];
-            configuration = ''
-                [core]
-                cache_dir = $XDG_CACHE_DIR/mopidy
-                config_dir = $XDG_CONFIG_DIR/mopidy
-                data_dir = $XDG_DATA_DIR/mopidy
-            '';
-        };
-    };
+{ pkgs, inputs, ... }: {
+    environment.systemPackages = with pkgs; [
+        spotify
+    ];
+    # programs.spicetify = let
+    #     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+    # in {
+    #     enable = true;
+    #     enabledExtensions = with spicePkgs.extensions; [
+    #         adblock
+    #         shuffle
+    #         betterGenres
+    #     ];
+    #     theme = spicePkgs.themes.nord;
+    #     colorScheme = "nord";
+    # };
 }

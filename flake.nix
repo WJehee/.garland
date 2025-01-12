@@ -19,6 +19,10 @@
             url = "github:nix-community/nixvim";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        spicetify-nix = {
+            url = "github:Gerg-L/spicetify-nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
@@ -39,6 +43,7 @@
                     inputs.stylix.nixosModules.stylix
                     inputs.nixvim.nixosModules.nixvim
                     inputs.disko.nixosModules.disko
+                    inputs.spicetify-nix.nixosModules.default
                     inputs.loodsenboekje.nixosModules.loodsenboekje
 
                     home-manager.nixosModules.home-manager {

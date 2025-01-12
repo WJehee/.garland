@@ -10,13 +10,11 @@
     };
     environment.systemPackages = with pkgs; [
         git
+        # jj
         docker
         docker-compose
         just
         nurl
-
-        texlab
-        nixd
 
         nushellPlugins.query
     ];

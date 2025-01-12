@@ -11,6 +11,7 @@
                 main = true;
                 signColumn = true;
             };
+            spicetify.enable = false;
         };
         opacity.terminal = 0.9;
         fonts = {
