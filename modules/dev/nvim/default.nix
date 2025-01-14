@@ -64,13 +64,16 @@
                 };
                 servers = {
                     clangd.enable = true;
+                    dockerls.enable = true;
                     elixirls.enable = true;
                     emmet_ls.enable = true;
+                    eslint.enable = true;
                     gleam.enable = true;
                     gopls.enable = true;
                     html.enable = true;
                     nixd.enable = true;
                     nushell.enable = true;
+                    ols.enable = true;
                     pyright.enable = true;
                     rust_analyzer = {
                         enable = true;

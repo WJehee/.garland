@@ -6,7 +6,6 @@
         hyprpolkitagent
         hyprshot
 
-        alacritty
         networkmanagerapplet
         blueman
         flavours
@@ -16,7 +15,6 @@
         libsForQt5.qt5.qtwayland
         libsForQt5.qtstyleplugins
         wl-clipboard
-        starship
         grimblast
         swappy
         libnotify

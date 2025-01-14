@@ -50,4 +50,12 @@
             - gleam new .
         '';
     };
+    odin = {
+        path = ./odin;
+        description = "A odin project";
+        welcomeText = ''
+        ## Getting started
+
+        '';
+    };
 }
