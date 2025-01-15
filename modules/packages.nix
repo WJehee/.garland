@@ -43,6 +43,7 @@
         inotify-tools
         systemctl-tui
         nomino
+        zenith
 
         # Applications
         firefox
