@@ -1,7 +1,7 @@
 { pkgs, ... }: {
     imports = [
         ./nvim
-        # ./starship.nix
+        ./starship.nix
         ./zsh.nix
     ];
     virtualisation = {
@@ -15,7 +15,6 @@
         docker-compose
         just
         nurl
-        ghostty
 
         nushellPlugins.query
     ];

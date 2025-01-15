@@ -6,8 +6,7 @@
             XDG_DATA_HOME = "$HOME/.local/share";
             XDG_STATE_HOME = "$HOME/.local/state";
 
-            # TERMINAL = "alacritty";
-            TERMINAL = "ghostty";
+            TERMINAL = "alacritty";
             TERM = "xterm-256color";
             BROWSER = "firefox";
 
