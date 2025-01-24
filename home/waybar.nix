@@ -3,13 +3,14 @@
         enable = true;
         settings = [{
             layer = "top";
+            position = "top";
             modules-left = [ "hyprland/workspaces" ];
+            modules-center = [ "tray" ];
             modules-right = [
-                "custom/spotify"
                 "wireplumber"
+                "custom/spotify"
                 "battery"
                 "clock"
-                "tray"
             ];
             battery = {
                 format = "{capacity}% {icon}";
@@ -49,6 +50,7 @@
         style = ''
 window#waybar {
     background-color: @base00;
+
 }
 
 #workspaces button,

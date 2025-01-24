@@ -85,6 +85,7 @@
                     texlab.enable = true;
                 };
             };
+            tailwind-tools.enable = true;
             lspsaga.enable = true;
             luasnip.enable = true;
 

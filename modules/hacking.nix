@@ -13,6 +13,7 @@
         # netexec
         # sqlmap
         # dsniff
+        # bettercap
 
         # DNS
         # dig

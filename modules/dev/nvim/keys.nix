@@ -44,6 +44,12 @@
                 key = "<leader>fd";
                 action = "<cmd>Lspsaga finder<CR>";
             }
+            {
+                # Sort tailwind classes in quotes
+                mode = "n";
+                key = "<leader>tws";
+                action = "vi\":TailwindSortSelectionSync<CR>";
+            }
         ];
     };
 }
