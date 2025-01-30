@@ -1,10 +1,11 @@
-{ pkgs, lib, ... }: {
+{ pkgs, ... }: {
     imports = [
         ./env.nix
         ./packages.nix
         ./custom.nix
         ./stylix.nix
         ./user.nix
+        ./networking.nix
 
         ./dev
         ./media
@@ -42,13 +43,9 @@
             grub.device = "nodev";
             grub.efiSupport = true;
             efi.canTouchEfiVariables = true;
-            # grub.useOSProber = true;
+            grub.useOSProber = true;
         };
     };
-    networking.networkmanager.enable = true;
-    systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
-    systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
-
     programs.kdeconnect.enable = true;
     services.pcscd.enable = true;
     programs.gnupg.agent = {

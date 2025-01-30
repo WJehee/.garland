@@ -1,8 +1,8 @@
 { ... }: {
     imports = [
 	    ../../modules/default.nix
-        # ../../modules/media/gaming.nix
         ../../modules/hacking.nix
+        # ../../modules/media/gaming.nix
     ];
     boot = {
         initrd.luks.devices.nixos = {
