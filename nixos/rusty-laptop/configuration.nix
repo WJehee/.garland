@@ -1,7 +1,7 @@
 { ... }: {
     imports = [
-        ../../modules/default.nix
-        ../../modules/hacking.nix
+        ../../modules
+        ../../modules/hacking
         ../../modules/dev/android.nix
         ../disk-config.nix
     ];

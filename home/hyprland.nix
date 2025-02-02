@@ -96,6 +96,11 @@
                 "$mainMod SHIFT, 0, movetoworkspace, 10"
 
                 "$mainMod, v, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+
+                # Hacking stuff
+                ''
+                    $mainMod SHIFT, W, exec, find $(wordlists_path) | wofi -i --dmenu -M fuzzy | tr --delete "\n" | wl-copy
+                ''
             ];
             bindm = [
                 # Move/resize windows with mainMod + LMB/RMB and dragging

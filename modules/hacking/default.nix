@@ -1,11 +1,14 @@
 { pkgs, ... }: {
+    imports = [
+        ./clipboard.nix
+    ];
     programs = {
         wireshark.enable = true;
         # minipro.enable = true;
     };
     environment.systemPackages = with pkgs; [
         nmap
-        masscan
+        # masscan
         tcpdump
         caido
         wireshark
@@ -23,6 +26,7 @@
         # Discovery / fuzzing
         feroxbuster
         ffuf
+        wfuzz
 
         # Wordlists
         wordlists
@@ -30,8 +34,8 @@
 
         # Passwords
         john
-        hashcat
-        hashcat-utils
+        # hashcat
+        # hashcat-utils
     
         # Reverse engineering
         # cutter
@@ -40,7 +44,10 @@
         # Firmware
         binwalk
 
+        rustcat
         # metasploit
+        # exploitdb
+
         # package for nix? 
         # https://github.com/AzeemIdrisi/PhoneSploit-Pro
         # https://github.com/PentestPad/subzy

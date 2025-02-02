@@ -1,7 +1,7 @@
 { ... }: {
     imports = [
-	    ../../modules/default.nix
-        ../../modules/hacking.nix
+	    ../../modules
+        ../../modules/hacking
         # ../../modules/media/gaming.nix
     ];
     boot = {

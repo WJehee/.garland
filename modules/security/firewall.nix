@@ -2,10 +2,10 @@
     networking.firewall = {
         enable = true;
         allowedTCPPortRanges = [
-            { from = 4000; to = 9000; }
+            { from = 1000; to = 9999; }
         ];
         allowedUDPPortRanges = [
-            { from = 4000; to = 9000; }
+            { from = 1000; to = 9999; }
         ];
     };
 }
