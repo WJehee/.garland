@@ -57,6 +57,5 @@
         vlc
         discord
         openvpn
-        teams-for-linux
     ];
 }

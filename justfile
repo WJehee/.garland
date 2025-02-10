@@ -14,5 +14,9 @@ update:
 
 # If home manager does activation does not work
 fix:
-    nix-env -iE 'p: {}'
+    doas -u wouter nix-env -iE 'p: {}'
+
+# view home manager logs
+hm-logs:
+    journalctl -xe --unit home-manager-wouter
 

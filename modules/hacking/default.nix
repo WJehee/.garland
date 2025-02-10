@@ -8,10 +8,12 @@
     };
     environment.systemPackages = with pkgs; [
         nmap
-        # masscan
         tcpdump
         caido
         wireshark
+        rustcat
+        git
+        # masscan
         # responder
         # netexec
         # sqlmap
@@ -26,14 +28,13 @@
         # Discovery / fuzzing
         feroxbuster
         ffuf
-        wfuzz
 
         # Wordlists
         wordlists
         # cewl
 
         # Passwords
-        john
+        # john
         # hashcat
         # hashcat-utils
     
@@ -42,9 +43,8 @@
         # frida-tools
 
         # Firmware
-        binwalk
+        # binwalk
 
-        rustcat
         # metasploit
         # exploitdb
 
@@ -52,15 +52,14 @@
         # https://github.com/AzeemIdrisi/PhoneSploit-Pro
         # https://github.com/PentestPad/subzy
 
-        # Finding secrets
         # trufflehog
-
         # httpx
         # gowitness
         # mitmproxy
         # cantoolz
         # esptool
         # aircrack-ng
+        # snmpcheck
     ];
     environment.sessionVariables.WIRESHARK_PLUGIN_DIR = "$HOME/.local/lib/wireshark/plugins/";
     # Make hosts file writeable (by root)

@@ -18,14 +18,8 @@
             "loodsenboekje.dorusrijkers.club".extraConfig = ''
                 reverse_proxy http://localhost:1744
             '';
-            "royale.dorusrijkers.club".extraConfig = ''
-                reverse_proxy http://rusty-laptop.tailff8332.ts.net:4000
-            '';
-            "berentocht.dorusrijkers.club".extraConfig = ''
-                reverse_proxy http://rusty-laptop.tailff8332.ts.net:4000
-            '';
-            "feest.dorusrijkers.club".extraConfig = ''
-                reverse_proxy http://rusty-laptop.tailff8332.ts.net:8080
+            "blot.dorusrijkers.club".extraConfig = ''
+                reverse_proxy http://rusty-desktop.tailff8332.ts.net:4000
             '';
         };
     };

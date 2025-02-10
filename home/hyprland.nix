@@ -54,6 +54,7 @@
                 disable_splash_rendering = true;
                 mouse_move_focuses_monitor = false;
             };
+            ecosystem.no_update_news = true;
             # Keybinds
             "$mainMod" = "SUPER";
             bind = [
