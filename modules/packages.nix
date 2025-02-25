@@ -57,5 +57,6 @@
         vlc
         discord
         openvpn
+        # remmina
     ];
 }

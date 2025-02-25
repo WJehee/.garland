@@ -19,6 +19,7 @@
         # sqlmap
         # dsniff
         # bettercap
+        # katana
 
         # DNS
         # dig
