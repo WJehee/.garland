@@ -6,6 +6,7 @@
         ./stylix.nix
         ./user.nix
         ./networking.nix
+        ./chromium.nix
 
         ./dev
         ./media

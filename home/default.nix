@@ -3,7 +3,7 @@
         ./alacritty.nix
         ./git.nix
         ./waybar.nix
-        ./firefox.nix
+        # ./firefox.nix
         ./hyprland.nix
         ./hyprlock.nix
         ./hypridle.nix

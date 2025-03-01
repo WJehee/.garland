@@ -46,7 +46,6 @@
         zenith
 
         # Applications
-        firefox
         chromium
         transmission_4-gtk
         signal-desktop
