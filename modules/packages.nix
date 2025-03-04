@@ -44,6 +44,7 @@
         systemctl-tui
         nomino
         zenith
+        dig
 
         # Applications
         chromium

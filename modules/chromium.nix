@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ ... }: {
     programs.chromium = {
         enable = true;        
         extensions = [
@@ -15,6 +15,10 @@
             "SpellcheckLanguage" = [
                 "nl"
                 "en-US"
+            ];
+            "DnsOverHttpsMode" = "secure";
+            "DnsOverHttpsTemplates" = [
+                "https://dns.quad9.net/dns-query{?dns}"
             ];
             # "ManagedBookmarks" = [
             #     { "toplevel_name" = "Bookmarks" ;}
