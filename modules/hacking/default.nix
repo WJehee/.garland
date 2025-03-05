@@ -36,8 +36,8 @@
 
         # Passwords
         # john
-        # hashcat
-        # hashcat-utils
+        hashcat
+        hashcat-utils
     
         # Reverse engineering
         # cutter

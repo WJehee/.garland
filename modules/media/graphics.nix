@@ -6,10 +6,12 @@
         graphics = {
             enable = true;
             enable32Bit = true;
-            # extraPackages = with pkgs; [
-            #     amdvlk
-            # ];
+            extraPackages = with pkgs; [
+                rocmPackages.clr.icd
+                amdvlk
+            ];
         };
+        amdgpu.opencl.enable = true;
     };
     boot = {
         initrd.kernelModules = [ "amdgpu" ];
