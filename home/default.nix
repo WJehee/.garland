@@ -4,6 +4,7 @@
         ./git.nix
         ./waybar.nix
         # ./firefox.nix
+        # ./librewolf.nix
         ./hyprland.nix
         ./hyprlock.nix
         ./hypridle.nix
