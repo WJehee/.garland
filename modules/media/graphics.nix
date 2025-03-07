@@ -9,6 +9,7 @@
             extraPackages = with pkgs; [
                 rocmPackages.clr.icd
                 amdvlk
+                intel-ocl
             ];
         };
         amdgpu.opencl.enable = true;

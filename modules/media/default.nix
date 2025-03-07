@@ -5,7 +5,5 @@
         ./graphics.nix
         ./syncthing.nix
         ./music.nix
-
-        # ./gaming.nix
     ];
 }

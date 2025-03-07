@@ -2,7 +2,7 @@
     imports = [
 	    ../../modules
         ../../modules/hacking
-        # ../../modules/media/gaming.nix
+        ../../modules/media/gaming.nix
     ];
     boot = {
         initrd.luks.devices.nixos = {
