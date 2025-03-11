@@ -35,7 +35,7 @@
         # cewl
 
         # Passwords
-        # john
+        john
         hashcat
         hashcat-utils
     
@@ -46,7 +46,7 @@
         # Firmware
         # binwalk
 
-        # metasploit
+        metasploit
         # exploitdb
 
         # package for nix? 

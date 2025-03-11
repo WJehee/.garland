@@ -47,7 +47,6 @@
         dig
 
         # Applications
-        chromium
         transmission_4-gtk
         signal-desktop
         obsidian
