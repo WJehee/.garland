@@ -45,6 +45,7 @@
         nomino
         zenith
         dig
+        jq
 
         # Applications
         transmission_4-gtk
