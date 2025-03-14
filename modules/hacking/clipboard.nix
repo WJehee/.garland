@@ -3,7 +3,8 @@
     commands = ''
         nmap -sC -sV
         rcat listen -e "export TERM=xterm" -bi 8123
-        ssh -L REMOTE_PORT:localhost:LOCAL_PORT user@REMOTE_IP}
+        ssh -L REMOTE_PORT:localhost:LOCAL_PORT user@REMOTE_IP
+        curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh
     '';
     hacking_commands = pkgs.writeShellScriptBin "hacking_commands" ''
         commands=$(echo '${builtins.toString commands}')

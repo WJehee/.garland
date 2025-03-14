@@ -18,6 +18,7 @@
         permittedInsecurePackages = [];
         android_sdk.accept_license = true;
     };
+    programs.nix-ld.enable = true;
     nix = {
         settings = {
             use-xdg-base-directories = true;
