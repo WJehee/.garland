@@ -2,6 +2,7 @@
     imports = [
 	    ../../modules
         ../../modules/hacking
+        ../../modules/osint.nix
         ../../modules/media/gaming.nix
     ];
     boot = {

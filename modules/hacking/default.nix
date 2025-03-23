@@ -40,7 +40,7 @@
         hashcat-utils
     
         # Reverse engineering
-        # cutter
+        cutter
         # frida-tools
 
         # Firmware
