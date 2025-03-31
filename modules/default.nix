@@ -39,6 +39,7 @@
     i18n.defaultLocale = "en_US.UTF-8";
 
     boot = {
+        kernelPackages = pkgs.linuxPackages_latest;
         tmp.useTmpfs = true;
         loader = {
             grub.enable = true;
