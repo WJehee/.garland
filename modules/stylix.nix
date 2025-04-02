@@ -12,6 +12,17 @@
                 signColumn = true;
             };
         };
+        # iconTheme = {
+        #     enable = true;
+        #     package = pkgs.papirus-nord;
+        #     dark = "polarnight4";
+        #     light = "polarnight2";
+        # };
+        cursor = {
+            name = "Bibata-Modern-Ice";
+            package = pkgs.bibata-cursors;
+            size = 24;
+        };
         opacity.terminal = 0.9;
         fonts = {
             sansSerif = {
