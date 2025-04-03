@@ -1,6 +1,5 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
-        # Desktop environment
         hyprpaper
         hyprpicker
         hyprpolkitagent
@@ -26,8 +25,8 @@
         inetutils
         handlr
         playerctl
+        asciidoc
         
-        # Command line utilities
         ripgrep
         tree
         psmisc
@@ -47,7 +46,6 @@
         dig
         jq
 
-        # Applications
         transmission_4-gtk
         signal-desktop
         obsidian

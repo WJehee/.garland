@@ -5,7 +5,7 @@
     stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     wayland.windowManager.hyprland.settings = {
         monitor = [
-            "DP-3,preferred,auto,1"
+            "DP-3,preferred,0x0,1"
             "DP-2,preferred,auto-right,1,transform,1"
             "HDMI-A-1,preferred,auto-right,1"
         ];
