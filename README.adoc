@@ -1,11 +1,12 @@
 = NixOS configuration
 
 Thanks to:
-- https://github.com/Misterio77[Misterio77]
-- https://github.com/notusknot[Notusknot]
-- https://github.com/akirak[Akirak]
-- https://github.com/the-nix-way[Luc Perkins]
-- https://github.com/GaetanLepage[Gaétan Lepage]
+
+* https://github.com/Misterio77[Misterio77]
+* https://github.com/notusknot[Notusknot]
+* https://github.com/akirak[Akirak]
+* https://github.com/the-nix-way[Luc Perkins]
+* https://github.com/GaetanLepage[Gaétan Lepage]
 
 == Installing
 
@@ -20,12 +21,12 @@ Using my https://github.com/WJehee/nixos-installer[custom installer image]
 After the install has finished, do the following:  
 
 [,sh]
----
+----
 nixos-enter --root /mnt
 passwd USERNAME
 exit
 reboot
----
+----
 
 == Installing custom packages
 
