@@ -1,6 +1,6 @@
 { pkgs, ... }: {
     programs.firefox = {
-        enable = true;
+        # enable = true;
         profiles.wouter = {
             settings = {
                 "dom.security.https_only_mode" = true;
@@ -10,7 +10,6 @@
             #     ublock-origin
             #     keepassxc-browser
             #     darkreader
-            #     decentraleyes
             #     foxyproxy-standard
             # ];
             search = {

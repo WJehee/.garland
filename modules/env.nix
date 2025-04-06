@@ -8,7 +8,7 @@
 
             TERMINAL = "alacritty";
             TERM = "xterm-256color";
-            BROWSER = "chromium";
+            BROWSER = "librewolf";
 
             # Clean up home
             CARGO_HOME = "$XDG_CONFIG_HOME/cargo";
