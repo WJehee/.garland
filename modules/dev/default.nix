@@ -11,7 +11,7 @@
     };
     environment.systemPackages = with pkgs; [
         git
-        # jj
+        jujutsu
         docker
         docker-compose
         just
