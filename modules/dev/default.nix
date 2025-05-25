@@ -16,6 +16,7 @@
         docker-compose
         just
         nurl
+        tokei
 
         nushellPlugins.query
     ];

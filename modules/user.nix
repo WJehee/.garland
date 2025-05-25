@@ -7,6 +7,9 @@
             "libvirtd"
             "networkmanager"
             "dialout"
+            "scanner"
+            "lp"
+            "lpadmin"
         ];
         shell = pkgs.zsh;
     };

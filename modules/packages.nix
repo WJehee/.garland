@@ -20,6 +20,7 @@
         gnupg
         pavucontrol
         pcmanfm
+        yazi
         imv
         brightnessctl
         inetutils
@@ -45,6 +46,10 @@
         zenith
         dig
         jq
+        fd
+        bat
+        eza
+        zellij
 
         transmission_4-gtk
         signal-desktop
