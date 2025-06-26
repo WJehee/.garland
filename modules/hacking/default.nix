@@ -13,6 +13,7 @@
         wireshark
         rustcat
         git
+        sqlmap
         # masscan
         # responder
         # netexec
