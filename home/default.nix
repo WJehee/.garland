@@ -5,7 +5,6 @@
         ./waybar.nix
         ./librewolf.nix
         ./firefox.nix
-        # ./latex.nix
         ./hyprland.nix
         ./hyprlock.nix
         ./hypridle.nix
