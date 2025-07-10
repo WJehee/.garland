@@ -4,7 +4,6 @@
     ];
     programs = {
         wireshark.enable = true;
-        # minipro.enable = true;
     };
     environment.systemPackages = with pkgs; [
         nmap
@@ -40,27 +39,13 @@
         hashcat
         hashcat-utils
     
-        # Reverse engineering
-        cutter
-        # frida-tools
-
-        # Firmware
-        # binwalk
-
         metasploit
         # exploitdb
-
-        # package for nix? 
-        # https://github.com/AzeemIdrisi/PhoneSploit-Pro
-        # https://github.com/PentestPad/subzy
 
         # trufflehog
         # httpx
         # gowitness
         # mitmproxy
-        # cantoolz
-        # esptool
-        # aircrack-ng
         # snmpcheck
     ];
     environment.sessionVariables.WIRESHARK_PLUGIN_DIR = "$HOME/.local/lib/wireshark/plugins/";

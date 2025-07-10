@@ -26,7 +26,8 @@
         inetutils
         handlr
         playerctl
-        asciidoc
+        asciidoc-full-with-plugins
+        asciidoctor-with-extensions
         
         ripgrep
         tree
@@ -50,6 +51,7 @@
         bat
         eza
         zellij
+        cool-retro-term
 
         transmission_4-gtk
         signal-desktop
