@@ -26,10 +26,11 @@
     };
     xdg.configFile."hypr/hyprpaper.conf".text = ''
         splash = false
-        preload = ~/Pictures/wallpaper.jpg
-        preload = ~/Pictures/wallpaper2.jpg
-        wallpaper = DP-3, ~/Pictures/wallpaper.jpg
-        wallpaper = DP-2, ~/Pictures/wallpaper2.jpg
-        wallpaper = HDMI-A-1, ~/Pictures/wallpaper.jpg
+        preload = ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
+        preload = ~/.dotfiles-nix/images/wallpapers/wisteria-portrait.jpg
+
+        wallpaper = DP-3, ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
+        wallpaper = DP-2, ~/.dotfiles-nix/images/wallpapers/wisteria-portrait.jpg
+        wallpaper = HDMI-A-1, ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
     '';
 }

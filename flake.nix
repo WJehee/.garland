@@ -24,7 +24,7 @@
     };
 
     outputs = { nixpkgs, home-manager, ... }@inputs: let
-        systems = [ "x86_64-linux" ];
+        systems = [ "x86_64-linux" "aarch64-linux" ];
         forAllSystems = nixpkgs.lib.genAttrs systems;
 
         mkSystem = system: hostname:
@@ -53,9 +53,9 @@
             };
     in {
         nixosConfigurations = {
-            rusty-laptop = mkSystem "x86_64-linux" "rusty-laptop";
-            rusty-desktop = mkSystem "x86_64-linux" "rusty-desktop";
-            rusty-server = mkSystem "x86_64-linux" "rusty-server"; 
+            foxglove = mkSystem "x86_64-linux" "foxglove";
+            hemlock = mkSystem "x86_64-linux" "hemlock";
+            wisteria = mkSystem "x86_64-linux" "wisteria"; 
         };
         diskoConfigurations.disko = import ./nixos/disk-config.nix;
         templates = import ./templates;
@@ -63,7 +63,6 @@
             module = import ../modules/dev/nvim.nix;
             extraSpecialArgs.inputs = inputs;
         };
-        packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     };
 }
 

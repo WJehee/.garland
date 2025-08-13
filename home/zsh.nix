@@ -9,7 +9,7 @@
 
             nd = "nix develop -c zsh";
         };
-        dotDir = ".config/zsh";
+        dotDir = "${config.xdg.configHome}/zsh";
         history.path = "${config.xdg.dataHome}/zsh/history";
     };
 }

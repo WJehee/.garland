@@ -1,12 +1,6 @@
 = NixOS configuration
 
-Thanks to:
-
-* https://github.com/Misterio77[Misterio77]
-* https://github.com/notusknot[Notusknot]
-* https://github.com/akirak[Akirak]
-* https://github.com/the-nix-way[Luc Perkins]
-* https://github.com/GaetanLepage[Gaétan Lepage]
+This repository contains all my nixos configurations.
 
 == Installing
 
@@ -28,19 +22,29 @@ exit
 reboot
 ----
 
-== Installing custom packages
-
-You can build any packages in `pkgs/`, by running `nix build .#PACKAGE_NAME`  
-You can install it into your profile by running `nix profile .#PACKAGE_NAME`
-
 == Server
 
 These files also include the configuration for my personal web server,
-which can be found under `nixos/rusty-server/`.
+which can be found under `nixos/wisteria/`.
 
 = Notes
 
 Old version of rebuild command, this should work but there is some doas stuff: https://github.com/WJehee/.dotfiles-nix/issues/31
 
 `doas nixos-rebuild switch --flake ".#{{hostname}}" &>rebuild.log || grep -C 2 --color error rebuild.log`
+
+== Thanks
+
+* https://github.com/Misterio77[Misterio77]
+* https://github.com/notusknot[Notusknot]
+* https://github.com/akirak[Akirak]
+* https://github.com/the-nix-way[Luc Perkins]
+* https://github.com/GaetanLepage[Gaétan Lepage]
+
+=== Wallpaper credits
+
+* https://unsplash.com/photos/purple-wisteria-flowering-tree-_9LPbygnDJM[Wisteria landscape], by https://unsplash.com/@anniespratt?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Annie Spratt]
+* https://unsplash.com/photos/purple-flowers-in-green-leaves-Q8NdtiJ_S3A[Wisteria portrait], by https://unsplash.com/@larisabirta?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Larisa Birta]
+* https://unsplash.com/photos/shallow-focus-photography-of-pink-flowers-in-the-meadows-P_b-y_mKPTk[Foxglove landscape], by https://unsplash.com/@s1awek?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Slawek K]
+* https://unsplash.com/photos/a-tall-purple-flower-with-lots-of-petals-4_ik5YPoJwI[Foxglove portrait], by https://unsplash.com/@siarray?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Sia Ray]
 

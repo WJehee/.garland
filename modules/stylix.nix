@@ -6,7 +6,7 @@
         polarity = "dark";
         image = ./wallpaper.jpg;
         targets = {
-            grub.useImage = true;
+            grub.useWallpaper = true;
             nixvim.transparentBackground = {
                 main = true;
                 signColumn = true;
