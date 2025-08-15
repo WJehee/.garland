@@ -1,6 +1,8 @@
 { pkgs, ... }: {
     imports = [
         ./clipboard.nix
+        ./sdr.nix
+        # ./hardware.nix
     ];
     programs = {
         wireshark.enable = true;

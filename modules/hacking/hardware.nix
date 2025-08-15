@@ -3,10 +3,6 @@
         minipro.enable = true;
     };
     environment.systemPackages = with pkgs; [
-        # SDR
-        sdrpp
-        urh
-    
         # Reverse engineering
         binwalk
         cutter
