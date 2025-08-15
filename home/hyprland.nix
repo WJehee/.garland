@@ -5,8 +5,8 @@
         xwayland.enable = true;
         settings = {
             general = {
-                gaps_in = 2;
-                gaps_out = 10;
+                gaps_in = 0;
+                gaps_out = 0;
                 border_size = 2;
                 layout = "master";
             };
@@ -110,9 +110,10 @@
                 "$mainMod, mouse:273, resizewindow"
             ];
             exec-once = [
-               "waybar"
-               "hyprpaper"
-               "nm-applet"
+                "waybar"
+                "hyprpaper"
+                "hypridle"
+                "nm-applet"
                 "systemctl --user start hyprpolkitagent"
             ];
             env = [
