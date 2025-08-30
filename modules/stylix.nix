@@ -1,10 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, hostname, ... }:
+{
     stylix = {
         enable = true;
         autoEnable = true;
 
         polarity = "dark";
-        image = ./wallpaper.jpg;
+        image = ../wallpapers/${hostname}-landscape.jpg;
         targets = {
             grub.useWallpaper = true;
             nixvim.transparentBackground = {
@@ -12,12 +13,6 @@
                 signColumn = true;
             };
         };
-        # iconTheme = {
-        #     enable = true;
-        #     package = pkgs.papirus-nord;
-        #     dark = "polarnight4";
-        #     light = "polarnight2";
-        # };
         cursor = {
             name = "Bibata-Modern-Ice";
             package = pkgs.bibata-cursors;

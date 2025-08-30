@@ -26,7 +26,7 @@ let
     '';
     flake-template = pkgs.writeShellScriptBin "flake-template" ''
         if [ -n $1 ] ; then
-            nix flake init -t "github:wjehee/.dotfiles-nix#$1"
+            nix flake init -t "github:wjehee/.garland#$1"
         else
             echo "must provide an argument"
         fi

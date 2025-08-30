@@ -3,11 +3,11 @@
         ./env.nix
         ./packages.nix
         ./custom.nix
-        ./stylix.nix
         ./user.nix
         ./networking.nix
         ./chromium.nix
         ./bluetooth.nix
+        ./stylix.nix
 
         ./dev
         ./media

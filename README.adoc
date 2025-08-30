@@ -1,6 +1,7 @@
-= NixOS configuration
+= Garland
 
-This repository contains all my nixos configurations.
+This repository contains all my NixOS configurations.
+All my configurations are named after poisonous plants, not because I am toxic, but because I think they are cool.
 
 == Installing
 
@@ -24,14 +25,8 @@ reboot
 
 == Server
 
-These files also include the configuration for my personal web server,
-which can be found under `nixos/wisteria/`.
-
-= Notes
-
-Old version of rebuild command, this should work but there is some doas stuff: https://github.com/WJehee/.dotfiles-nix/issues/31
-
-`doas nixos-rebuild switch --flake ".#{{hostname}}" &>rebuild.log || grep -C 2 --color error rebuild.log`
+These files also include the configuration for my web server hosted on a VPS,
+which can be found under `nixos/hemlock/`.
 
 == Thanks
 

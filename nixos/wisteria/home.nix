@@ -2,7 +2,6 @@
     imports = [
         ../../home/default.nix
     ];
-    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     wayland.windowManager.hyprland.settings = {
         monitor = [
             "DP-3,preferred,0x0,1"
@@ -26,11 +25,11 @@
     };
     xdg.configFile."hypr/hyprpaper.conf".text = ''
         splash = false
-        preload = ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
-        preload = ~/.dotfiles-nix/images/wallpapers/wisteria-portrait.jpg
+        preload = ~/.garland/wallpapers/wisteria-landscape.jpg
+        preload = ~/.garland/wallpapers/wisteria-portrait.jpg
 
-        wallpaper = DP-3, ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
-        wallpaper = DP-2, ~/.dotfiles-nix/images/wallpapers/wisteria-portrait.jpg
-        wallpaper = HDMI-A-1, ~/.dotfiles-nix/images/wallpapers/wisteria-landscape.jpg
+        wallpaper = DP-3, ~/.garland/wallpapers/wisteria-landscape.jpg
+        wallpaper = DP-2, ~/.garland/wallpapers/wisteria-portrait.jpg
+        wallpaper = HDMI-A-1, ~/.garland/wallpapers/wisteria-landscape.jpg
     '';
 }

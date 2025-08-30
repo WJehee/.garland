@@ -2,7 +2,6 @@
     imports = [
         ../../home/default.nix
     ];
-    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     wayland.windowManager.hyprland.settings = {
         monitor = [
             "eDP-1, preferred, auto, 1.2"
@@ -23,7 +22,7 @@
     };
     xdg.configFile."hypr/hyprpaper.conf".text = ''
         splash = false
-        preload = ~/.dotfiles-nix/images/wallpapers/foxglove-landscape.jpg
-        wallpaper = eDP-1, ~/.dotfiles-nix/images/wallpapers/foxglove-landscape.jpg
+        preload = ~/.garland/wallpapers/foxglove-landscape.jpg
+        wallpaper = eDP-1, ~/.garland/wallpapers/foxglove-landscape.jpg
     '';
 }

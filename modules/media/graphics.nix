@@ -29,7 +29,9 @@
             pkgs.xdg-desktop-portal-hyprland
         ];
     };
-    programs.hyprland.enable = true;
+    programs.hyprland = {
+        enable = true;
+    };
     services = {
         displayManager = {
             defaultSession = "hyprland";

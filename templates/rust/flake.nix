@@ -3,33 +3,45 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-        rust-overlay.url = "github:oxalica/rust-overlay";
+        naersk = {
+            url = "github:nix-community/naersk";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        fenix = {
+            url = "github:nix-community/fenix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
-    outputs = { self, nixpkgs, rust-overlay }:
+    outputs = { self, nixpkgs, naersk, fenix }:
     let
         system = "x86_64-linux";
-        overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
-            inherit system overlays;
+            inherit system;
         };
-        rust-toolchain = pkgs.rust-bin.stable.latest.default;
-        #rust-toolchain = pkgs.rust-bin.nightly.latest.default.override {
-        #    extensions = [ "rust-src" ];
-        #    targets = [ "wasm32-unknown-unknown" ];
-        #};
+        fenixLib = fenix.packages.${system};
+
+        rust-toolchain = fenixLib.stable.toolchain;
+        # rust-coolchain = fenixLib.default.toolchain;
+
+        buildInputs = with pkgs; [
+            rust-analyzer
+            rustfmt
+            cargo-watch
+            clippy
+        ];
     in {
         devShells.${system}.default = with pkgs; mkShell {
-            buildInputs = [
-                rust-toolchain
-                rust-analyzer
-                rustfmt
-                cargo-deny
-                cargo-watch
-                clippy
-            ];
+            buildInputs = buildInputs ++ [ rust-toolchain ];
             shellHook = ''
             '';
+        };
+        packages.${system}.default = naersk.lib.${system}.override {
+            cargo = rust-toolchain;
+            rustc = rust-toolchain;
+        }.buildPackage {
+            src = ./.;
+            buildInputs = buildInputs;
         };
     };
 }

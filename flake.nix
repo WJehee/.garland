@@ -30,7 +30,7 @@
         mkSystem = system: hostname:
             inputs.nixpkgs.lib.nixosSystem {
                 system = system;
-                specialArgs = { inherit inputs; };
+                specialArgs = { inherit inputs hostname; };
                 modules = [
                     { networking.hostName = hostname; }
                     ./nixos/${hostname}/configuration.nix
