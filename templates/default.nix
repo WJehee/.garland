@@ -1,4 +1,8 @@
 {
+    default = {
+        path = ./default;
+        description = "Default project";
+    };
     rust = {
         path = ./rust;
         description = "A rust project";

@@ -1,7 +1,20 @@
 = Garland
 
 This repository contains all my NixOS configurations.
+
+== Configurations
+
 All my configurations are named after poisonous plants, not because I am toxic, but because I think they are cool.
+
+* **Wisteria**: my desktop computer 
+* **Foxglove**: my framework laptop
+* **Hemlock**: my VPS machine
+
+=== Other names
+
+* Nightshade
+* Oleander
+* Castor
 
 == Installing
 
@@ -22,11 +35,6 @@ passwd USERNAME
 exit
 reboot
 ----
-
-== Server
-
-These files also include the configuration for my web server hosted on a VPS,
-which can be found under `nixos/hemlock/`.
 
 == Thanks
 
