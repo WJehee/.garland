@@ -15,9 +15,6 @@
             RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
             RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
 
-            PYTHON_HISTORY = "$XDG_STATE_HOME/python/history";
-            PYTHONPYCACHEPREFIX = "$XDG_CACHE_HOME/python";
-            PYTHONUSERBASE = "$XDG_DATA_HOME";
             CONDARC = "$XDG_CONFIG_HOME/conda/condarc";
             JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
             IPYTHONDIR = "$XDG_CONFIG_HOME/jupyter";

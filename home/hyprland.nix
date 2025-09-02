@@ -112,6 +112,7 @@
                 "waybar"
                 "hyprpaper"
                 "nm-applet"
+                "blueman-applet"
                 "systemctl --user start hyprpolkitagent"
             ];
             env = [
