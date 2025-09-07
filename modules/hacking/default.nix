@@ -2,7 +2,7 @@
     imports = [
         ./clipboard.nix
         ./sdr.nix
-        # ./hardware.nix
+        ./hardware.nix
     ];
     programs = {
         wireshark.enable = true;
