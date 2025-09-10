@@ -11,6 +11,7 @@
         ./dunst.nix
         ./nushell.nix
         ./zsh.nix
+        ./jujutsu.nix
     ];
     home = {
         username = "wouter";
