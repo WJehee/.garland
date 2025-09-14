@@ -66,24 +66,37 @@
         };
         policies = {
             DisplayBookmarksToolbar = "always";
-            DisableFirefoxStudies = true;
             DisableTelemetry = true;
             DisablePocket = true;
             DisableProfileImport = true;
             DisableSetDesktopBackground	= true;
 
+            DisableFirefoxStudies = true;
+            DisableFirefoxScreenshots = true;
+            DisableFirefoxAccounts = true;
+
             OfferToSaveLogins = false;
             OfferToSaveLoginsDefault = false;
             PasswordManagerEnabled = false;
-            SearchSuggestEnabled = false;
             EnableTrackingProtection = true;
+            SearchSuggestEnabled = false;
+            TranslateEnabled = false;
+            SanitizeOnShutdown = false;
+
             HardwareAcceleration = true;
+
             FirefoxHome = {
                 Search = true;
                 Pocket = false;
                 Snippets = false;
                 TopSites = false;
                 Highlights = false;
+            };
+            FirefoxSuggest = {
+                WebSuggestions = false;
+                SponsoredSuggestions = false;
+                ImproveSuggest = false;
+                Locked = false;
             };
             UserMessaging = {
                 ExtensionRecommendations = false;
