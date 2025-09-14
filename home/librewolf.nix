@@ -26,35 +26,39 @@
                         ];
                     }
                     {
-                        name = "My other bookmarks";
-                        bookmarks = [
-                            {
-                                name = "Startmail";
-                                url = "https://mail.startmail.com/mail/folders/INBOX";
-                            }
-                            {
-                                name = "Syncthing";
-                                url = "http://localhost:8384/";
-                            }
-                            {
-                                name = "Raisin";
-                                url = "https://www.raisin.nl/savingglobal/#/Dashboard";
-                            }
-                            {
-                                name = "DeGIRO";
-                                url = "https://trader.degiro.nl/trader/#/portfolio/assets";
-                            }
-                            {
-                                name = "Hack The Box";
-                                url = "https://app.hackthebox.com/home";
-                            }
-                        ];
+                        name = "Startmail";
+                        url = "https://mail.startmail.com/mail/folders/INBOX";
+                    }
+                    {
+                        name = "BlueSky";
+                        url = "https://bsky.app/";
+                    }
+                    {
+                        name = "Syncthing";
+                        url = "http://localhost:8384/";
+                    }
+                    {
+                        name = "Raisin";
+                        url = "https://www.raisin.nl/savingglobal/#/Dashboard";
+                    }
+                    {
+                        name = "DeGIRO";
+                        url = "https://trader.degiro.nl/trader/#/portfolio/assets";
+                    }
+                    {
+                        name = "Claude";
+                        url = "https://claude.ai/";
+                    }
+                    {
+                        name = "Hack The Box";
+                        url = "https://app.hackthebox.com/home";
                     }
                 ];
             };
             search = {
                 force = true;
                 default = "ddg";
+                order = [ "ddg" "My NixOS" ];
                 engines = {
                     "My NixOS" = {
                         urls = [
