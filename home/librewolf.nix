@@ -7,7 +7,7 @@
                 force = true;
                 settings = [
                     {
-                        name = "My bookmarks";
+                        name = "My toolbar bookmarks";
                         toolbar = true;
                         bookmarks = [
                             {
@@ -22,23 +22,33 @@
                                 name = "";
                                 url = "https://hackerone.com/opportunities/all";
                             }
+                            "separator"
                         ];
                     }
                     {
-                        name = "Startmail";
-                        url = "https://mail.startmail.com/mail/folders/INBOX";
-                    }
-                    {
-                        name = "Syncthing";
-                        url = "http://localhost:8384/";
-                    }
-                    {
-                        name = "Raisin";
-                        url = "https://www.raisin.nl/savingglobal/#/Dashboard";
-                    }
-                    {
-                        name = "DeGIRO";
-                        url = "https://trader.degiro.nl/trader/#/portfolio/assets";
+                        name = "My other bookmarks";
+                        bookmarks = [
+                            {
+                                name = "Startmail";
+                                url = "https://mail.startmail.com/mail/folders/INBOX";
+                            }
+                            {
+                                name = "Syncthing";
+                                url = "http://localhost:8384/";
+                            }
+                            {
+                                name = "Raisin";
+                                url = "https://www.raisin.nl/savingglobal/#/Dashboard";
+                            }
+                            {
+                                name = "DeGIRO";
+                                url = "https://trader.degiro.nl/trader/#/portfolio/assets";
+                            }
+                            {
+                                name = "Hack The Box";
+                                url = "https://app.hackthebox.com/home";
+                            }
+                        ];
                     }
                 ];
             };
