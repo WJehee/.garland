@@ -45,9 +45,6 @@
                         "workspaces, 0, 6, default"
                 ];
             };
-            gestures = {
-                workspace_swipe = "off";
-            };
             misc = {
                 disable_hyprland_logo = true;
                 disable_splash_rendering = true;

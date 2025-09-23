@@ -43,14 +43,16 @@
         kernelPackages = pkgs.linuxPackages_latest;
         tmp.useTmpfs = true;
         loader = {
-            grub.enable = true;
-            grub.device = "nodev";
-            grub.efiSupport = true;
+            grub = {
+                enable = true;
+                device = "nodev";
+                efiSupport = true;
+                configurationLimit = 5;
+                useOSProber = true;
+            };
             efi.canTouchEfiVariables = true;
-            grub.useOSProber = true;
         };
     };
-    programs.kdeconnect.enable = true;
     services.pcscd.enable = true;
     programs.gnupg.agent = {
         enable = true;

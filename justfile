@@ -20,3 +20,7 @@ fix:
 hm-logs:
     journalctl -xe --unit home-manager-wouter
 
+# Delete generations older than 30 days
+cleanup:
+    doas nix-collect-garbage --delete-older-than 30d
+
