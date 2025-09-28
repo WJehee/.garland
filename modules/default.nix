@@ -8,6 +8,7 @@
         ./chromium.nix
         ./bluetooth.nix
         ./stylix.nix
+        ./geoclue.nix
 
         ./dev
         ./media

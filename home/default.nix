@@ -1,16 +1,15 @@
 { ... }: {
     imports = [
         ./alacritty.nix
-        ./git.nix
         ./waybar.nix
         ./librewolf.nix
         ./hyprland.nix
         ./hyprlock.nix
         ./hypridle.nix
         ./dunst.nix
-        ./nushell.nix
-        ./zsh.nix
-        ./jujutsu.nix
+        ./nightlight.nix
+
+        ./dev
     ];
     home = {
         username = "wouter";
