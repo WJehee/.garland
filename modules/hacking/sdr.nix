@@ -8,7 +8,7 @@
     };
     environment.systemPackages = with pkgs; [
         sdrpp
-        # urh
+        urh
         gnuradio
     ];
 }

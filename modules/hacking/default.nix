@@ -1,7 +1,7 @@
 { pkgs, ... }: {
     imports = [
         ./clipboard.nix
-        ./sdr.nix
+        # ./sdr.nix
         ./hardware.nix
     ];
     programs = {
