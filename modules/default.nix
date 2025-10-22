@@ -9,6 +9,7 @@
         ./bluetooth.nix
         ./stylix.nix
         ./geoclue.nix
+        ./virtualization.nix
 
         ./dev
         ./media
