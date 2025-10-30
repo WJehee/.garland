@@ -3,6 +3,6 @@
         ./firewall.nix
         ./doas.nix
         ./ssh.nix
-        ./ledger.nix
+        ./wallet.nix
     ];
 }

@@ -29,7 +29,7 @@
                 name = "Geist Mono";
             };
             emoji = {
-                package = pkgs.noto-fonts-emoji;
+                package = pkgs.noto-fonts-color-emoji;
                 name = "Noto Fonts Emoji";
             };
         };
