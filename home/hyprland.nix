@@ -1,6 +1,7 @@
 { ... }: {
     wayland.windowManager.hyprland = {
         enable = true;
+        systemd.enable = true;
         xwayland.enable = true;
         settings = {
             general = {
@@ -108,6 +109,7 @@
             exec-once = [
                 "waybar"
                 "hyprpaper"
+                "systemctl --user start hypridle"
                 "nm-applet"
                 "blueman-applet"
                 "systemctl --user start hyprpolkitagent"

@@ -10,7 +10,7 @@
         aliases = {
             s = "status";
         };
-        extraConfig = {
+        settings = {
             credential.helper = "store";
             url = {
                 "https://gitlab.esa.int/" = {

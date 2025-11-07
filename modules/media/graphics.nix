@@ -30,11 +30,9 @@
     };
     programs.hyprland = {
         enable = true;
-        # withUWSM = true;
     };
     services = {
         displayManager = {
-            # defaultSession = "hyprland-uwsm";
             autoLogin = {
                 enable = true;
                 user = "wouter";
