@@ -16,10 +16,10 @@
             "4, monitor:DP-6"
             "5, monitor:DP-6"
 
-            "6, monitor:DP-5"
-            "7, monitor:DP-5"
-            "8, monitor:DP-5"
-            "9, monitor:DP-2"
+            "6, monitor:DP-5, layoutopt:orientation:top"
+            "7, monitor:DP-5, layoutopt:orientation:top"
+            "8, monitor:DP-5, layoutopt:orientation:top"
+            "9, monitor:DP-2, layoutopt:orientation:top"
             "10, monitor:eDP-1"
         ];
     };
