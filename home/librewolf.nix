@@ -38,6 +38,10 @@
                         url = "http://localhost:8384/";
                     }
                     {
+                        name = "Hetzner";
+                        url = "https://console.hetzner.com/projects";
+                    }
+                    {
                         name = "Raisin";
                         url = "https://www.raisin.nl/savingglobal/#/Dashboard";
                     }
