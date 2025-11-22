@@ -1,7 +1,8 @@
-{ lib, pkgs, ... }: {
+{ pkgs, ... }: {
     imports = [
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
+        ../../modules/server/headless.nix
         # ../../modules/server/ntfy.nix
     ];
     boot.loader.grub = {
@@ -55,36 +56,5 @@
             443     # https
         ];
     };
-    services.openssh = {
-        enable = true;
-        settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-            PermitRootLogin = "no";
-        };
-    };
-    users.users.admin = {
-        isNormalUser = true;
-        extraGroups = [
-            "docker"
-        ];
-        openssh.authorizedKeys.keys = [
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAV7jskmE1QgWJARUS4VtDMscikpRYVGRHZBEWculRLd wouter@rusty-desktop"
-            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsXnqF+WswS3iXQt8IlhoHlbvBd2wXmjX1txY73OkevQH/MchQ2+qrvUjFYLJ6TXXyokShvvfcWCNk/hlIOvP1iqXEHmW5IyBLPkkXCzeCBN6B+rNlcNlYJuH9ymjt+rKDFS5w5hdXipRCoj/VQDjAN246bTwVtQD85SqeYoBCzXHV6+O+hsmM5uCn1uQHaz6zQ0b5/BgU5EzKwDP2Bh7moWUh+WpNPAJEQXzf3lMA5Zc/KcfP5roECoxj/5JYVVhYCstMwA94LfOzmUD9mYtQj67EFlJ5fCYbO7bmT87KR4MeNFB2zUJHnnxFb9EOFdZX8nMHb9qgXEtlqwbYjuo5XODfLPph8Q+idLw3GOOVKPBakas0l1S8NftJ6TeAEDHyB7gWFnyuf4aydKWWikTPee4aBroFVVjIbqsjThfYMccw3vIkokbYEGlp0CUA0HT100hhGuOMmixFw0n+2jP70jVDFWNnyALPknDqBiagedUXWBZ6kPcQWOqGC+rkNQM="
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObRqn0aPP+LJqqFkY3MUWO8StkJqqghwIR+9YLrD4NT wouter@rusty-desktop"
-        ];
-    };
-    security = {
-        sudo.enable = false;
-        doas = {
-            enable = true;
-            extraRules = [{
-                users = [ "admin" ];
-                keepEnv = true;
-                noPass = false;
-            }];
-        };
-    };
     services.loodsenboekje.enable = true;
-    services.tailscale.enable = true;
 }

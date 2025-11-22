@@ -19,13 +19,16 @@
             url = "github:nix-community/nixvim";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        nixos-hardware = {
+            url = "github:nixos/nixos-hardware/master";
+        };
 
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
 
     outputs = { nixpkgs, home-manager, ... }@inputs: let
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-        forAllSystems = nixpkgs.lib.genAttrs systems;
+        # systems = [ "x86_64-linux" "aarch64-linux" ];
+        # forAllSystems = nixpkgs.lib.genAttrs systems;
 
         mkSystem = system: hostname:
             inputs.nixpkgs.lib.nixosSystem {
@@ -36,9 +39,10 @@
                     ./nixos/${hostname}/configuration.nix
                     ./nixos/${hostname}/hardware-configuration.nix
 
+                    inputs.disko.nixosModules.disko
                     inputs.stylix.nixosModules.stylix
                     inputs.nixvim.nixosModules.nixvim
-                    inputs.disko.nixosModules.disko
+
                     inputs.loodsenboekje.nixosModules.loodsenboekje
 
                     home-manager.nixosModules.home-manager {
@@ -56,6 +60,14 @@
             foxglove = mkSystem "x86_64-linux" "foxglove";
             hemlock = mkSystem "x86_64-linux" "hemlock";
             wisteria = mkSystem "x86_64-linux" "wisteria"; 
+            ivy = inputs.nixpkgs.lib.nixosSystem {
+                system = "aarch64-linux";
+                modules = [
+                    { networking.hostName = "ivy"; }
+                    ./nixos/ivy/configuration.nix
+                    inputs.nixos-hardware.nixosModules.raspberry-pi-3
+                ];
+            };
         };
         diskoConfigurations.disko = import ./nixos/disk-config.nix;
         templates = import ./templates;
@@ -65,4 +77,3 @@
         };
     };
 }
-

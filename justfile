@@ -24,3 +24,8 @@ hm-logs:
 cleanup:
     doas nix-collect-garbage --delete-older-than 30d
 
+# Build SD image of a host, defaults to Ivy Home Assistant config
+build-sd host='ivy':
+    git add .
+    nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake ".#{{host}}" --system aarch64-linux -o "./{{host}}.sd"
+
