@@ -11,4 +11,18 @@
             default_config = {};
         };
     };
+    # virtualisation.oci-containers = {
+    #     backend = "docker";
+    #     containers.homeassistant = {
+    #         volumes = [
+    #             "home-assistant:/config"
+    #             "/var/run/dbus:/run/dbus:ro"
+    #         ];
+    #         environment.TZ = "Europe/Amsterdam";
+    #         image = "ghcr.io/home-assistant/home-assistant:2023.7.3";
+    #         extraOptions = [
+    #             "--network=host"
+    #         ];
+    #     };
+    # };
 }

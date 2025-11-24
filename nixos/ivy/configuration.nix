@@ -1,8 +1,9 @@
-{ ... }: {
+{ config, ... }: {
     imports = [
-        ../../modules/home-assistant.nix
         ../../modules/server/headless.nix
+        ../../modules/home-assistant.nix
     ];
+    system.stateVersion = "24.11";
     nix.settings = {
         trusted-users = [
             "admin"
@@ -17,25 +18,11 @@
             grub.enable = false;
             generic-extlinux-compatible.enable = true;
         };
-        initrd.luks.devices.nixos = {
-            device = "TODO";
-            preLVM = true;
-        };
     };
     networking = {
-        interfaces.end0 = {
-            ipv4.addresses = [{
-                address = "192.168.1.42";
-                prefixLength = 24;
-            }];
-        };
-        defaultGateway = {
-            address = "192.168.1.1";
-            interface = "end0";
-        };
-        nameservers = [
-            "192.168.1.1"
-        ];
+        hostName = "ivy";
+        networkmanager.enable = true;
+        firewall.enable = false;
     };
     environment.variables = {
         SHELL = "zsh";

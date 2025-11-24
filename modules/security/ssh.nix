@@ -1,5 +1,4 @@
 { lib, pkgs, ... }: {
-    services.tailscale.enable = true;
     services.openssh.enable = true;
     programs.ssh = {
         startAgent = true;

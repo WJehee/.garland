@@ -27,9 +27,6 @@
     };
 
     outputs = { nixpkgs, home-manager, ... }@inputs: let
-        # systems = [ "x86_64-linux" "aarch64-linux" ];
-        # forAllSystems = nixpkgs.lib.genAttrs systems;
-
         mkSystem = system: hostname:
             inputs.nixpkgs.lib.nixosSystem {
                 system = system;
@@ -63,9 +60,8 @@
             ivy = inputs.nixpkgs.lib.nixosSystem {
                 system = "aarch64-linux";
                 modules = [
-                    { networking.hostName = "ivy"; }
-                    ./nixos/ivy/configuration.nix
                     inputs.nixos-hardware.nixosModules.raspberry-pi-3
+                    ./nixos/ivy/configuration.nix
                 ];
             };
         };

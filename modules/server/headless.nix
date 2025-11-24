@@ -1,15 +1,17 @@
 { ... }: {
-    services.tailscale.enable = true;
-    services.openssh = {
-        enable = true;
-        settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-            PermitRootLogin = "no";
+    services = {
+        openssh = {
+            enable = true;
+            settings = {
+                PasswordAuthentication = false;
+                KbdInteractiveAuthentication = false;
+                PermitRootLogin = "no";
+            };
         };
     };
     users.users.admin = {
         isNormalUser = true;
+        initialPassword = "changeme";
         extraGroups = [
             "docker"
         ];

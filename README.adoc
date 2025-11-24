@@ -9,12 +9,7 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 * **Wisteria**: my desktop computer 
 * **Foxglove**: my framework laptop
 * **Hemlock**: my VPS machine
-
-=== Other names
-
-* Nightshade
-* Oleander
-* Castor
+* **Ivy**: Home Assistant running on Raspberry PI, https://blog.janissary.xyz/posts/nixos-install-custom-image[Guide for creating the SD image]
 
 == Installing
 

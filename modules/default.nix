@@ -55,6 +55,8 @@
             };
             efi.canTouchEfiVariables = true;
         };
+        # Needed for building SD image
+        binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
     services.pcscd.enable = true;
     programs.gnupg.agent = {
