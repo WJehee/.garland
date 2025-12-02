@@ -123,8 +123,6 @@
                 # Make --normal-window look as before for wofi
                 "stayfocused,class:(wofi)"
                 "noborder,class:(wofi)"
-                # Make ssh-askpass always focused
-                "stayfocused,class:(SshAskpass)"
             ];
         };
     };
