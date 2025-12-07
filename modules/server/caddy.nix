@@ -11,7 +11,7 @@
                 reverse_proxy http://localhost:5232
             '';
             "dorusrijkers.club".extraConfig = ''
-                root * /var/www/dorusrijkers.club
+                root * /var/www/dorusrijkers.eu
                 encode gzip
                 file_server
             '';
@@ -19,7 +19,7 @@
                 reverse_proxy http://localhost:1744
             '';
             "dorusrijkers.eu".extraConfig = ''
-                root * /var/www/dorusrijkers.club
+                root * /var/www/dorusrijkers.eu
                 encode gzip
                 file_server
             '';
