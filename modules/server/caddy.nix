@@ -18,8 +18,13 @@
             "loodsenboekje.dorusrijkers.club".extraConfig = ''
                 reverse_proxy http://localhost:1744
             '';
-            "blot.dorusrijkers.club".extraConfig = ''
-                reverse_proxy http://rusty-desktop.tailff8332.ts.net:4000
+            "dorusrijkers.eu".extraConfig = ''
+                root * /var/www/dorusrijkers.club
+                encode gzip
+                file_server
+            '';
+            "loodsenboekje.dorusrijkers.eu".extraConfig = ''
+                reverse_proxy http://localhost:1744
             '';
         };
     };
