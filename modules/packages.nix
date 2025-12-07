@@ -64,5 +64,7 @@
         discord
         openvpn
         # remmina
+
+        eduvpn-client
     ];
 }

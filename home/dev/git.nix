@@ -1,29 +1,20 @@
 { ... }: {
     programs.git = {
         enable = true;
-        userName = "Wouter Jehee";
-        userEmail = "wouter@wouterjehee.com";
         ignores = [
             ".env"
             "_pycache_/"
         ];
-        aliases = {
-            s = "status";
-        };
+
         settings = {
-            credential.helper = "store";
-            url = {
-                "https://gitlab.esa.int/" = {
-                    insteadOf = [
-                        "git@gitlab.esa.int:"
-                    ];
-                };
-                "https://gitlab.freedesktop.org/" = {
-                    insteadOf = [
-                        "git@gitlab.freedesktop.org:"
-                    ];
-                };
+            user = {
+                name = "Wouter Jehee";
+                email = "wouter@wouterjehee.com";
             };
+            alias = {
+                s = "status";
+            };
+            credential.helper = "store";
         };
     };
 }
