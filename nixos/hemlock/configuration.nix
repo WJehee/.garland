@@ -3,11 +3,13 @@
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
         ../../modules/server/headless.nix
-        # ../../modules/server/ntfy.nix
+        ../../disk/server.nix
     ];
     boot.loader.grub = {
         enable = true;
-        device = "/dev/vda";
+        devices = [];
+        efiSupport = true;
+        efiInstallAsRemovable = true;
     };
     nix.settings = {
         trusted-users = [

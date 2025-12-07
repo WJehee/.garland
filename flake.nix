@@ -65,7 +65,7 @@
                 ];
             };
         };
-        diskoConfigurations.disko = import ./nixos/disk-config.nix;
+        # diskoConfigurations.disko = import ./nixos/disk-config.nix;
         templates = import ./templates;
         nvim = inputs.nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
             module = import ../modules/dev/nvim.nix;

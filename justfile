@@ -24,8 +24,12 @@ hm-logs:
 cleanup:
     doas nix-collect-garbage --delete-older-than 30d
 
-# Build SD image of a host, defaults to Ivy Home Assistant config
-build-sd host='ivy':
+# Build SD image of a host
+build-sd host:
     git add .
     nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake ".#{{host}}" --system aarch64-linux -o "./{{host}}.sd"
+
+# Remotely install a flake
+remote-install flake conn_str:
+    nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./nixos/{{flake}}/hardware-configuration.nix
 
