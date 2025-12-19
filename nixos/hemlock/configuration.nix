@@ -1,9 +1,10 @@
 { pkgs, ... }: {
     imports = [
+        ../../disk/server.nix
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
         ../../modules/server/headless.nix
-        ../../disk/server.nix
+        ../../modules/server/immich.nix
     ];
     boot.loader.grub = {
         enable = true;

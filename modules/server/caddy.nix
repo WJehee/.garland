@@ -10,6 +10,10 @@
             "cal.wouterjehee.com".extraConfig = ''
                 reverse_proxy http://localhost:5232
             '';
+            "img.wouterjehee.com".extraConfig = ''
+                reverse_proxy http://localhost:2283
+            '';
+
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip

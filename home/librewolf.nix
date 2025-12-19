@@ -50,6 +50,10 @@
                         url = "https://trader.degiro.nl/trader/#/portfolio/assets";
                     }
                     {
+                        name = "Lightyear";
+                        url = "https://lightyear.com/portfolio";
+                    }
+                    {
                         name = "Claude";
                         url = "https://claude.ai/";
                     }
