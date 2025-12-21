@@ -16,18 +16,10 @@
                             }
                             {
                                 name = "";
-                                url = "https://app.intigriti.com/researcher/dashboard";
+                                url = "https://mail.startmail.com/mail/folders/INBOX";
                             }
-                            {
-                                name = "";
-                                url = "https://hackerone.com/opportunities/all";
-                            }
-                            "separator"
+                            # "separator"
                         ];
-                    }
-                    {
-                        name = "Startmail";
-                        url = "https://mail.startmail.com/mail/folders/INBOX";
                     }
                     {
                         name = "BlueSky";
@@ -38,28 +30,52 @@
                         url = "http://localhost:8384/";
                     }
                     {
-                        name = "Hetzner";
-                        url = "https://console.hetzner.com/projects";
+                        name = "Tech";
+                        bookmarks = [
+                            {
+                                name = "Hetzner";
+                                url = "https://console.hetzner.com/projects";
+                            }
+                            {
+                                name = "Claude";
+                                url = "https://claude.ai/";
+                            }
+                        ];
                     }
                     {
-                        name = "Raisin";
-                        url = "https://www.raisin.nl/savingglobal/#/Dashboard";
+                        name = "Finance";
+                        bookmarks = [
+                            {
+                                name = "Raisin";
+                                url = "https://www.raisin.nl/savingglobal/#/Dashboard";
+                            }
+                            {
+                                name = "DeGIRO";
+                                url = "https://trader.degiro.nl/trader/#/portfolio/assets";
+                            }
+                            {
+                                name = "Lightyear";
+                                url = "https://lightyear.com/portfolio";
+                            }
+
+                        ];
                     }
                     {
-                        name = "DeGIRO";
-                        url = "https://trader.degiro.nl/trader/#/portfolio/assets";
-                    }
-                    {
-                        name = "Lightyear";
-                        url = "https://lightyear.com/portfolio";
-                    }
-                    {
-                        name = "Claude";
-                        url = "https://claude.ai/";
-                    }
-                    {
-                        name = "Hack The Box";
-                        url = "https://app.hackthebox.com/home";
+                        name = "Hacking";
+                        bookmarks = [
+                            {
+                                name = "Intigriti";
+                                url = "https://app.intigriti.com/researcher/dashboard";
+                            }
+                            {
+                                name = "HackerOne";
+                                url = "https://hackerone.com/opportunities/all";
+                            }
+                            {
+                                name = "Hack The Box";
+                                url = "https://app.hackthebox.com/home";
+                            }
+                        ];
                     }
                 ];
             };
