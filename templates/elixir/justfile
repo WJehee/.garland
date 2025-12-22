@@ -1,0 +1,9 @@
+
+_default:
+    just --list
+
+# Run the main program
+run:
+    # Phoenix server
+    mix phx.server 
+

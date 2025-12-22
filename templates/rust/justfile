@@ -1,0 +1,12 @@
+
+_default:
+    just --list
+
+# Build the project
+build:
+    cargo build
+
+# Run the main program
+run:
+    cargo run
+
