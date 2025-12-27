@@ -43,24 +43,6 @@
                         ];
                     }
                     {
-                        name = "Finance";
-                        bookmarks = [
-                            {
-                                name = "Raisin";
-                                url = "https://www.raisin.nl/savingglobal/#/Dashboard";
-                            }
-                            {
-                                name = "DeGIRO";
-                                url = "https://trader.degiro.nl/trader/#/portfolio/assets";
-                            }
-                            {
-                                name = "Lightyear";
-                                url = "https://lightyear.com/portfolio";
-                            }
-
-                        ];
-                    }
-                    {
                         name = "Hacking";
                         bookmarks = [
                             {
