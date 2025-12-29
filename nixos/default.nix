@@ -14,10 +14,10 @@
                 inputs.loodsenboekje.nixosModules.loodsenboekje
 
                 inputs.home-manager.nixosModules.home-manager {
-                    home-manager = if builtins.pathExists ./nixos/${hostname}/home.nix
+                    home-manager = if builtins.pathExists ./${hostname}/home.nix
                         then {
                         extraSpecialArgs = { inherit inputs; };
-                        users.wouter = ./nixos/${hostname}/home.nix;
+                        users.wouter = ./${hostname}/home.nix;
                         useUserPackages = true;
                     } else {};
                 }
