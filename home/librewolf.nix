@@ -18,6 +18,10 @@
                                 name = "";
                                 url = "https://mail.startmail.com/mail/folders/INBOX";
                             }
+                            {
+                                name = "";
+                                url = "https://overleaf.com";
+                            }
                             # "separator"
                         ];
                     }
