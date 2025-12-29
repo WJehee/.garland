@@ -26,9 +26,9 @@
         inetutils
         handlr
         playerctl
-        # TODO: include again if fixed
-        # asciidoc-full-with-plugins
-        # asciidoctor-with-extensions
+        asciidoc-full-with-plugins
+        asciidoctor-with-extensions
+        blender
         
         ripgrep
         tree

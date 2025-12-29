@@ -48,6 +48,7 @@
         ];
 
         plugins = {
+            # Language support
             treesitter = {
                 enable = true;
                 settings.indent.enable = true;
@@ -88,7 +89,6 @@
             # tailwind-tools.enable = true;
             lspsaga.enable = true;
             luasnip.enable = true;
-
             cmp = {
                 enable = true;
                 autoEnableSources = true;
@@ -108,9 +108,8 @@
             };
             cmp-treesitter.enable = true;
 
-            gitsigns = {
-                enable = true;
-            };
+            # Visual
+            gitsigns.enable = true;
             rainbow-delimiters.enable = true;
             web-devicons = {
                 enable = true;
@@ -120,6 +119,14 @@
                 };
             };
 
+            # Tools
+            # harpoon = {
+            #     enable = true;
+            #     enableTelescope = true;
+            #     settings = {
+            #         save_on_toggle = true;
+            #     };
+            # };
             telescope = {
                 enable = true;
                 keymaps = {
@@ -130,6 +137,7 @@
                     "<leader>gl" = "git_commits";
                 };
             };
+            # undotree.enable = true;
             neogit.enable = true;
         };
     };

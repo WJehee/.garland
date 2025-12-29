@@ -50,6 +50,12 @@
                 key = "<leader>tws";
                 action = "vi\":TailwindSortSelectionSync<CR>";
             }
+            # {
+            #     # Open undotree
+            #     mode = "n";
+            #     key = "<leader>u";
+            #     action = "<cmd>UndotreeToggle<CR>";
+            # }
         ];
     };
 }
