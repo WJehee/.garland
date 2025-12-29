@@ -3,6 +3,7 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        flake-parts.url = "github:hercules-ci/flake-parts";
         home-manager = {
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -26,50 +27,30 @@
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };
 
-    outputs = { nixpkgs, home-manager, ... }@inputs: let
-        mkSystem = system: hostname:
-            inputs.nixpkgs.lib.nixosSystem {
-                system = system;
-                specialArgs = { inherit inputs hostname; };
-                modules = [
-                    { networking.hostName = hostname; }
-                    ./nixos/${hostname}/configuration.nix
-                    ./nixos/${hostname}/hardware-configuration.nix
-
-                    inputs.disko.nixosModules.disko
-                    inputs.stylix.nixosModules.stylix
-                    inputs.nixvim.nixosModules.nixvim
-
-                    inputs.loodsenboekje.nixosModules.loodsenboekje
-
-                    home-manager.nixosModules.home-manager {
-                        home-manager = if builtins.pathExists ./nixos/${hostname}/home.nix
-                            then {
-                                extraSpecialArgs = { inherit inputs; };
-                                users.wouter = ./nixos/${hostname}/home.nix;
-                                useUserPackages = true;
-                            } else {};
-                    }
-                ];
-            };
-    in {
-        nixosConfigurations = {
-            foxglove = mkSystem "x86_64-linux" "foxglove";
-            hemlock = mkSystem "x86_64-linux" "hemlock";
-            wisteria = mkSystem "x86_64-linux" "wisteria"; 
-            ivy = inputs.nixpkgs.lib.nixosSystem {
-                system = "aarch64-linux";
-                modules = [
-                    inputs.nixos-hardware.nixosModules.raspberry-pi-3
-                    ./nixos/ivy/configuration.nix
-                ];
-            };
+    outputs = { flake-parts, ... }@inputs:
+        flake-parts.lib.mkFlake { inherit inputs; } {
+            systems = [
+                "x86_64-linux"
+                "aarch64-linux"
+            ];
+            imports = [
+                ./nixos
+            ];
+            # flake = {
+            #     diskoConfigurations.disko = import ./nixos/disk-config.nix;
+            #     templates = import ./templates;
+            #     nvim = inputs.nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
+            #         module = import ../modules/dev/nvim.nix;
+            #         extraSpecialArgs.inputs = inputs;
+            #     };
+            # };
+            # perSystem = { config, pkgs, ... }: {
+            #     # Recommended: move all package definitions here.
+            #     # e.g. (assuming you have a nixpkgs input)
+            #     # packages.foo = pkgs.callPackage ./foo/package.nix { };
+            #     # packages.bar = pkgs.callPackage ./bar/package.nix {
+            #     #   foo = config.packages.foo;
+            #     # };
+            # };
         };
-        # diskoConfigurations.disko = import ./nixos/disk-config.nix;
-        templates = import ./templates;
-        nvim = inputs.nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
-            module = import ../modules/dev/nvim.nix;
-            extraSpecialArgs.inputs = inputs;
-        };
-    };
 }

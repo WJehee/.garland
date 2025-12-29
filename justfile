@@ -1,12 +1,10 @@
 alias r := rebuild
 alias u := update
 
-hostname := `hostname`
-
 # Rebuild OS
 rebuild:
     git add .
-    sudo nixos-rebuild switch --sudo --flake ".#{{hostname}}" &>rebuild.log || grep -C 2 --color error rebuild.log
+    sudo nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 2 --color error rebuild.log
 
 # Update packages
 update:
