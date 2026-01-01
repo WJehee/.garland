@@ -1,10 +1,12 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
+        # Desktop environment
         hyprpaper
         hyprpicker
         hyprpolkitagent
         hyprshot
-
+    
+        # General applications
         networkmanagerapplet
         blueman
         flavours
@@ -26,10 +28,9 @@
         inetutils
         handlr
         playerctl
-        asciidoc-full-with-plugins
-        asciidoctor-with-extensions
-        blender
-        
+        openvpn
+       
+        # Additional tools
         ripgrep
         tree
         psmisc
@@ -54,6 +55,7 @@
         zellij
         cool-retro-term
 
+        # Applications
         transmission_4-gtk
         signal-desktop
         obsidian
@@ -62,8 +64,7 @@
         gimp
         vlc
         discord
-        openvpn
-        # remmina
+        blender
 
         eduvpn-client
     ];

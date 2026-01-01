@@ -7,8 +7,11 @@
         ];
     };
     environment.systemPackages = with pkgs; [
-        sdrpp
+        # sdrpp
+        gqrx
         urh
         gnuradio
+
+        # rtl_433
     ];
 }

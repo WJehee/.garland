@@ -10,13 +10,19 @@
         docker.enable = true;
     };
     environment.systemPackages = with pkgs; [
+        # General
         git
         jujutsu
+        just
+
+        # Containers
         docker
         docker-compose
-        just
-        nurl
-        tokei
+        minikube
+
+        # Asciidoc
+        asciidoctor-with-extensions
+        asciidoc-full-with-plugins
 
         nushellPlugins.query
     ];

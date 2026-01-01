@@ -1,5 +1,4 @@
-{ pkgs, hostname, ... }:
-{
+{ pkgs, hostname, ... }: {
     stylix = {
         enable = true;
         autoEnable = true;
