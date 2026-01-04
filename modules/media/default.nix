@@ -4,6 +4,6 @@
         ./printing.nix
         ./graphics.nix
         ./syncthing.nix
-        ./music.nix
+        # ./music.nix
     ];
 }

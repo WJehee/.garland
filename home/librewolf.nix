@@ -26,10 +26,6 @@
                         ];
                     }
                     {
-                        name = "BlueSky";
-                        url = "https://bsky.app/";
-                    }
-                    {
                         name = "Syncthing";
                         url = "http://localhost:8384/";
                     }

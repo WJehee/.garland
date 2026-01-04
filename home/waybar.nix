@@ -26,26 +26,6 @@
                 format-muted = "";
                 format-icons = [ "" "" " " ];
             };
-            "custom/spotify" = {
-                interval = 1;
-                return-type = "json";
-                exec-if = "pgrep spotify";
-                exec = pkgs.writeShellScript "spotify-waybar" ''
-                    class=$(playerctl metadata --player=spotify --format '{{lc(status)}}')
-                    icon=""
-
-                    if [[ $class == "playing" ]]; then
-                      info=$(playerctl metadata --player=spotify --format '{{artist}} - {{title}}')
-                      text=$info"  "$icon
-                    elif [[ $class == "paused" ]]; then
-                      text=$icon
-                    elif [[ $class == "stopped" ]]; then
-                      text=""
-                    fi
-
-                    echo -e "{\"text\":\""$text"\", \"class\":\""$class"\"}"
-                '';
-            };
         }];
         style = ''
 window#waybar {
@@ -81,7 +61,6 @@ window#waybar {
 #pulseaudio,
 #wireplumber,
 #custom-media,
-#custom-spotify,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -90,10 +69,6 @@ window#waybar {
     padding: 0 10px;
     margin: 0 5px;
     color: @base06;
-}
-
-#custom-spotify {
-    border-bottom: 3px solid @base0B;
 }
 
 #battery {
