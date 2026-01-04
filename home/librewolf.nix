@@ -26,6 +26,10 @@
                         ];
                     }
                     {
+                        name = "Moodist";
+                        url = "https://moodist.mvze.net";
+                    }
+                    {
                         name = "Syncthing";
                         url = "http://localhost:8384/";
                     }
