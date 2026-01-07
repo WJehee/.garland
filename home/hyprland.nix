@@ -2,7 +2,6 @@
     wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
-        xwayland.enable = true;
         settings = {
             general = {
                 gaps_in = 0;

@@ -10,7 +10,7 @@
         # sdrpp
         gqrx
         urh
-        gnuradio
+        # gnuradio
 
         # rtl_433
     ];

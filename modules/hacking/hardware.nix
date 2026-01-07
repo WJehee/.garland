@@ -1,6 +1,6 @@
 { pkgs, ... }: {
     programs = {
-        minipro.enable = true;
+        # minipro.enable = true;
     };
     environment.systemPackages = with pkgs; [
         # Reverse engineering
