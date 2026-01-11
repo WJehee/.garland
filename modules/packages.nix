@@ -63,7 +63,6 @@
         krita
         gimp
         vlc
-        discord
         blender
 
         eduvpn-client
