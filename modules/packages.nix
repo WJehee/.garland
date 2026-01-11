@@ -28,7 +28,6 @@
         inetutils
         handlr
         playerctl
-        openvpn
        
         # Additional tools
         ripgrep
@@ -65,6 +64,5 @@
         vlc
         blender
 
-        eduvpn-client
     ];
 }
