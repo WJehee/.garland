@@ -3,45 +3,37 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-        naersk = {
-            url = "github:nix-community/naersk";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        fenix = {
-            url = "github:nix-community/fenix";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
+        flake-parts.url = "github:hercules-ci/flake-parts";
+        naersk.url = "github:nix-community/naersk";
+        fenix.url = "github:nix-community/fenix";
     };
 
-    outputs = { self, nixpkgs, naersk, fenix }:
-    let
-        system = "x86_64-linux";
-        pkgs = import nixpkgs {
-            inherit system;
-        };
-        fenixLib = fenix.packages.${system};
-
-        rust-toolchain = fenixLib.stable.toolchain;
-        # rust-coolchain = fenixLib.default.toolchain;
-
-        buildInputs = with pkgs; [
-            rust-analyzer
-            rustfmt
-            cargo-watch
-            clippy
+    outputs = { self, naersk, fenix, flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+        systems = [
+            "x86_64-linux"
         ];
-    in {
-        devShells.${system}.default = with pkgs; mkShell {
-            buildInputs = buildInputs ++ [ rust-toolchain ];
-            shellHook = ''
-            '';
-        };
-        packages.${system}.default = naersk.lib.${system}.override {
-            cargo = rust-toolchain;
-            rustc = rust-toolchain;
-        }.buildPackage {
-            src = ./.;
-            buildInputs = buildInputs;
+        perSystem = { system, pkgs, ... }: let 
+            rust-toolchain = fenix.packages.${system}.stable.toolchain;
+            buildInputs = with pkgs; [
+                rust-analyzer
+                rustfmt
+                cargo-watch
+                clippy
+            ];
+        in {
+            devShells.default = with pkgs; mkShell {
+                buildInputs = buildInputs ++ [ rust-toolchain ];
+                shellHook = ''
+                '';
+            };
+            packages.${system}.default = naersk.lib.${system}.override {
+                cargo = rust-toolchain;
+                rustc = rust-toolchain;
+            }.buildPackage {
+                src = ./.;
+                buildInputs = buildInputs;
+            };
         };
     };
 }

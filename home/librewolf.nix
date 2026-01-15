@@ -14,10 +14,6 @@
                                 name = "";
                                 url = "https://github.com/WJehee";
                             }
-                            {
-                                name = "";
-                                url = "https://overleaf.com";
-                            }
                             # "separator"
                         ];
                     }
