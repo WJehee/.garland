@@ -41,7 +41,7 @@
         hashcat
         hashcat-utils
     
-        metasploit
+        # metasploit
         # exploitdb
 
         # trufflehog

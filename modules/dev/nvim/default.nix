@@ -37,14 +37,6 @@
                     "*.tex"
                 ];
             }
-            {
-                command = "TSBufEnable highlight";
-                event = [
-                    "BufEnter"
-                    "BufWinEnter"
-                ];
-                pattern = [ "*" ];
-            }
         ];
 
         plugins = {
@@ -54,7 +46,6 @@
                 settings.indent.enable = true;
             };
             treesitter-context.enable = true;
-            treesitter-refactor.enable = true;
             lsp = {
                 enable = true;
                 keymaps = {
@@ -106,7 +97,7 @@
                     };
                 };
             };
-            cmp-treesitter.enable = true;
+            # cmp-treesitter.enable = true;
 
             # Visual
             gitsigns.enable = true;

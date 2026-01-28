@@ -5,7 +5,7 @@
             pkgs.hplip 
         ];
         avahi.enable = true;
-        avahi.nssmdns4 = true;
+        avahi.nssmdns = true;
         avahi.openFirewall = true;
     };
     hardware.sane.enable = true;

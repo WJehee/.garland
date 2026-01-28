@@ -7,6 +7,7 @@
             modules-left = [ "hyprland/workspaces" ];
             modules-center = [ "tray" ];
             modules-right = [
+                "mpd"
                 "wireplumber"
                 "custom/spotify"
                 "battery"
@@ -17,6 +18,12 @@
                 format-icons = ["" "" "" "" ""];
             };
             clock.format = "{:%a, %d. %b | %H:%M}";
+            mpd = {
+                format = "{artist} - {title}";
+                format-disconnected = "MPD disconnected";
+                format-stopped = "MPD stopped";
+                tooltip-format = "{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})";
+            };
             tray = {
                 icon-size = 24;
                 spacing = 10;
@@ -81,6 +88,10 @@ window#waybar {
 
 #wireplumber {
     border-bottom: 3px solid @base09;
+}
+
+#mpd {
+    border-bottom: 3px solid @base0D;
 }
 
         '';

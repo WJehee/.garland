@@ -1,7 +1,9 @@
 { pkgs, ... }: {
     users.users.wouter = {
         isNormalUser = true;
+        uid = 1000;
         extraGroups = [
+            "avahi"
             "docker"
             "wireshark"
             "libvirtd"
