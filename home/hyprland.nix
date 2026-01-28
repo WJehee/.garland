@@ -119,10 +119,8 @@
                 "MOZ_ENABLE_WAYLAND,1"
                 "_JAVA_AWT_WM_NONREPARENTING,1"
             ];
-            windowrulev2 = [
-                # Make --normal-window look as before for wofi
-                "stayfocused,class:(wofi)"
-                "noborder,class:(wofi)"
+            windowrule = [
+                "match:class wofi, border_size 0, stay_focused on"
             ];
         };
     };
