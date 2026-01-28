@@ -18,6 +18,7 @@
                         then {
                         extraSpecialArgs = { inherit inputs; };
                         users.wouter = ./${hostname}/home.nix;
+                        useGlobalPkgs = true;
                         useUserPackages = true;
                     } else {};
                 }

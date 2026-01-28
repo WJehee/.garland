@@ -1,7 +1,6 @@
 { pkgs, ... }: {
     imports = [
         ./godot.nix
-        ./llm.nix
         ./nvim
         ./starship.nix
         ./zsh.nix
