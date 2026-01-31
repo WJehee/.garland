@@ -3,7 +3,6 @@ alias u := update
 
 # Rebuild OS
 rebuild:
-    git add .
     sudo nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 2 --color error rebuild.log
 
 # Update packages

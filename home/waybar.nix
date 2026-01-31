@@ -91,7 +91,7 @@ window#waybar {
 }
 
 #mpd {
-    border-bottom: 3px solid @base0D;
+    border-bottom: 3px solid @base0E;
 }
 
         '';

@@ -21,7 +21,7 @@
                     when = "jj --ignore-working-copy root";
                     symbol = "🥋 ";
                     command = ''
-                        jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+                        jj_log=$(jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
                           separate(" ",
                             change_id.shortest(4),
                             bookmarks,
@@ -38,7 +38,19 @@
                               "(no description set)",
                             ) ++ raw_escape_sequence("\x1b[0m"),
                           )
-                        '
+                        ')
+
+                        # Get diff stats for additions/deletions
+                        stats=$(jj diff --stat --ignore-working-copy 2>/dev/null | tail -1)
+                        ins=$(echo "$stats" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+')
+                        del=$(echo "$stats" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+')
+
+                        diff_info=""
+                        if [ -n "$ins" ] || [ -n "$del" ]; then
+                          diff_info=" \x1b[32m+''${ins:-0}\x1b[0m \x1b[31m-''${del:-0}\x1b[0m"
+                        fi
+
+                        printf "%s%b" "$jj_log" "$diff_info"
                     '';
                 };
 
