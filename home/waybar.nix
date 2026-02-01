@@ -11,13 +11,19 @@
                 "wireplumber"
                 "custom/spotify"
                 "battery"
+                "disk"
                 "clock"
             ];
             battery = {
                 format = "{capacity}% {icon}";
                 format-icons = ["" "" "" "" ""];
             };
-            clock.format = "{:%a, %d. %b | %H:%M}";
+            clock = {
+                format = "{:%a, %d. %b | %H:%M}";
+            };
+            disk = {
+                format = "{percentage_used}% Used";
+            };
             mpd = {
                 format = "{artist} - {title}";
                 format-disconnected = "MPD disconnected";
@@ -86,12 +92,16 @@ window#waybar {
     border-bottom: 3px solid @base0C;
 }
 
+#disk {
+    border-bottom: 3px solid @base0E;
+}
+
 #wireplumber {
     border-bottom: 3px solid @base09;
 }
 
 #mpd {
-    border-bottom: 3px solid @base0E;
+    border-bottom: 3px solid @base08;
 }
 
         '';
