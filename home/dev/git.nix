@@ -2,6 +2,7 @@
     programs.git = {
         enable = true;
         ignores = [
+            ".direnv/"
             ".env"
             "_pycache_/"
         ];

@@ -55,14 +55,14 @@
         cool-retro-term
 
         # Applications
-        transmission_4-gtk
         signal-desktop
-        obsidian
         keepassxc
+        vlc
+        obsidian
+
         krita
         gimp
-        vlc
         blender
-
+        transmission_4-gtk
     ];
 }
