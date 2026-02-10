@@ -11,6 +11,9 @@
 
         ./dev
     ];
+    dconf.settings."org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+    };
     home = {
         username = "wouter";
         homeDirectory = "/home/wouter";

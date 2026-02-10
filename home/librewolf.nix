@@ -126,6 +126,7 @@
                 "dom.security.https_only_mode" = true;
                 "general.smoothScroll" = true;
                 "webgl.disabled" = false;
+                "layout.css.prefers-color-scheme.content-override" = 0;
             };
             SearchEngines = {
                 Remove = [
