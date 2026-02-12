@@ -5,6 +5,7 @@
             ".direnv/"
             ".env"
             "_pycache_/"
+            ".claude/"
         ];
 
         settings = {

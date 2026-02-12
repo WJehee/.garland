@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(nix flake check:*)",
-      "Bash(nix eval:*)",
-      "Bash(ls:*)"
-    ]
-  }
-}
