@@ -14,6 +14,10 @@
                 reverse_proxy http://localhost:2283
             '';
 
+            "auth.wouterjehee.com".extraConfig = ''
+                reverse_proxy http://localhost:9000
+            '';
+
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip

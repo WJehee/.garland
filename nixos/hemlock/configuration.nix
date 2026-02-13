@@ -6,6 +6,7 @@
         ../../modules/server/radicale.nix
         ../../modules/server/headless.nix
         ../../modules/server/immich.nix
+        ../../modules/server/authentik.nix
     ];
     boot.loader.grub = {
         enable = true;
@@ -24,6 +25,7 @@
     };
     environment = {
         sessionVariables = {
+            EDITOR = "nvim";
             GIT_EDITOR = "nvim";
             VISUAL = "nvim";
         };
