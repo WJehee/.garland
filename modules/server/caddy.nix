@@ -45,6 +45,12 @@
             "loodsenboekje.dorusrijkers.eu".extraConfig = ''
                 reverse_proxy http://localhost:1744
             '';
+            "test.dorusrijkers.eu".extraConfig = ''
+                route {
+                    import authelia
+                    reverse_proxy http://foxglove:4000
+                }
+            '';
         };
     };
 }

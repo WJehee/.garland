@@ -6,6 +6,7 @@
             ".env"
             "_pycache_/"
             ".claude/"
+            "result/"
         ];
 
         settings = {
