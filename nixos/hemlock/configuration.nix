@@ -42,7 +42,6 @@
             sqlite
             systemctl-tui
             doas-sudo-shim
-            rsync
         ];
     };
     system.stateVersion = "23.05";
