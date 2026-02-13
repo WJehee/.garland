@@ -1,8 +1,11 @@
-{ ... }: {
+{ config, ... }: {
+    sops.secrets."authelia-jwt-secret" = {};
+    sops.secrets."authelia-storage-key" = {};
+
     services.authelia.instances.main = {
         enable = true;
-        secrets.storageEncryptionKeyFile = "/etc/authelia/storageEncryptionKeyFile";
-        secrets.jwtSecretFile = "/etc/authelia/jwtSecretFile";
+        secrets.storageEncryptionKeyFile = config.sops.secrets."authelia-storage-key".path;
+        secrets.jwtSecretFile = config.sops.secrets."authelia-jwt-secret".path;
         settings = {
             theme = "dark";
             default_2fa_method = "totp";

@@ -25,6 +25,10 @@ cleanup:
 build-sd host:
     nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake ".#{{host}}" --system aarch64-linux -o "./{{host}}.sd"
 
+# Edit encrypted secrets for a host
+secrets host:
+    nix run nixpkgs#sops -- secrets/{{host}}.yaml
+
 # Remotely install a flake
 remote-install flake conn_str:
     nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./nixos/{{flake}}/hardware-configuration.nix

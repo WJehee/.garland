@@ -11,6 +11,41 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 * **Hemlock**: my VPS machine
 * **Ivy**: Home Assistant running on Raspberry PI
 
+== Secrets management
+
+Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.
+
+=== Editing secrets
+
+[source,bash]
+----
+just secrets <hostname>
+----
+
+This opens the decrypted file in your editor. On save, sops re-encrypts automatically.
+
+=== Adding a new host
+
+1. Get the age public key from the host's SSH key:
++
+[source,bash]
+----
+# From the host itself:
+cat /etc/ssh/ssh_host_ed25519_key.pub | nix run nixpkgs#ssh-to-age
+
+# Or remotely:
+ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age
+----
+
+2. Add the key to `.sops.yaml` under `keys:` with an anchor (e.g. `&hostname`), and add a `creation_rules` entry for `secrets/<hostname>.yaml`
+
+3. Create the encrypted secrets file:
++
+[source,bash]
+----
+just secrets <hostname>
+----
+
 == Thanks
 
 * https://github.com/Misterio77[Misterio77]

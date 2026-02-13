@@ -1,4 +1,9 @@
-{ ... }: {
+{ config, ... }: {
+    sops.secrets."radicale-htpasswd" = {
+        owner = "radicale";
+        group = "radicale";
+    };
+
     services.radicale = {
         enable = true;
         settings = {
@@ -7,7 +12,7 @@
             };
             auth = {
                 type = "htpasswd";
-                htpasswd_filename = "/etc/radicale-users";
+                htpasswd_filename = config.sops.secrets."radicale-htpasswd".path;
                 htpasswd_encryption = "bcrypt";
             };
         };

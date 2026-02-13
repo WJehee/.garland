@@ -11,6 +11,7 @@
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
 
+                inputs.sops-nix.nixosModules.sops
                 inputs.loodsenboekje.nixosModules.loodsenboekje
 
                 inputs.home-manager.nixosModules.home-manager {
@@ -32,9 +33,11 @@ in {
             wisteria = mkSystem "wisteria"; 
             ivy = inputs.nixpkgs.lib.nixosSystem {
                 system = "aarch64-linux";
+                specialArgs = { inherit inputs; hostname = "ivy"; };
                 modules = [
                     inputs.nixos-hardware.nixosModules.raspberry-pi-3
-                    ./nixos/ivy/configuration.nix
+                    inputs.sops-nix.nixosModules.sops
+                    ./ivy/configuration.nix
                 ];
             };
         };

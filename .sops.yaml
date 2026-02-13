@@ -1,0 +1,16 @@
+keys:
+  - &foxglove age1maveygcju9rluzd5cz4wrqlx3fewurm062caqdnl9a9yyzejpasqrayqk8
+  - &hemlock age1gtuxtmfxm9y2363yf72fgg88r26l7e8ughldja3azzq7p54cy96qrrx083
+  # TODO: add wisteria and ivy age keys (derived from SSH host keys via ssh-to-age)
+  # - &wisteria age1...
+  # - &ivy age1...
+
+creation_rules:
+  - path_regex: secrets/foxglove\.yaml$
+    key_groups:
+      - age:
+          - *foxglove
+  - path_regex: secrets/hemlock\.yaml$
+    key_groups:
+      - age:
+          - *hemlock

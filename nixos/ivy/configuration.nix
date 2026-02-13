@@ -1,5 +1,6 @@
 { config, ... }: {
     imports = [
+        ../../modules/sops.nix
         ../../modules/server/headless.nix
         ../../modules/home-assistant.nix
     ];

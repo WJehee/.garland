@@ -1,5 +1,6 @@
 { pkgs, ... }: {
     imports = [
+        ./sops.nix
         ./env.nix
         ./packages.nix
         ./custom.nix

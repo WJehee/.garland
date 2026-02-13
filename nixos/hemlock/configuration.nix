@@ -1,5 +1,6 @@
 { pkgs, ... }: {
     imports = [
+        ../../modules/sops.nix
         ../../disk/server.nix
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
