@@ -30,12 +30,6 @@
                     reverse_proxy http://localhost:17170
                 }
             '';
-            "test.wouterjehee.com".extraConfig = ''
-                route {
-                    import authelia
-                    reverse_proxy http://foxglove:4000
-                }
-            '';
 
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
@@ -46,10 +40,7 @@
                 reverse_proxy http://localhost:1744
             '';
             "test.dorusrijkers.eu".extraConfig = ''
-                route {
-                    import authelia
-                    reverse_proxy http://foxglove:4000
-                }
+                reverse_proxy http://foxglove:4000
             '';
         };
     };

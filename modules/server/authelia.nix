@@ -45,6 +45,10 @@
                         domain = "wouterjehee.com";
                         authelia_url = "https://auth.wouterjehee.com";
                     }
+                    {
+                        domain = "dorusrijkers.eu";
+                        authelia_url = "https://auth.wouterjehee.com";
+                    }
                 ];
             };
             access_control = {
