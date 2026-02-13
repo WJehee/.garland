@@ -10,7 +10,8 @@
         nixvim.url = "github:nix-community/nixvim";
         nixos-hardware.url = "github:nixos/nixos-hardware/master";
         sops-nix.url = "github:Mic92/sops-nix";
-        
+        authentik-nix.url = "github:nix-community/authentik-nix";
+
         # My own flakes
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
     };

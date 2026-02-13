@@ -10,8 +10,10 @@
                 inputs.disko.nixosModules.disko
                 inputs.stylix.nixosModules.stylix
                 inputs.nixvim.nixosModules.nixvim
-
                 inputs.sops-nix.nixosModules.sops
+                inputs.authentik-nix.nixosModules.default
+
+                # My custom flakes 
                 inputs.loodsenboekje.nixosModules.loodsenboekje
 
                 inputs.home-manager.nixosModules.home-manager {
