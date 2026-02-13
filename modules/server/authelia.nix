@@ -51,8 +51,13 @@
                 default_policy = "deny";
                 rules = [
                     {
-                        domain = "app1.wouterjehee.com";
+                        domain = "test.wouterjehee.com";
                         policy = "one_factor";
+                    }
+                    {
+                        domain = "ldap.wouterjehee.com";
+                        policy = "two_factor";
+                        subject = [ "group:lldap_admin" ];
                     }
                 ];
             };

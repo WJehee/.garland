@@ -11,6 +11,7 @@
         ./stylix.nix
         ./geoclue.nix
         ./virtualization.nix
+        ./tailscale.nix
 
         ./dev
         ./media

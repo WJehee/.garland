@@ -25,12 +25,15 @@
                 reverse_proxy http://localhost:9091
             '';
             "ldap.wouterjehee.com".extraConfig = ''
-                reverse_proxy http://localhost:17170
-            '';
-            "app1.wouterjehee.com".extraConfig = ''
                 route {
                     import authelia
-                    reverse_proxy localhost:4000
+                    reverse_proxy http://localhost:17170
+                }
+            '';
+            "test.wouterjehee.com".extraConfig = ''
+                route {
+                    import authelia
+                    reverse_proxy http://foxglove:4000
                 }
             '';
 

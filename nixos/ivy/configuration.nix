@@ -3,6 +3,7 @@
         ../../modules/sops.nix
         ../../modules/server/headless.nix
         ../../modules/home-assistant.nix
+        ../../modules/tailscale.nix
     ];
     system.stateVersion = "24.11";
     nix.settings = {

@@ -8,6 +8,7 @@
         ../../modules/server/immich.nix
         ../../modules/server/authelia.nix
         ../../modules/server/lldap.nix
+        ../../modules/tailscale.nix
     ];
     boot.loader.grub = {
         enable = true;
