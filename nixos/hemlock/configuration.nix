@@ -10,7 +10,7 @@
         ../../modules/server/immich.nix
         ../../modules/server/authelia.nix
         ../../modules/server/lldap.nix
-        ../../modules/server/custom.nix
+        ../../modules/server/projects.nix
     ];
     boot.loader.grub = {
         enable = true;

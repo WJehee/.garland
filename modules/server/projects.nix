@@ -1,5 +1,6 @@
 { pkgs, ... }: {
-    # Website deploy user
+    # Website deployment
+    environment.systemPackages = with pkgs; [ rsync ];
     users.users.decree = {
         isSystemUser = true;
         group = "decree";
@@ -13,5 +14,7 @@
     systemd.tmpfiles.rules = [
         "d /var/www/wouterjehee.com 0755 decree decree -"
     ];
+
+    # Loodsenboekje
     services.loodsenboekje.enable = true;
 }
