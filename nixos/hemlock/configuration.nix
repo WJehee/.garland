@@ -6,7 +6,8 @@
         ../../modules/server/radicale.nix
         ../../modules/server/headless.nix
         ../../modules/server/immich.nix
-        ../../modules/server/authentik.nix
+        ../../modules/server/authelia.nix
+        ../../modules/server/lldap.nix
     ];
     boot.loader.grub = {
         enable = true;

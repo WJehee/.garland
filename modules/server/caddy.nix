@@ -1,14 +1,11 @@
 { ... }: {
     services.caddy = {
         enable = true;
-        globalConfig = ''
-            (authentik) {
-                reverse_proxy /outpost.goauthentik.io/* localhost:9000
-
-                forward_auth localhost:9000 {
-                    uri /outpost.goauthentik.io/auth/caddy
-                    copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
-                    trusted_proxies private_ranges
+        extraConfig = ''
+            (authelia) {
+                forward_auth localhost:9091 {
+                    uri /api/authz/forward-auth
+                    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
                 }
             }
         '';
@@ -25,15 +22,18 @@
                 reverse_proxy http://localhost:2283
             '';
             "auth.wouterjehee.com".extraConfig = ''
-                reverse_proxy http://localhost:9000
+                reverse_proxy http://localhost:9091
+            '';
+            "ldap.wouterjehee.com".extraConfig = ''
+                reverse_proxy http://localhost:17170
             '';
             "app1.wouterjehee.com".extraConfig = ''
                 route {
-                    import authentik
+                    import authelia
                     reverse_proxy localhost:4000
                 }
             '';
-            
+
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip
