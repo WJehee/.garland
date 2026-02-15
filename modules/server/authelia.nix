@@ -63,6 +63,10 @@
                         policy = "two_factor";
                         subject = [ "group:lldap_admin" ];
                     }
+                    {
+                        domain = "*.dorusrijkers.eu";
+                        policy = "one_factor";
+                    }
                 ];
             };
             notifier = {

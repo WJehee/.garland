@@ -10,17 +10,13 @@
             }
         '';
         virtualHosts = {
+            # Public site
             "wouterjehee.com".extraConfig = ''
                 root * /var/www/wouterjehee.com
                 encode gzip
                 file_server
             '';
-            "cal.wouterjehee.com".extraConfig = ''
-                reverse_proxy http://localhost:5232
-            '';
-            "img.wouterjehee.com".extraConfig = ''
-                reverse_proxy http://localhost:2283
-            '';
+            # Auth services
             "auth.wouterjehee.com".extraConfig = ''
                 reverse_proxy http://localhost:9091
             '';
@@ -30,7 +26,20 @@
                     reverse_proxy http://localhost:17170
                 }
             '';
-
+            # Self hosted services behind auth
+            "cal.wouterjehee.com".extraConfig = ''
+                route {
+                    import authelia
+                    reverse_proxy http://localhost:5232
+                }
+            '';
+            "img.wouterjehee.com".extraConfig = ''
+                route {
+                    import authelia
+                    reverse_proxy http://localhost:2283
+                }
+            '';
+            # dorusrijkers.eu services
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip
