@@ -26,18 +26,12 @@
                     reverse_proxy http://localhost:17170
                 }
             '';
-            # Self hosted services behind auth
+            # Self hosted services
             "cal.wouterjehee.com".extraConfig = ''
-                route {
-                    import authelia
-                    reverse_proxy http://localhost:5232
-                }
+                reverse_proxy http://localhost:5232
             '';
             "img.wouterjehee.com".extraConfig = ''
-                route {
-                    import authelia
-                    reverse_proxy http://localhost:2283
-                }
+                reverse_proxy http://localhost:2283
             '';
 
             # dorusrijkers.eu public site
