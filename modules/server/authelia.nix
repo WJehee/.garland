@@ -47,21 +47,22 @@
                     }
                     {
                         domain = "dorusrijkers.eu";
-                        authelia_url = "https://auth.wouterjehee.com";
+                        authelia_url = "https://auth.dorusrijkers.eu";
                     }
                 ];
             };
             access_control = {
                 default_policy = "deny";
                 rules = [
-                    {
-                        domain = "test.wouterjehee.com";
-                        policy = "one_factor";
-                    }
+                    # NOTE: order for rules matter, first that matches is applied
                     {
                         domain = "ldap.wouterjehee.com";
                         policy = "two_factor";
                         subject = [ "group:lldap_admin" ];
+                    }
+                    {
+                        domain = "*.wouterjehee.com";
+                        policy = "one_factor";
                     }
                     {
                         domain = "*.dorusrijkers.eu";

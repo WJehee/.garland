@@ -10,7 +10,7 @@
             }
         '';
         virtualHosts = {
-            # Public site
+            # wouterjehee.com public site
             "wouterjehee.com".extraConfig = ''
                 root * /var/www/wouterjehee.com
                 encode gzip
@@ -39,12 +39,18 @@
                     reverse_proxy http://localhost:2283
                 }
             '';
-            # dorusrijkers.eu services
+
+            # dorusrijkers.eu public site
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip
                 file_server
             '';
+            # Auth service
+            "auth.dorusrijkers.eu".extraConfig = ''
+                reverse_proxy http://localhost:9091
+            '';
+            # Services
             "loodsenboekje.dorusrijkers.eu".extraConfig = ''
                 reverse_proxy http://localhost:1744
             '';
