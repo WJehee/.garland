@@ -60,6 +60,27 @@
                         policy = "two_factor";
                         subject = [ "group:lldap_admin" ];
                     }
+                    # Public board display - no auth needed
+                    {
+                        domain = "6767.dorusrijkers.eu";
+                        policy = "bypass";
+                        resources = [
+                            "^/$"
+                            "^/ws$"
+                            "^/static/.*"
+                        ];
+                    }
+                    # Protected editor/announcements
+                    {
+                        domain = "6767.dorusrijkers.eu";
+                        policy = "one_factor";
+                        resources = [
+                            "^/edit$"
+                            "^/announce$"
+                            "^/api/departures.*"
+                            "^/api/speak$"
+                        ];
+                    }
                     {
                         domain = "*.wouterjehee.com";
                         policy = "one_factor";
