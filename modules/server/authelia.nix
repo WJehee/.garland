@@ -68,6 +68,7 @@
                             "^/$"
                             "^/ws$"
                             "^/static/.*"
+                            "^/sounds/.*"
                         ];
                     }
                     # Protected editor/announcements
