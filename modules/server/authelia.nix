@@ -71,13 +71,12 @@
                             "^/sounds/.*"
                         ];
                     }
-                    # Protected editor/announcements
+                    # Protected admin area
                     {
                         domain = "6767.dorusrijkers.eu";
-                        policy = "one_factor";
+                        policy = "two_factor";
                         resources = [
-                            "^/edit$"
-                            "^/announce$"
+                            "^/admin/.*"
                             "^/api/departures.*"
                             "^/api/speak$"
                         ];
