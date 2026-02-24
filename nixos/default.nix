@@ -1,5 +1,5 @@
-{ inputs, ... }: let 
-    mkSystem = hostname:
+{ inputs, ... }: let
+    mkSystem = hostname: { username ? "wouter" }:
         inputs.nixpkgs.lib.nixosSystem {
             specialArgs = { inherit inputs hostname; };
             modules = [
@@ -19,7 +19,7 @@
                     home-manager = if builtins.pathExists ./${hostname}/home.nix
                         then {
                         extraSpecialArgs = { inherit inputs; };
-                        users.wouter = ./${hostname}/home.nix;
+                        users.${username} = ./${hostname}/home.nix;
                         useGlobalPkgs = true;
                         useUserPackages = true;
                     } else {};
@@ -29,9 +29,9 @@
 in {
     flake = {
         nixosConfigurations = {
-            foxglove = mkSystem "foxglove";
-            hemlock = mkSystem "hemlock";
-            wisteria = mkSystem "wisteria"; 
+            foxglove = mkSystem "foxglove" {};
+            hemlock = mkSystem "hemlock" { username = "admin"; };
+            wisteria = mkSystem "wisteria" {}; 
             ivy = inputs.nixpkgs.lib.nixosSystem {
                 system = "aarch64-linux";
                 specialArgs = { inherit inputs; hostname = "ivy"; };
