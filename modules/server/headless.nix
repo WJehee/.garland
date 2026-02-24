@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
     services = {
         openssh = {
             enable = true;
@@ -12,6 +12,7 @@
     users.users.admin = {
         isNormalUser = true;
         initialPassword = "changeme";
+        shell = pkgs.zsh;
         extraGroups = [
             "docker"
         ];

@@ -31,7 +31,6 @@
                 configurationLimit = 5;
                 useOSProber = true;
             };
-            efi.canTouchEfiVariables = true;
         };
         # Needed for building SD image
         binfmt.emulatedSystems = [ "aarch64-linux" ];
