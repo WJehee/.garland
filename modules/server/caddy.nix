@@ -51,7 +51,7 @@
             "test.dorusrijkers.eu".extraConfig = ''
                 reverse_proxy http://foxglove:4000
             '';
-            "6767.dorusrijkers.eu".extraConfig = ''
+            "6767ov.dorusrijkers.eu".extraConfig = ''
                 route {
                     import authelia
                     reverse_proxy http://foxglove:6767

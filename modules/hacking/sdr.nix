@@ -7,7 +7,8 @@
         ];
     };
     environment.systemPackages = with pkgs; [
-        gqrx
+        # gqrx # Broken
+        sdrpp
         urh
         gnuradio
 

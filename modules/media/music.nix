@@ -8,7 +8,7 @@
         enable = true;
         user = "wouter";
         settings = {
-            music_directory = "/home/wouter/Sync/music";
+            music_directory = "/home/wouter/Music";
             audio_output = [
                 {
                     type = "pipewire";

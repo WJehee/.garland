@@ -33,7 +33,7 @@
         ffuf
 
         # Wordlists
-        wordlists
+        # wordlists
         # cewl
 
         # Passwords

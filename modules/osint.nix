@@ -1,5 +1,6 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
-        exiftool
+        exiftool        # EXIF data
+        sherlock        # username search
     ];
 }
