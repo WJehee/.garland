@@ -1,23 +1,43 @@
-{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
     imports = [
         ./sops.nix
         ./env.nix
-        ./packages.nix
+        ./doas.nix
         ./custom.nix
-        ./user.nix
-        ./networking.nix
-        ./chromium.nix
-        ./bluetooth.nix
-        ./stylix.nix
-        ./geoclue.nix
-        ./virtualization.nix
-        ./tailscale.nix
 
-        ./dev
-        ./media
-        ./security
+        ./firewall.nix
+        ./networking.nix
+        ./ssh.nix
+        ./tailscale.nix
     ];
-    system.stateVersion = "24.11";
+    system = {
+        stateVersion = "24.11";
+        autoUpgrade = {
+            enable = true;
+            flake = inputs.self.outPath;
+            dates = "02:00";
+            randomizedDelaySec = "45min";
+        };
+    };
+    time.timeZone = "Europe/Amsterdam";
+    i18n.defaultLocale = "en_US.UTF-8";
+    boot = {
+        kernelPackages = pkgs.linuxPackages_latest;
+        tmp.useTmpfs = true;
+        loader = {
+            grub = {
+                enable = true;
+                device = "nodev";
+                efiSupport = true;
+                configurationLimit = 5;
+                useOSProber = true;
+            };
+            efi.canTouchEfiVariables = true;
+        };
+        # Needed for building SD image
+        binfmt.emulatedSystems = [ "aarch64-linux" ];
+    };
+
     nixpkgs.config = {
         allowUnfree = true;
         permittedInsecurePackages = [];
@@ -40,28 +60,27 @@
             options = "--delete-older-than 30d";
         };
     };
-    time.timeZone = "Europe/Amsterdam";
-    i18n.defaultLocale = "en_US.UTF-8";
 
-    boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
-        tmp.useTmpfs = true;
-        loader = {
-            grub = {
-                enable = true;
-                device = "nodev";
-                efiSupport = true;
-                configurationLimit = 5;
-                useOSProber = true;
-            };
-            efi.canTouchEfiVariables = true;
-        };
-        # Needed for building SD image
-        binfmt.emulatedSystems = [ "aarch64-linux" ];
-    };
-    services.pcscd.enable = true;
-    programs.gnupg.agent = {
-        enable = true;
-        pinentryPackage = pkgs.pinentry-gtk2;
-    };
+    environment.systemPackages = with pkgs; [
+        fd                  # improved find
+        ripgrep             # Better grep
+        tree                # Show tree of files
+        psmisc              # Killall, etc.
+
+        # File manipulation
+        zip
+        unzip
+        unrar
+        ffmpeg
+        imagemagick
+        file             
+
+        usbutils            # USB utilities
+        fzf                 # Fuzzy finder
+        inotify-tools       # Notify-send, etc.
+        systemctl-tui       # Systemctl terminal UI
+        zenith              # System monitor (top)
+        dig                 # DNS lookup
+        bat                 # improved cat
+    ];
 }

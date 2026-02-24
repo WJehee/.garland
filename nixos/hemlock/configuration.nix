@@ -1,8 +1,9 @@
 { pkgs, inputs, ... }: {
     imports = [
-        ../../modules/sops.nix
         ../../disk/server.nix
-        ../../modules/tailscale.nix
+
+        ../../modules
+        ../../modules/dev
 
         ../../modules/server/caddy.nix
         ../../modules/server/radicale.nix
@@ -12,7 +13,6 @@
         ../../modules/server/lldap.nix
         ../../modules/server/projects.nix
 
-        ../../modules/dev/nvim
     ];
     boot.loader.grub = {
         enable = true;

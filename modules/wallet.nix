@@ -11,4 +11,5 @@
     };
     hardware.ledger.enable = true;
     services.trezord.enable = true;
+    services.pcscd.enable = true;
 }
