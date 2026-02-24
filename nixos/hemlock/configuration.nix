@@ -20,28 +20,11 @@
         efiSupport = true;
         efiInstallAsRemovable = true;
     };
-    nix.settings = {
-        trusted-users = [
-            "admin"
-        ];
-        experimental-features = [
-            "nix-command"
-            "flakes"
-        ];
-    };
+    nix.settings.trusted-users = [ "admin" ];
     environment.systemPackages = with pkgs; [
-        git
         apacheHttpd
-        just
-        patchelf
-        file
         sqlite
-        systemctl-tui
-        doas-sudo-shim
     ];
-    system.stateVersion = "23.05";
-    time.timeZone = "Europe/Amsterdam";
-    i18n.defaultLocale = "en_US.UTF-8";
     networking.firewall = {
         enable = true;
         allowedTCPPorts = [

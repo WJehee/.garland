@@ -38,21 +38,6 @@ This project uses **jj (Jujutsu)** backed by git. Always use `jj` commands inste
 
 Each host configuration is assembled from: `nixos/<hostname>/configuration.nix` + `hardware-configuration.nix` + flake module inputs (disko, stylix, nixvim, sops-nix, home-manager).
 
-### Module Organization
-
-`modules/default.nix` is the base module set imported by all desktop hosts. It aggregates:
-- Base: `sops.nix`, `env.nix`, `packages.nix`, `user.nix`, `networking.nix`, `stylix.nix`, etc.
-- `dev/` -- Development tools (git, jj, zsh, starship, nvim, android, godot)
-- `media/` -- Audio (pipewire), graphics, gaming, music, printing, syncthing
-- `security/` -- Firewall, doas, SSH, wallet
-
-Host-specific module sets:
-- `modules/hacking/` -- Security tools (wireshark, nmap, hashcat, SDR), imported by foxglove and wisteria
-- `modules/server/` -- Self-hosted services, imported only by hemlock:
-  - `caddy.nix` -- Reverse proxy with virtual hosts for multiple domains
-  - `authelia.nix` -- SSO/MFA with LDAP backend
-  - `lldap.nix`, `radicale.nix`, `immich.nix`, `headscale.nix`, `ntfy.nix`
-
 ### Home Manager
 
 Desktop hosts (foxglove, wisteria) have a `home.nix` that imports `../../home` for the Hyprland desktop environment (waybar, alacritty, librewolf, dunst, hyprlock, hypridle). Hemlock and ivy are headless and have no home config.
@@ -68,3 +53,4 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 - `hostname` is passed as a `specialArgs` attribute, available in all modules
 - Ivy (Raspberry PI) has a separate config path using `nixos-hardware` instead of the standard `mkSystem`
 - `modules/default.nix` is for shared desktop configuration; server-only modules live in `modules/server/` and are imported directly by hemlock's `configuration.nix`
+

@@ -5,7 +5,6 @@
         ./doas.nix
         ./custom.nix
 
-        ./firewall.nix
         ./networking.nix
         ./ssh.nix
         ./tailscale.nix
@@ -66,6 +65,7 @@
         ripgrep             # Better grep
         tree                # Show tree of files
         psmisc              # Killall, etc.
+        patchelf
 
         # File manipulation
         zip
