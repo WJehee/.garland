@@ -70,4 +70,4 @@ just secrets <hostname>
 * https://unsplash.com/photos/purple-flowers-in-green-leaves-Q8NdtiJ_S3A[Wisteria portrait], by https://unsplash.com/@larisabirta?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Larisa Birta]
 * https://unsplash.com/photos/shallow-focus-photography-of-pink-flowers-in-the-meadows-P_b-y_mKPTk[Foxglove landscape], by https://unsplash.com/@s1awek?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Slawek K]
 * https://unsplash.com/photos/a-tall-purple-flower-with-lots-of-petals-4_ik5YPoJwI[Foxglove portrait], by https://unsplash.com/@siarray?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Sia Ray]
-
+* https://unsplash.com/photos/abstract-painting-37ZuGYD3JOk[Default wallpaper] by https://unsplash.com/@worldsbetweenlines[Patrick Hendry]

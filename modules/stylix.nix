@@ -3,13 +3,14 @@
         enable = true;
         autoEnable = true;
 
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
         polarity = "dark";
-        image = ../wallpapers/${hostname}-landscape.jpg;
+        image = ../wallpapers/default.jpg;
         targets = {
             grub.useWallpaper = true;
             nixvim.transparentBackground = {
-                main = true;
-                signColumn = true;
+                main = false;
+                signColumn = false;
             };
         };
         cursor = {
@@ -17,7 +18,7 @@
             package = pkgs.bibata-cursors;
             size = 24;
         };
-        opacity.terminal = 0.9;
+        opacity.terminal = 0.95;
         fonts = {
             sansSerif = {
                 package = pkgs.geist-font;

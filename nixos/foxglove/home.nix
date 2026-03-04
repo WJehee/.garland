@@ -25,7 +25,7 @@
     };
     xdg.configFile."hypr/hyprpaper.conf".text = ''
         splash = false
-        preload = ~/.garland/wallpapers/foxglove-landscape.jpg
-        wallpaper = eDP-1, ~/.garland/wallpapers/foxglove-landscape.jpg
+        preload = ~/.garland/wallpapers/default.jpg
+        wallpaper = eDP-1, ~/.garland/wallpapers/default.jpg
     '';
 }
