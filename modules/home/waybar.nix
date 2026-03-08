@@ -1,10 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, lib, vars, ... }: {
     programs.waybar = {
         enable = true;
         settings = [{
             layer = "top";
             position = "top";
-            modules-left = [ "hyprland/workspaces" ];
+            modules-left = lib.optionals (vars.garland.windowManager == "hyprland") [ "hyprland/workspaces" ];
             modules-center = [ "tray" ];
             modules-right = [
                 "mpd"

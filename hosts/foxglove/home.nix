@@ -1,8 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, lib, vars, ... }: {
     imports = [
         ../../modules/home/default.nix
     ];
-    wayland.windowManager.hyprland.settings = {
+    wayland.windowManager.hyprland.settings = lib.mkIf (vars.garland.windowManager == "hyprland") {
         monitor = [
             ", preferred, auto, 1"
             "eDP-1, preferred, auto, 1.2"
@@ -23,9 +23,11 @@
             "10, monitor:eDP-1"
         ];
     };
-    xdg.configFile."hypr/hyprpaper.conf".text = ''
-        splash = false
-        preload = ~/.garland/wallpapers/default.jpg
-        wallpaper = eDP-1, ~/.garland/wallpapers/default.jpg
-    '';
+    xdg.configFile = lib.mkIf (vars.garland.windowManager == "hyprland") {
+        "hypr/hyprpaper.conf".text = ''
+            splash = false
+            preload = ~/.garland/wallpapers/default.jpg
+            wallpaper = eDP-1, ~/.garland/wallpapers/default.jpg
+        '';
+    };
 }

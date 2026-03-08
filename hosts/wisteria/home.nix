@@ -1,8 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, lib, vars, ... }: {
     imports = [
         ../../modules/home/default.nix
     ];
-    wayland.windowManager.hyprland.settings = {
+    wayland.windowManager.hyprland.settings = lib.mkIf (vars.garland.windowManager == "hyprland") {
         monitor = [
             "DP-3,preferred,0x0,1"
             "DP-2,preferred,auto-right,1,transform,1"
@@ -23,13 +23,15 @@
             "10, monitor:HDMI-A-1"
         ];
     };
-    xdg.configFile."hypr/hyprpaper.conf".text = ''
-        splash = false
-        preload = ~/.garland/wallpapers/wisteria-landscape.jpg
-        preload = ~/.garland/wallpapers/wisteria-portrait.jpg
+    xdg.configFile = lib.mkIf (vars.garland.windowManager == "hyprland") {
+        "hypr/hyprpaper.conf".text = ''
+            splash = false
+            preload = ~/.garland/wallpapers/wisteria-landscape.jpg
+            preload = ~/.garland/wallpapers/wisteria-portrait.jpg
 
-        wallpaper = DP-3, ~/.garland/wallpapers/wisteria-landscape.jpg
-        wallpaper = DP-2, ~/.garland/wallpapers/wisteria-portrait.jpg
-        wallpaper = HDMI-A-1, ~/.garland/wallpapers/wisteria-landscape.jpg
-    '';
+            wallpaper = DP-3, ~/.garland/wallpapers/wisteria-landscape.jpg
+            wallpaper = DP-2, ~/.garland/wallpapers/wisteria-portrait.jpg
+            wallpaper = HDMI-A-1, ~/.garland/wallpapers/wisteria-landscape.jpg
+        '';
+    };
 }
