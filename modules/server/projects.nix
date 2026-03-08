@@ -1,4 +1,29 @@
 { pkgs, ... }: {
+    services.caddy.virtualHosts = {
+        "wouterjehee.com".extraConfig = ''
+            root * /var/www/wouterjehee.com
+            encode gzip
+            file_server
+        '';
+        "dorusrijkers.eu".extraConfig = ''
+            root * /var/www/dorusrijkers.eu
+            encode gzip
+            file_server
+        '';
+        "loodsenboekje.dorusrijkers.eu".extraConfig = ''
+            reverse_proxy http://localhost:1744
+        '';
+        "test.dorusrijkers.eu".extraConfig = ''
+            reverse_proxy http://foxglove:4000
+        '';
+        "6767ov.dorusrijkers.eu".extraConfig = ''
+            route {
+                import authelia
+                reverse_proxy http://foxglove:6767
+            }
+        '';
+    };
+
     # Website deployment
     environment.systemPackages = with pkgs; [ rsync ];
     users.users.decree = {

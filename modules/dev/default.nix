@@ -7,7 +7,6 @@ in {
     ++ lib.optionals (cfg.virtualization or true) [ ./virtualization.nix ];
 
     environment.systemPackages = with pkgs; [
-
         asciidoctor-with-extensions
         asciidoc-full-with-plugins
     ];

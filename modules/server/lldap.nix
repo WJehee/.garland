@@ -8,6 +8,13 @@
     sops.secrets."lldap-jwt-secret".owner = "lldap";
     sops.secrets."lldap-admin-password".owner = "lldap";
 
+    services.caddy.virtualHosts."ldap.wouterjehee.com".extraConfig = ''
+        route {
+            import authelia
+            reverse_proxy http://localhost:17170
+        }
+    '';
+
     services.lldap = {
         enable = true;
         settings = {

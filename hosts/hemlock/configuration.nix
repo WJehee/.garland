@@ -4,7 +4,6 @@
         ../../modules/core
         ../../modules/server/headless.nix
 
-        # Specific configs
         ../../modules/server/authelia.nix
         ../../modules/server/caddy.nix
         ../../modules/server/lldap.nix

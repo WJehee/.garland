@@ -12,6 +12,25 @@
         };
     };
 
+    services.caddy = {
+        extraConfig = ''
+            (authelia) {
+                forward_auth localhost:9091 {
+                    uri /api/authz/forward-auth
+                    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+                }
+            }
+        '';
+        virtualHosts = {
+            "auth.wouterjehee.com".extraConfig = ''
+                reverse_proxy http://localhost:9091
+            '';
+            "auth.dorusrijkers.eu".extraConfig = ''
+                reverse_proxy http://localhost:9091
+            '';
+        };
+    };
+
     services.authelia.instances.main = {
         enable = true;
         secrets = {

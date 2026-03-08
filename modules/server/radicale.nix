@@ -4,6 +4,10 @@
         group = "radicale";
     };
 
+    services.caddy.virtualHosts."cal.wouterjehee.com".extraConfig = ''
+        reverse_proxy http://localhost:5232
+    '';
+
     services.radicale = {
         enable = true;
         settings = {
