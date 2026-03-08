@@ -7,9 +7,6 @@
         ./custom.nix
         ./networking.nix
         ./ssh.nix
-        ./pipewire.nix
-        ./syncthing.nix
-        ./graphics.nix
         ./starship.nix
         ./zsh.nix
     ]

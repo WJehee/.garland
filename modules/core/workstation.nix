@@ -6,6 +6,9 @@
         ./stylix.nix
         ./geoclue.nix
         ./wallet.nix
+        ./pipewire.nix
+        ./syncthing.nix
+        ./graphics.nix
     ];
 
     environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
