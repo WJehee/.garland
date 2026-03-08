@@ -11,7 +11,6 @@
     services.mullvad-vpn.enable = true;
     environment.systemPackages = with pkgs; [
         openvpn
-        eduvpn-client
     ];
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;

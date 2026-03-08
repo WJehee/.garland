@@ -8,6 +8,7 @@
         ../../modules/server/caddy.nix
         ../../modules/server/lldap.nix
         ../../modules/server/radicale.nix
+        ../../modules/server/immich.nix
 
         ../../modules/server/projects.nix
     ];

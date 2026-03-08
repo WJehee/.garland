@@ -5,5 +5,6 @@
 
     services.immich = {
         enable = true;
+        mediaLocation = "/var/lib/immich";
     };
 }
