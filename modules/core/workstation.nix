@@ -6,12 +6,9 @@
         ./stylix.nix
         ./geoclue.nix
         ./wallet.nix
-        ./virtualization.nix
-
-        ./dev
-        ./media
-        ./hacking
     ];
+
+    environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
     programs.gnupg.agent = {
         enable = true;

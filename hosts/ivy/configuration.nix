@@ -1,12 +1,12 @@
 { config, ... }: {
     imports = [
         # Default configs
-        ../../modules
+        ../../modules/core
         ../../modules/dev
         ../../modules/server/headless.nix
 
         # Specific configs
-        ../../modules/home-assistant.nix
+        ../../modules/core/home-assistant.nix
     ];
     system.stateVersion = "24.11";
     nix.settings = {

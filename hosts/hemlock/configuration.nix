@@ -1,9 +1,9 @@
 { pkgs, inputs, ... }: {
     imports = [
         # Default configs
-        ../../disk/server.nix
-        ../../modules
-        ../../modules/dev
+        ../../modules/disk/server.nix
+        ../../modules/core
+
         ../../modules/server/headless.nix
 
         # Specific configs
@@ -14,6 +14,7 @@
         ../../modules/server/projects.nix
         ../../modules/server/radicale.nix
     ];
+
     boot.loader.grub = {
         enable = true;
         devices = [];

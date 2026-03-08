@@ -1,5 +1,5 @@
-{ pkgs, ...}: {
-    users.users.wouter.extraGroups = ["adbusers"];
+{ pkgs, ... }: {
+    users.users.wouter.extraGroups = [ "adbusers" ];
     nixpkgs.config.android_sdk.accept_license = true;
     environment.systemPackages = with pkgs; [
         android-tools

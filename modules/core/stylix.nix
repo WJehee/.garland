@@ -5,7 +5,7 @@
 
         base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
         polarity = "dark";
-        image = ../wallpapers/default.jpg;
+        image = ../../wallpapers/default.jpg;
         targets = {
             grub.useWallpaper = true;
             nixvim.transparentBackground = {

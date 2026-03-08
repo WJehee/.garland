@@ -1,16 +1,15 @@
-{ ... }: {
+{ lib, vars, ... }: {
     imports = [
         ./alacritty.nix
         ./waybar.nix
         ./librewolf.nix
-        ./hyprland.nix
-        ./hyprlock.nix
-        ./hypridle.nix
         ./dunst.nix
         ./nightlight.nix
 
         ./dev
-    ];
+    ]
+    ++ lib.optionals (vars.garland.windowManager == "hyprland") [ ./hyprland ];
+
     dconf.settings."org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
     };

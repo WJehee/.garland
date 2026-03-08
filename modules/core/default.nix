@@ -1,14 +1,23 @@
-{ inputs, pkgs, ... }: {
+{ inputs, lib, pkgs, vars, ... }: {
     imports = [
         ./sops.nix
         ./env.nix
         ./doas.nix
         ./custom.nix
-
         ./networking.nix
         ./ssh.nix
-        ./tailscale.nix
-    ];
+        ./pipewire.nix
+        ./syncthing.nix
+        ./graphics.nix
+        ./starship.nix
+        ./zsh.nix
+    ]
+    ++ lib.optionals (vars.garland.tailscale.enable or false) [ ./tailscale.nix ]
+    ++ lib.optionals (vars.garland.printing.enable or false) [ ./printing.nix ]
+    ++ lib.optionals (vars.garland.music.enable or false) [ ./music.nix ]
+    ++ lib.optionals (vars.garland.dev.enable or false) [ ../dev ]
+    ++ lib.optionals (vars.garland.hacking.enable or false) [ ../hacking ];
+
     system = {
         stateVersion = "24.11";
         autoUpgrade = {
@@ -72,7 +81,7 @@
         unrar
         ffmpeg
         imagemagick
-        file             
+        file
 
         usbutils            # USB utilities
         fzf                 # Fuzzy finder

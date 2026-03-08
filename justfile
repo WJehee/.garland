@@ -31,5 +31,5 @@ secrets host=`hostname`:
 
 # Remotely install a flake
 remote-install flake conn_str:
-    nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./nixos/{{flake}}/hardware-configuration.nix
+    nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./hosts/{{flake}}/hardware-configuration.nix
 

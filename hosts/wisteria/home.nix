@@ -1,6 +1,6 @@
 { pkgs, ... }: {
     imports = [
-        ../../home/default.nix
+        ../../modules/home/default.nix
     ];
     wayland.windowManager.hyprland.settings = {
         monitor = [

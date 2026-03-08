@@ -1,8 +1,8 @@
 { ... }: {
     imports = [
-        ../../home/dev/zsh.nix
-        ../../home/dev/git.nix
-        ../../home/dev/jujutsu.nix
+        ../../modules/home/dev/zsh.nix
+        ../../modules/home/dev/git.nix
+        ../../modules/home/dev/jujutsu.nix
     ];
     home = {
         username = "admin";

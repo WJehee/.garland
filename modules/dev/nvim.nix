@@ -1,7 +1,4 @@
 { ... }: {
-    imports = [
-        ./keys.nix
-    ];
     programs.nixvim = {
         enable = true;
         viAlias = true;
@@ -111,13 +108,6 @@
             };
 
             # Tools
-            # harpoon = {
-            #     enable = true;
-            #     enableTelescope = true;
-            #     settings = {
-            #         save_on_toggle = true;
-            #     };
-            # };
             telescope = {
                 enable = true;
                 keymaps = {
@@ -131,5 +121,56 @@
             # undotree.enable = true;
             neogit.enable = true;
         };
+        globals.mapleader = " ";
+        keymaps = [
+            {
+                # Apply macro in register q and move down
+                mode = "n";
+                key = "Q";
+                action = "@qj";
+            }
+            {
+                # Apply macro in register q on visual selection
+                mode = "n";
+                key = "Q";
+                action = ":norm @q<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>ca";
+                action = "<cmd>Lspsaga code_action<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>rn";
+                action = "<cmd>Lspsaga rename<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>hd";
+                action = "<cmd>Lspsaga hover_doc<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>pd";
+                action = "<cmd>Lspsaga peek_definition<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>gd";
+                action = "<cmd>Lspsaga goto_definition<CR>";
+            }
+            {
+                mode = "n";
+                key = "<leader>fd";
+                action = "<cmd>Lspsaga finder<CR>";
+            }
+            {
+                # Sort tailwind classes in quotes
+                mode = "n";
+                key = "<leader>tws";
+                action = "vi\":TailwindSortSelectionSync<CR>";
+            }
+        ];
     };
 }

@@ -2,24 +2,14 @@
     environment.systemPackages = with pkgs; [
         clinfo
     ];
-    hardware = {
-        graphics = {
-            enable = true;
-            enable32Bit = true;
-            extraPackages = with pkgs; [
-                rocmPackages.clr.icd
-                intel-ocl
-            ];
-        };
-        amdgpu.opencl.enable = true;
+    hardware.graphics = {
+        enable = true;
+        enable32Bit = true;
     };
-    boot = {
-        initrd.kernelModules = [ "amdgpu" ];
-        kernelParams = [
-            "quiet"
-            "splash"
-        ];
-    };
+    boot.kernelParams = [
+        "quiet"
+        "splash"
+    ];
 
     xdg.portal = {
         enable = true;
@@ -44,7 +34,6 @@
                 layout = "us";
                 options = "eurosign:e,caps:escape";
             };
-            videoDrivers = [ "amdgpu" ];
         };
     };
 }

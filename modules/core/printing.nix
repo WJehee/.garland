@@ -1,9 +1,7 @@
 { pkgs, ... }: {
     services = {
         printing.enable = true;
-        printing.drivers = [
-            pkgs.hplip 
-        ];
+        printing.drivers = [ pkgs.hplip ];
         avahi.enable = true;
         avahi.nssmdns = true;
         avahi.openFirewall = true;

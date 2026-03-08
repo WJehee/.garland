@@ -1,5 +1,5 @@
 {
-    description = "My NixOS config";
+    description = "Garland - Nix Configurations";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -22,7 +22,7 @@
                 "aarch64-linux"
             ];
             imports = [
-                ./nixos
+                ./hosts
             ];
             flake = {
                 templates = import ./templates;

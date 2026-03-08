@@ -33,14 +33,14 @@ This project uses **jj (Jujutsu)** backed by git. Always use `jj` commands inste
 ### Flake Structure
 
 `flake.nix` uses **flake-parts** and defines:
-- `nixosConfigurations` for all four hosts via a `mkSystem` helper in `nixos/default.nix`
+- `nixosConfigurations` for all four hosts via a `mkSystem` helper in `hosts/default.nix`
 - `templates` for bootstrapping new projects (rust, zig, elixir, python, gleam, etc.)
 
-Each host configuration is assembled from: `nixos/<hostname>/configuration.nix` + `hardware-configuration.nix` + flake module inputs (disko, stylix, nixvim, sops-nix, home-manager).
+Each host configuration is assembled from: `hosts/<hostname>/configuration.nix` + `hardware-configuration.nix` + flake module inputs (disko, stylix, nixvim, sops-nix, home-manager).
 
 ### Home Manager
 
-Desktop hosts (foxglove, wisteria) have a `home.nix` that imports `../../home` for the Hyprland desktop environment (waybar, alacritty, librewolf, dunst, hyprlock, hypridle). Hemlock and ivy are headless and have no home config.
+Desktop hosts (foxglove, wisteria) have a `home.nix` that imports `../../modules/home` for the Hyprland desktop environment (waybar, alacritty, librewolf, dunst, hyprlock, hypridle). Hemlock and ivy are headless and have no home config.
 
 ### Secrets Management
 
@@ -48,8 +48,8 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 
 ## Key Patterns
 
-- The `mkSystem` helper in `nixos/default.nix` automatically wires up disko, stylix, nixvim, sops-nix, home-manager, and custom flakes for each host
-- Home Manager is conditionally enabled only when `nixos/<hostname>/home.nix` exists
+- The `mkSystem` helper in `hosts/default.nix` automatically wires up disko, stylix, nixvim, sops-nix, home-manager, and custom flakes for each host
+- Home Manager is conditionally enabled only when `hosts/<hostname>/home.nix` exists
 - `hostname` is passed as a `specialArgs` attribute, available in all modules
 - Ivy (Raspberry PI) has a separate config path using `nixos-hardware` instead of the standard `mkSystem`
 - `modules/default.nix` is for shared desktop configuration; server-only modules live in `modules/server/` and are imported directly by hemlock's `configuration.nix`

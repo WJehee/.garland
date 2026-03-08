@@ -21,13 +21,6 @@
             "DnsOverHttpsTemplates" = [
                 "https://dns.quad9.net/dns-query{?dns}"
             ];
-            # "ManagedBookmarks" = [
-            #     { "toplevel_name" = "Bookmarks" ;}
-            #     {
-            #         "name" = "";
-            #         "url" = "test.com";
-            #     }
-            # ];
         };
     };
 }

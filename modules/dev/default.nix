@@ -1,23 +1,18 @@
-{ pkgs, ... }: {
+{ lib, pkgs, vars, ... }: let
+    cfg = vars.garland.dev;
+in {
     imports = [
-        ./nvim
-        ./starship.nix
-        ./zsh.nix
-    ];
-    virtualisation = {
-        libvirtd.enable = true;
-        docker.enable = true;
-    };
+        ./nvim.nix
+    ]
+    ++ lib.optionals (cfg.godot or false) [ ./godot.nix ]
+    ++ lib.optionals (cfg.android or false) [ ./android.nix ]
+    ++ lib.optionals (cfg.virtualization or true) [ ./virtualization.nix ];
+
     environment.systemPackages = with pkgs; [
         # General
         git
         jujutsu
         just
-
-        # Containers
-        docker
-        docker-compose
-        minikube
 
         # Asciidoc
         asciidoctor-with-extensions
