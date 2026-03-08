@@ -1,18 +1,16 @@
 { pkgs, inputs, ... }: {
     imports = [
-        # Default configs
         ../../modules/disk/server.nix
         ../../modules/core
-
         ../../modules/server/headless.nix
 
         # Specific configs
         ../../modules/server/authelia.nix
         ../../modules/server/caddy.nix
-        ../../modules/server/immich.nix
         ../../modules/server/lldap.nix
-        ../../modules/server/projects.nix
         ../../modules/server/radicale.nix
+
+        ../../modules/server/projects.nix
     ];
 
     boot.loader.grub = {

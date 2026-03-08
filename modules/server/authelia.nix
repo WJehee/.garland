@@ -62,7 +62,7 @@
                     }
                     # Public board display - no auth needed
                     {
-                        domain = "6767.dorusrijkers.eu";
+                        domain = "6767ov.dorusrijkers.eu";
                         policy = "bypass";
                         resources = [
                             "^/$"
@@ -73,7 +73,7 @@
                     }
                     # Protected admin area
                     {
-                        domain = "6767.dorusrijkers.eu";
+                        domain = "6767ov.dorusrijkers.eu";
                         policy = "two_factor";
                         resources = [
                             "^/admin/.*"

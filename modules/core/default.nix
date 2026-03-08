@@ -1,6 +1,7 @@
 { inputs, lib, pkgs, vars, ... }: {
     imports = [
         ./sops.nix
+        ./nvim.nix
         ./env.nix
         ./doas.nix
         ./custom.nix
