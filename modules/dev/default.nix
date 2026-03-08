@@ -7,15 +7,8 @@ in {
     ++ lib.optionals (cfg.virtualization or true) [ ./virtualization.nix ];
 
     environment.systemPackages = with pkgs; [
-        # General
-        git
-        jujutsu
-        just
 
-        # Asciidoc
         asciidoctor-with-extensions
         asciidoc-full-with-plugins
-
-        nushellPlugins.query
     ];
 }

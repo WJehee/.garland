@@ -91,5 +91,10 @@
         zenith              # System monitor (top)
         dig                 # DNS lookup
         bat                 # improved cat
+
+        git
+        jujutsu
+        just
+        nushellPlugins.query
     ];
 }
