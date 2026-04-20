@@ -81,6 +81,7 @@
         imagemagick
         file
 
+        jq                  # JSON parsing
         usbutils            # USB utilities
         fzf                 # Fuzzy finder
         inotify-tools       # Notify-send, etc.

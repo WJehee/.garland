@@ -1,4 +1,4 @@
-{ pkgs, lib, vars, ... }: {
+{ lib, vars, ... }: {
     imports = [
         ../../modules/home/default.nix
     ];
