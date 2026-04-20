@@ -1,4 +1,4 @@
-{ lib, pkgs, vars, config, ... }: {
+{ pkgs, config, ... }: {
     environment.systemPackages = with pkgs; [
         ncmpcpp
         mpc

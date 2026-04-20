@@ -1,6 +1,7 @@
-{ pkgs, lib, vars, ... }: {
+{ lib, vars, ... }: {
     imports = [
         ../../modules/home/default.nix
+        ../../modules/home/freetube.nix
     ];
     wayland.windowManager.hyprland.settings = lib.mkIf (vars.garland.windowManager == "hyprland") {
         monitor = [
