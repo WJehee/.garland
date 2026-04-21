@@ -35,6 +35,7 @@ let
         fi
         echo $$ > "$pidfile"
 
+        sleep 1
         setup_workspaces
 
         while true; do
@@ -69,9 +70,25 @@ in
     };
     xdg.configFile = lib.mkIf (vars.garland.windowManager == "hyprland") {
         "hypr/hyprpaper.conf".text = ''
-            splash = false
-            preload = ~/.garland/wallpapers/default.jpg
-            wallpaper = eDP-1, ~/.garland/wallpapers/default.jpg
+            splash = 0
+
+            wallpaper {
+                monitor = eDP-1
+                path = ${vars.garland.wallpaper.landscape}
+                fit_mode = cover
+            }
+
+            wallpaper {
+                monitor = DP-5
+                path = ${vars.garland.wallpaper.portrait}
+                fit_mode = cover
+            }
+            
+            wallpaper {
+                monitor = DP-6
+                path = ${vars.garland.wallpaper.landscape}
+                fit_mode = cover
+            }
         '';
     };
 }

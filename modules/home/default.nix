@@ -1,5 +1,6 @@
 { lib, vars, ... }: {
     imports = [
+        ./stylix.nix
         ./alacritty.nix
         ./waybar.nix
         ./librewolf.nix

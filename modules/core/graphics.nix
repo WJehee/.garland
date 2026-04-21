@@ -6,10 +6,13 @@
         enable = true;
         enable32Bit = true;
     };
-    boot.kernelParams = [
-        "quiet"
-        "splash"
-    ];
+    boot = {
+        plymouth.enable = true;
+        kernelParams = [
+            "quiet"
+            "splash"
+        ];
+    };
 
     xdg.portal = {
         enable = true;

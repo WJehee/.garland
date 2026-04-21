@@ -1,24 +1,31 @@
-{ pkgs, hostname, ... }: {
+{ pkgs, hostname, vars, ... }: {
     stylix = {
         enable = true;
-        autoEnable = true;
+        autoEnable = false;
 
         base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
         polarity = "dark";
-        image = ../../wallpapers/default.jpg;
+        image = vars.garland.wallpaper.landscape or ../../wallpapers/${hostname}-landscape.jpg;
         targets = {
-            grub.useWallpaper = true;
-            nixvim.transparentBackground = {
-                main = false;
-                signColumn = false;
+            plymouth.enable = true;
+            grub = {
+                enable = true;
+                useWallpaper = true;
             };
+            nixvim = {
+                enable = true;
+                transparentBackground = {
+                    main = false;
+                    signColumn = false;
+                };
+            };
+
         };
         cursor = {
             name = "Bibata-Modern-Ice";
             package = pkgs.bibata-cursors;
             size = 24;
         };
-        opacity.terminal = 0.95;
         fonts = {
             sansSerif = {
                 package = pkgs.geist-font;
