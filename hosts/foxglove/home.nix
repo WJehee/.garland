@@ -4,27 +4,35 @@ let
         setup_workspaces() {
             monitors=$(hyprctl monitors -j)
 
+            # Resolve current port name (e.g. DP-7) from a substring of the monitor description
+            find_monitor() {
+                ${pkgs.jq}/bin/jq -r --arg d "$1" \
+                    '.[] | select(.description | contains($d)) | .name' <<< "$monitors" | head -1
+            }
+
             assign_workspace() {
                 local ws=$1 monitor=$2 extra=''${3:-}
                 hyprctl keyword workspace "$ws, monitor:$monitor''${extra:+, $extra}"
                 hyprctl dispatch moveworkspacetomonitor "$ws $monitor" 2>/dev/null
             }
 
-            if ${pkgs.jq}/bin/jq -e '.[] | select(.name == "DP-6")' > /dev/null 2>&1 <<< "$monitors"; then
+            laptop=$(find_monitor "BOE")
+            primary=$(find_monitor "P2720D")
+            portrait=$(find_monitor "P2416D")
+
+            if [ -n "$primary" ] && [ -n "$portrait" ]; then
                 # Docked: spread workspaces across external monitors
-                for ws in 1 2 3 4 5; do assign_workspace "$ws" DP-6; done
-                for ws in 6 7 8 9; do assign_workspace "$ws" DP-5 "layoutopt:orientation:top"; done
-                assign_workspace 10 eDP-1
+                for ws in 1 2 3 4 5; do assign_workspace "$ws" "$primary"; done
+                for ws in 6 7 8 9; do assign_workspace "$ws" "$portrait" "layoutopt:orientation:top"; done
+                assign_workspace 10 "$laptop"
+            elif [ -n "$primary" ] || [ -n "$portrait" ]; then
+                # Single external monitor: workspaces 1-7 on it, 8-10 on laptop
+                ext=''${primary:-$portrait}
+                for ws in 1 2 3 4 5 6 7; do assign_workspace "$ws" "$ext"; done
+                for ws in 8 9 10; do assign_workspace "$ws" "$laptop"; done
             else
-                ext=$(${pkgs.jq}/bin/jq -r '.[] | select(.name != "eDP-1") | .name' <<< "$monitors" | head -1)
-                if [ -n "$ext" ]; then
-                    # Single external monitor: workspaces 1-7 on it, 8-10 on laptop
-                    for ws in 1 2 3 4 5 6 7; do assign_workspace "$ws" "$ext"; done
-                    for ws in 8 9 10; do assign_workspace "$ws" eDP-1; done
-                else
-                    # Undocked: all workspaces on laptop screen
-                    for ws in $(seq 1 10); do assign_workspace "$ws" eDP-1; done
-                fi
+                # Undocked: all workspaces on laptop screen
+                for ws in $(seq 1 10); do assign_workspace "$ws" "$laptop"; done
             fi
         }
 
@@ -60,9 +68,9 @@ in
     wayland.windowManager.hyprland.settings = lib.mkIf (vars.garland.windowManager == "hyprland") {
         monitor = [
             ", preferred, auto, 1"
-            "eDP-1, preferred, auto, 1.2"
-            "DP-5, preferred, auto-left, 1, transform, 1"
-            "DP-6, preferred, auto-left, 1"
+            "desc:BOE NE135A1M-NY1, preferred, auto, 1.2"
+            "desc:Dell Inc. DELL P2416D 6RC2C5BB08FL, preferred, auto-left, 1, transform, 1"
+            "desc:Dell Inc. DELL P2720D JV69F9AP02VS, preferred, auto-left, 1"
         ];
         exec = [
             "${monitorWorkspaces}/bin/hypr-monitor-workspaces"
@@ -73,19 +81,19 @@ in
             splash = 0
 
             wallpaper {
-                monitor = eDP-1
+                monitor = desc:BOE NE135A1M-NY1
                 path = ${vars.garland.wallpaper.landscape}
                 fit_mode = cover
             }
 
             wallpaper {
-                monitor = DP-5
+                monitor = desc:Dell Inc. DELL P2416D 6RC2C5BB08FL
                 path = ${vars.garland.wallpaper.portrait}
                 fit_mode = cover
             }
-            
+
             wallpaper {
-                monitor = DP-6
+                monitor = desc:Dell Inc. DELL P2720D JV69F9AP02VS
                 path = ${vars.garland.wallpaper.landscape}
                 fit_mode = cover
             }
