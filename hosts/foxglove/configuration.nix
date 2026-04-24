@@ -4,6 +4,7 @@
 
         ../../modules/core
         ../../modules/core/workstation.nix
+        ../../modules/hacking
     ];
 
     boot = {
