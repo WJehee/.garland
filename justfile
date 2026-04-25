@@ -6,7 +6,7 @@ _default:
 
 # Rebuild OS
 rebuild:
-    sudo nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 2 --color error rebuild.log
+    sudo nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 4 --color error rebuild.log
 
 # Update packages
 update:
@@ -31,6 +31,21 @@ build-sd host:
 # Remotely install a flake
 remote-install flake conn_str:
     nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./hosts/{{flake}}/hardware-configuration.nix
+
+# Build locally and deploy the closure to a remote host
+remote-rebuild flake conn_str:
+    nixos-rebuild switch --flake .#{{flake}} --target-host {{conn_str}}
+
+# Build locally and copy the closure to a remote host (activate manually)
+remote-copy flake conn_str:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    out=$(nix build --no-link --print-out-paths ".#nixosConfigurations.{{flake}}.config.system.build.toplevel")
+    nix copy --to "ssh://{{conn_str}}" "$out"
+    echo
+    echo "Closure copied. On {{conn_str}}, run:"
+    echo "  doas nix-env -p /nix/var/nix/profiles/system --set $out"
+    echo "  doas $out/bin/switch-to-configuration switch"
 
 # If home manager does activation does not work
 fix:
