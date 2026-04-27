@@ -25,14 +25,17 @@ let
                 for ws in 1 2 3 4 5; do assign_workspace "$ws" "$primary"; done
                 for ws in 6 7 8 9; do assign_workspace "$ws" "$portrait" "layoutopt:orientation:top"; done
                 assign_workspace 10 "$laptop"
-            elif [ -n "$primary" ] || [ -n "$portrait" ]; then
-                # Single external monitor: workspaces 1-7 on it, 8-10 on laptop
-                ext=''${primary:-$portrait}
-                for ws in 1 2 3 4 5 6 7; do assign_workspace "$ws" "$ext"; done
-                for ws in 8 9 10; do assign_workspace "$ws" "$laptop"; done
             else
-                # Undocked: all workspaces on laptop screen
-                for ws in $(seq 1 10); do assign_workspace "$ws" "$laptop"; done
+                # Any single external monitor: workspaces 1-7 on laptop, 8-10 on external
+                ext=$(${pkgs.jq}/bin/jq -r --arg laptop "$laptop" \
+                    '.[] | select(.name != $laptop) | .name' <<< "$monitors" | head -1)
+                if [ -n "$ext" ]; then
+                    for ws in 1 2 3 4 5 6 7; do assign_workspace "$ws" "$laptop"; done
+                    for ws in 8 9 10; do assign_workspace "$ws" "$ext"; done
+                else
+                    # Undocked: all workspaces on laptop screen
+                    for ws in $(seq 1 10); do assign_workspace "$ws" "$laptop"; done
+                fi
             fi
         }
 
