@@ -1,66 +1,8 @@
-{ pkgs, ... }: {
+{ ... }: {
     programs.librewolf = {
         enable = true;
         profiles.default = {
             isDefault = true;
-            bookmarks = {
-                force = true;
-                settings = [
-                    {
-                        name = "My toolbar bookmarks";
-                        toolbar = true;
-                        bookmarks = [
-                            {
-                                name = "";
-                                url = "https://github.com/WJehee";
-                            }
-                            # "separator"
-                        ];
-                    }
-                    {
-                        name = "Startmail";
-                        url = "https://mail.startmail.com/mail/folders/INBOX";
-                    }
-                    {
-                        name = "Moodist";
-                        url = "https://moodist.mvze.net";
-                    }
-                    {
-                        name = "Syncthing";
-                        url = "http://localhost:8384/";
-                    }
-                    {
-                        name = "Tech";
-                        bookmarks = [
-                            {
-                                name = "Hetzner";
-                                url = "https://console.hetzner.com/projects";
-                            }
-                            {
-                                name = "Claude";
-                                url = "https://claude.ai/";
-                            }
-                        ];
-                    }
-                    {
-                        name = "Hacking";
-                        bookmarks = [
-                            {
-                                name = "Intigriti";
-                                url = "https://app.intigriti.com/researcher/dashboard";
-                            }
-                            {
-                                name = "HackerOne";
-                                url = "https://hackerone.com/opportunities/all";
-                            }
-                            {
-                                name = "Hack The Box";
-                                url = "https://app.hackthebox.com/home";
-                            }
-                        ];
-                    }
-                ];
-            };
             search = {
                 force = true;
                 default = "ddg";
@@ -86,6 +28,16 @@
         };
         policies = {
             DisplayBookmarksToolbar = "always";
+            Bookmarks = [
+                { Title = ""; URL = "https://github.com/WJehee"; Placement = "toolbar"; }
+                { Title = ""; URL = "https://mail.startmail.com/mail/folders/INBOX"; Placement = "toolbar"; }
+                { Title = "Syncthing"; URL = "http://localhost:8384/"; Placement = "menu"; }
+                { Title = "Hetzner"; URL = "https://console.hetzner.com/projects"; Placement = "menu"; Folder = "Tech"; }
+                { Title = "Claude"; URL = "https://claude.ai/"; Placement = "menu"; Folder = "Tech"; }
+                { Title = "Intigriti"; URL = "https://app.intigriti.com/researcher/dashboard"; Placement = "menu"; Folder = "Hacking"; }
+                { Title = "HackerOne"; URL = "https://hackerone.com/opportunities/all"; Placement = "menu"; Folder = "Hacking"; }
+                { Title = "Hack The Box"; URL = "https://app.hackthebox.com/home"; Placement = "menu"; Folder = "Hacking"; }
+            ];
             DisableTelemetry = true;
             DisablePocket = true;
             DisableProfileImport = true;
@@ -127,6 +79,7 @@
                 "general.smoothScroll" = true;
                 "webgl.disabled" = false;
                 "layout.css.prefers-color-scheme.content-override" = 0;
+                "browser.toolbars.bookmarks.showOtherBookmarks" = true;
             };
             SearchEngines = {
                 Remove = [
