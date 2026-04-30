@@ -10,6 +10,7 @@
                 paginate = "never";
                 default-command = "log";
             };
+            remotes.origin.auto-track-bookmarks = "*";
         };
     };
 }

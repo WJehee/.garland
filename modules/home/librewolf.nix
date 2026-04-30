@@ -31,9 +31,12 @@
             Bookmarks = [
                 { Title = ""; URL = "https://github.com/WJehee"; Placement = "toolbar"; }
                 { Title = ""; URL = "https://mail.startmail.com/mail/folders/INBOX"; Placement = "toolbar"; }
+
                 { Title = "Syncthing"; URL = "http://localhost:8384/"; Placement = "menu"; }
                 { Title = "Hetzner"; URL = "https://console.hetzner.com/projects"; Placement = "menu"; Folder = "Tech"; }
                 { Title = "Claude"; URL = "https://claude.ai/"; Placement = "menu"; Folder = "Tech"; }
+                { Title = "Hugging Face"; URL = "https://huggingface.co/"; Placement = "menu"; Folder = "Tech"; }
+
                 { Title = "Intigriti"; URL = "https://app.intigriti.com/researcher/dashboard"; Placement = "menu"; Folder = "Hacking"; }
                 { Title = "HackerOne"; URL = "https://hackerone.com/opportunities/all"; Placement = "menu"; Folder = "Hacking"; }
                 { Title = "Hack The Box"; URL = "https://app.hackthebox.com/home"; Placement = "menu"; Folder = "Hacking"; }
