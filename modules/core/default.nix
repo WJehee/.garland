@@ -14,7 +14,8 @@
     ++ lib.optionals (vars.garland.printing.enable or false) [ ./printing.nix ]
     ++ lib.optionals (vars.garland.music.enable or false) [ ./music.nix ]
     ++ lib.optionals (vars.garland.dev.enable or false) [ ../dev ]
-    ++ lib.optionals (vars.garland.hacking.enable or false) [ ../hacking ];
+    ++ lib.optionals (vars.garland.hacking.enable or false) [ ../hacking ]
+    ++ lib.optionals (vars.garland.llm.enable or false) [ ../llm.nix ];
 
     system = {
         stateVersion = "24.11";

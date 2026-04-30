@@ -7,6 +7,7 @@
         };
         tailscale.enable = true;
         music.enable = true;
+        llm.enable = true;
         dev = {
             enable = true;
             virtualization = true;

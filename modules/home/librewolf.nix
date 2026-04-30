@@ -36,6 +36,7 @@
                 { Title = "Hetzner"; URL = "https://console.hetzner.com/projects"; Placement = "menu"; Folder = "Tech"; }
                 { Title = "Claude"; URL = "https://claude.ai/"; Placement = "menu"; Folder = "Tech"; }
                 { Title = "Hugging Face"; URL = "https://huggingface.co/"; Placement = "menu"; Folder = "Tech"; }
+                { Title = "Open WebUI"; URL = "http://localhost:9090"; Placement = "menu"; Folder = "Tech"; }
 
                 { Title = "Intigriti"; URL = "https://app.intigriti.com/researcher/dashboard"; Placement = "menu"; Folder = "Hacking"; }
                 { Title = "HackerOne"; URL = "https://hackerone.com/opportunities/all"; Placement = "menu"; Folder = "Hacking"; }
