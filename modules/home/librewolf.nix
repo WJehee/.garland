@@ -3,6 +3,12 @@
         enable = true;
         profiles.default = {
             isDefault = true;
+            settings = {
+                "layout.css.prefers-color-scheme.content-override" = 0;
+                "privacy.resistFingerprinting" = false;
+                "privacy.fingerprintingProtection" = true;
+                "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme";
+            };
             search = {
                 force = true;
                 default = "ddg";
@@ -83,7 +89,6 @@
                 "dom.security.https_only_mode" = true;
                 "general.smoothScroll" = true;
                 "webgl.disabled" = false;
-                "layout.css.prefers-color-scheme.content-override" = 0;
                 "browser.toolbars.bookmarks.showOtherBookmarks" = true;
             };
             SearchEngines = {
