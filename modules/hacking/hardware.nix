@@ -5,7 +5,7 @@
     environment.systemPackages = with pkgs; [
         # Reverse engineering
         binwalk
-        cutter
+        # cutter
         frida-tools
 
         # cantoolz

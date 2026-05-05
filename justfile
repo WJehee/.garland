@@ -19,6 +19,7 @@ size:
 # Delete generations older than 14 days
 cleanup days='14':
     doas nix-collect-garbage --delete-older-than {{days}}d
+    rm -rf ~/.cache/nix/
 
 # Edit encrypted secrets for a host
 secrets host=`hostname`:

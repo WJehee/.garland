@@ -11,7 +11,7 @@
     environment.systemPackages = with pkgs; [
         nmap
         tcpdump
-        caido
+        caido-desktop
         wireshark
         rustcat
         git

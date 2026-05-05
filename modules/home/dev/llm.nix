@@ -6,7 +6,7 @@
     programs.claude-code = {
         enable = true;
         skills = {};
-        memory.text = ''
+        context = ''
             # Projects
             All my machines run NixOS.
             All projects should include a nix flake for installing, running and building the project.

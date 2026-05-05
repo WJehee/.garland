@@ -1,4 +1,4 @@
-{ lib, vars, ... }: {
+{ config, lib, vars, ... }: {
     imports = [
         ./stylix.nix
         ./alacritty.nix
@@ -14,6 +14,7 @@
     dconf.settings."org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
     };
+    gtk.gtk4.theme = config.gtk.theme;
     home = {
         username = "wouter";
         homeDirectory = "/home/wouter";

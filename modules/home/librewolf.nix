@@ -7,7 +7,10 @@
                 "layout.css.prefers-color-scheme.content-override" = 0;
                 "privacy.resistFingerprinting" = false;
                 "privacy.fingerprintingProtection" = true;
-                "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme";
+                "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme,-JSLocale";
+                "intl.regional_prefs.use_os_locales" = false;
+                "intl.date_time.pattern_override.date_short" = "dd-MM-yyyy";
+                "intl.date_time.pattern_override.time_short" = "HH:mm";
             };
             search = {
                 force = true;
