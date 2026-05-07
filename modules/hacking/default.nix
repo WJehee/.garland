@@ -20,6 +20,7 @@
         # Discovery / fuzzing
         feroxbuster
         ffuf
+        wordlists
 
         # Passwords
         john
