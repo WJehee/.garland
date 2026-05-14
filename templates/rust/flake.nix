@@ -27,10 +27,10 @@
                 shellHook = ''
                 '';
             };
-            packages.${system}.default = naersk.lib.${system}.override {
+            packages.default = (naersk.lib.${system}.override {
                 cargo = rust-toolchain;
                 rustc = rust-toolchain;
-            }.buildPackage {
+            }).buildPackage {
                 src = ./.;
                 buildInputs = buildInputs;
             };
