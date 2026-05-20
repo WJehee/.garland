@@ -23,7 +23,7 @@
         wordlists
 
         # Passwords
-        john
+        # john  # temporarily disabled: upstream bleeding-jumbo hash mismatch in nixpkgs
         hashcat
         hashcat-utils
     ];
