@@ -1,4 +1,7 @@
-{ config, ... }: {
+{ config, pkgs, ... }: {
+    environment.systemPackages = with pkgs; [
+        rtk
+    ];
     sops.secrets = {
         "anthropic-api-key" = {};
         "litellm-master-key" = {};

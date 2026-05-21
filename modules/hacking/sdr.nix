@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-    hardware.rtl-sdr.enable = true;
+    hardware = {
+        rtl-sdr.enable = true;
+        hackrf.enable = true;
+    };
     users = {
         groups.plugdev = {};
         users.wouter.extraGroups = [
@@ -7,11 +10,12 @@
         ];
     };
     environment.systemPackages = with pkgs; [
-        # gqrx # Broken
+        gqrx
         sdrpp
         urh
         gnuradio
 
         # rtl_433
+        hackrf
     ];
 }

@@ -1,6 +1,7 @@
 { ... }: {
     programs.librewolf = {
         enable = true;
+        configPath = ".config/librewolf/librewolf";
         profiles.default = {
             isDefault = true;
             settings = {

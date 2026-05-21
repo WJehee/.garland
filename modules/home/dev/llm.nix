@@ -7,6 +7,9 @@
         enable = true;
         skills = {};
         context = ''
+            # General
+            You have access to Rust Token Killer (RTK), please use it for commands whenever possible
+
             # Projects
             All my machines run NixOS.
             All projects should include a nix flake for installing, running and building the project.
