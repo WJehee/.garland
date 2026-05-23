@@ -75,6 +75,7 @@
             ENABLE_OLLAMA_API = "False";
             OPENAI_API_BASE_URL = "http://127.0.0.1:4141/v1";
             WEBUI_URL = "http://localhost:9090";
+            HOME = "/var/lib/open-webui";
         };
     };
 }

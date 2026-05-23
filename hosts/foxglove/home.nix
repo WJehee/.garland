@@ -53,8 +53,21 @@ let
             ${pkgs.socat}/bin/socat - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" \
                 | while IFS= read -r line; do
                     case "$line" in
-                        monitoradded*|monitorremoved*)
-                            sleep 0.5
+                        "monitoraddedv2>>"*)
+                            # Extract NAME from "monitoraddedv2>>ID,NAME,DESC" and wait
+                            # for hyprctl to report it with a populated description.
+                            rest=''${line#monitoraddedv2>>*,}
+                            new_name=''${rest%%,*}
+                            for _ in $(seq 1 20); do
+                                sleep 0.25
+                                desc=$(hyprctl monitors -j \
+                                    | ${pkgs.jq}/bin/jq -r --arg n "$new_name" \
+                                        '.[] | select(.name == $n) | .description // ""')
+                                [ -n "$desc" ] && break
+                            done
+                            setup_workspaces
+                            ;;
+                        "monitorremovedv2>>"*)
                             setup_workspaces
                             ;;
                     esac
