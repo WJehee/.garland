@@ -10,10 +10,10 @@
         ];
     };
     environment.systemPackages = with pkgs; [
-        gqrx
-        sdrpp
-        urh
         gnuradio
+        urh
+        sdrpp
+        # gqrx
 
         # rtl_433
         hackrf
