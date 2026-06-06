@@ -13,6 +13,7 @@
     ++ lib.optionals (vars.garland.tailscale.enable or false) [ ./tailscale.nix ]
     ++ lib.optionals (vars.garland.printing.enable or false) [ ./printing.nix ]
     ++ lib.optionals (vars.garland.music.enable or false) [ ./music.nix ]
+    ++ lib.optionals (vars.garland.cad.enable or false) [ ../cad.nix ]
     ++ lib.optionals (vars.garland.dev.enable or false) [ ../dev ]
     ++ lib.optionals (vars.garland.hacking.enable or false) [ ../hacking ]
     ++ lib.optionals (vars.garland.llm.enable or false) [ ../llm.nix ];

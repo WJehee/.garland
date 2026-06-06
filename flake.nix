@@ -13,6 +13,7 @@
 
         # My own flakes
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
+        galeharp.url = "github:WJehee/galeharp";
     };
 
     outputs = { flake-parts, ... }@inputs:

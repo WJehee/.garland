@@ -27,6 +27,7 @@
                 nixvim.nixosModules.nixvim
                 sops-nix.nixosModules.sops
                 loodsenboekje.nixosModules.loodsenboekje
+                galeharp.nixosModules.default
 
                 home-manager.nixosModules.home-manager {
                     home-manager = if builtins.pathExists ./${hostname}/home.nix

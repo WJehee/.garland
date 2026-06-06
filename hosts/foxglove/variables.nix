@@ -8,6 +8,7 @@
         tailscale.enable = true;
         music.enable = true;
         llm.enable = true;
+        cad.enable = true;
         dev = {
             enable = true;
             virtualization = true;

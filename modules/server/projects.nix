@@ -13,6 +13,11 @@
         "loodsenboekje.dorusrijkers.eu".extraConfig = ''
             reverse_proxy http://localhost:1744
         '';
+        "galeharp.wouterjehee.com".extraConfig = ''
+            root * /var/www/galeharp
+            encode gzip
+            file_server
+        '';
         "test.dorusrijkers.eu".extraConfig = ''
             reverse_proxy http://foxglove:4000
         '';
@@ -42,4 +47,7 @@
 
     # Loodsenboekje
     services.loodsenboekje.enable = true;
+
+    # Galeharp
+    services.galeharp.enable = true;
 }
