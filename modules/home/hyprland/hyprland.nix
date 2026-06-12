@@ -15,6 +15,9 @@ let
     # workspace 10 lives on the `0` key
     wsKey = n: if n == 10 then "0" else toString n;
 in {
+    services.blueman-applet.enable = true;
+    services.network-manager-applet.enable = true;
+
     wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
@@ -96,13 +99,13 @@ in {
             # hl.bind(keys, dispatcher[, opts])
             bind =
                 [
-                    (bind (mod "F") (raw ''hl.dsp.exec_cmd("$BROWSER")''))                                   # Open browser
-                    (bind (mod "Return") (raw ''hl.dsp.exec_cmd("$TERMINAL")''))                             # Open terminal
-                    (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("wofi --show run --normal-window")'')) # Application launcher
-                    (bind (mod "Q") (raw "hl.dsp.window.close()"))                                           # Kill focused window
-                    (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock")''))                           # Lock screen
-                    (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))  # Mute toggle
-                    (bind (mod "SHIFT + s") (raw ''hl.dsp.exec_cmd("hyprshot -m region -z --clipboard-only")'')) # Screenshot
+                    (bind (mod "F") (raw ''hl.dsp.exec_cmd("$BROWSER")''))                                          # Open browser
+                    (bind (mod "Return") (raw ''hl.dsp.exec_cmd("$TERMINAL")''))                                    # Open terminal
+                    (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("wofi --show run --normal-window")''))      # Application launcher
+                    (bind (mod "Q") (raw "hl.dsp.window.close()"))                                                  # Kill focused window
+                    (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock")''))                                  # Lock screen
+                    (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))        # Mute toggle
+                    (bind (mod "SHIFT + s") (raw ''hl.dsp.exec_cmd("hyprshot -m region -z --clipboard-only")''))    # Screenshot
 
                     # Move focus with mainMod + h j k l
                     (bind (mod "L") (raw ''hl.dsp.focus({ direction = "right" })''))
@@ -130,11 +133,12 @@ in {
                     "hyprland.start"
                     (mkLuaInline ''
                         function()
-                            hl.exec_cmd("waybar")
+                            -- waybar, nm-applet and blueman-applet run as systemd user
+                            -- services bound to graphical-session.target so they survive the
+                            -- hyprland-session.target restart that systemd.enable triggers at
+                            -- startup; processes exec'd directly here would be killed by it.
                             hl.exec_cmd("hyprpaper")
                             hl.exec_cmd("systemctl --user start hypridle")
-                            hl.exec_cmd("nm-applet")
-                            hl.exec_cmd("blueman-applet")
                             hl.exec_cmd("systemctl --user start hyprpolkitagent")
                         end
                     '')

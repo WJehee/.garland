@@ -1,6 +1,11 @@
 { pkgs, lib, vars, ... }: {
     programs.waybar = {
         enable = true;
+        # Run waybar as a systemd user service bound to graphical-session.target.
+        # Hyprland runs with systemd.enable, which restarts hyprland-session.target
+        # at startup; processes exec'd directly from the autostart hook get killed by
+        # that restart, but a managed service is restarted along with the target.
+        systemd.enable = true;
         settings = [{
             layer = "top";
             position = "top";
