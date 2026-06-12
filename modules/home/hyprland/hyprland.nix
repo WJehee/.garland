@@ -1,127 +1,152 @@
-{ ... }: {
+{ lib, ... }:
+let
+    inherit (lib.generators) mkLuaInline;
+    inherit (lib) range;
+
+    # `mainMod .. " + <combo>"` -- key combo prefixed with the main modifier
+    mod = combo: mkLuaInline ''mainMod .. " + ${combo}"'';
+    # raw Lua expression (dispatcher call, etc.)
+    raw = expr: mkLuaInline expr;
+
+    # hl.bind(keys, dispatch[, opts])
+    bind = keys: dispatch: { _args = [ keys dispatch ]; };
+    bindOpt = keys: dispatch: opts: { _args = [ keys dispatch opts ]; };
+
+    # workspace 10 lives on the `0` key
+    wsKey = n: if n == 10 then "0" else toString n;
+in {
     wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
+        configType = "lua";
         settings = {
-            general = {
-                gaps_in = 0;
-                gaps_out = 0;
-                border_size = 2;
-                layout = "master";
-            };
-            input = {
-                kb_layout = "us";
-                kb_variant = "";
-                kb_model = "";
-                kb_options = "";
-                kb_rules = "";
+            # local mainMod = "SUPER"
+            mainMod = { _var = "SUPER"; };
 
-                follow_mouse = 2;
-
-                touchpad = {
-                    natural_scroll = "no";
+            # Static keyword sections -> hl.config({ ... })
+            config = {
+                general = {
+                    gaps_in = 0;
+                    gaps_out = 0;
+                    border_size = 2;
+                    layout = "master";
                 };
-                sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
-            };
-            decoration = {
-                rounding = 5;
-                shadow = {
+                input = {
+                    kb_layout = "us";
+                    kb_variant = "";
+                    kb_model = "";
+                    kb_options = "";
+                    kb_rules = "";
+
+                    follow_mouse = 2;
+
+                    touchpad = {
+                        natural_scroll = false;
+                    };
+                    sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
+                };
+                decoration = {
+                    rounding = 5;
+                    shadow = {
+                        enabled = true;
+                        range = 4;
+                        render_power = 3;
+                    };
+                };
+                animations = {
                     enabled = true;
-                    range = 4;
-                    render_power = 3;
+                };
+                misc = {
+                    disable_hyprland_logo = true;
+                    disable_splash_rendering = true;
+                    mouse_move_focuses_monitor = false;
+                    middle_click_paste = false;
+                };
+                ecosystem = {
+                    no_update_news = true;
                 };
             };
-            animations = {
-                enabled = "yes";
-                bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
 
-                animation = [
-                    "windows, 1, 7, myBezier"
-                    "windowsOut, 1, 7, default, popin 80%"
-                    "border, 1, 10, default"
-                    "borderangle, 1, 8, default"
-                    "fade, 1, 7, default"
-                    # turn off workspace animations
-                    "workspaces, 0, 6, default"
+            # hl.curve("myBezier", { type = "bezier", points = { ... } })
+            curve = {
+                _args = [
+                    "myBezier"
+                    { type = "bezier"; points = [ [ 0.05 0.9 ] [ 0.1 1.05 ] ]; }
                 ];
             };
-            misc = {
-                disable_hyprland_logo = true;
-                disable_splash_rendering = true;
-                mouse_move_focuses_monitor = false;
-                middle_click_paste = false;
-            };
-            ecosystem.no_update_news = true;
 
-            # Keybinds
-            "$mainMod" = "SUPER";
-            bind = [
-                "$mainMod, F, exec, $BROWSER"                                       # Open browser
-                "$mainMod, Return, exec, $TERMINAL"                                 # Open terminal
-                "$mainMod SHIFT, Return, exec, wofi --show run --normal-window"     # Run application launcher
-                "$mainMod, Q, killactive,"                                          # Kill focused window
-                "$mainMod SHIFT, L, exec, hyprlock"                                 # Lock screen
-                "$mainMod, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"     # Mute toggle
-                "$mainMod SHIFT, s, exec, hyprshot -m region -z --clipboard-only"   # Screenshot
-
-                # Move focus with mainMod + h j k l
-                "$mainMod, L, movefocus, r"
-                "$mainMod, H, movefocus, l"
-                "$mainMod, K, movefocus, u"
-                "$mainMod, J, movefocus, d"
-
-                # Switch workspaces with mainMod + [0-9]
-                "$mainMod, 1, workspace, 1"
-                "$mainMod, 2, workspace, 2"
-                "$mainMod, 3, workspace, 3"
-                "$mainMod, 4, workspace, 4"
-                "$mainMod, 5, workspace, 5"
-                "$mainMod, 6, workspace, 6"
-                "$mainMod, 7, workspace, 7"
-                "$mainMod, 8, workspace, 8"
-                "$mainMod, 9, workspace, 9"
-                "$mainMod, 0, workspace, 10"
-
-                # Move active window to a workspace with mainMod + SHIFT + [0-9]
-                "$mainMod SHIFT, 1, movetoworkspace, 1"
-                "$mainMod SHIFT, 2, movetoworkspace, 2"
-                "$mainMod SHIFT, 3, movetoworkspace, 3"
-                "$mainMod SHIFT, 4, movetoworkspace, 4"
-                "$mainMod SHIFT, 5, movetoworkspace, 5"
-                "$mainMod SHIFT, 6, movetoworkspace, 6"
-                "$mainMod SHIFT, 7, movetoworkspace, 7"
-                "$mainMod SHIFT, 8, movetoworkspace, 8"
-                "$mainMod SHIFT, 9, movetoworkspace, 9"
-                "$mainMod SHIFT, 0, movetoworkspace, 10"
-
-                "$mainMod, v, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
-
-                # Hacking stuff
-                ''
-                    $mainMod SHIFT, W, exec, find $(wordlists_path) | wofi -i --dmenu -M fuzzy | tr --delete "\n" | wl-copy
-                ''
+            # hl.animation({ ... }) per leaf
+            animation = [
+                { leaf = "windows"; enabled = true; speed = 7; bezier = "myBezier"; }
+                { leaf = "windowsOut"; enabled = true; speed = 7; bezier = "default"; style = "popin 80%"; }
+                { leaf = "border"; enabled = true; speed = 10; bezier = "default"; }
+                { leaf = "borderangle"; enabled = true; speed = 8; bezier = "default"; }
+                { leaf = "fade"; enabled = true; speed = 7; bezier = "default"; }
+                # turn off workspace animations
+                { leaf = "workspaces"; enabled = false; speed = 6; bezier = "default"; }
             ];
-            bindm = [
-                # Move/resize windows with mainMod + LMB/RMB and dragging
-                "$mainMod, mouse:272, movewindow"
-                "$mainMod, mouse:273, resizewindow"
-            ];
-            exec-once = [
-                "waybar"
-                "hyprpaper"
-                "systemctl --user start hypridle"
-                "nm-applet"
-                "blueman-applet"
-                "systemctl --user start hyprpolkitagent"
-            ];
+
+            # hl.env("NAME", "value")
             env = [
-                "XCURSOR_SIZE,24"
-                "MOZ_ENABLE_WAYLAND,1"
-                "_JAVA_AWT_WM_NONREPARENTING,1"
+                { _args = [ "XCURSOR_SIZE" "24" ]; }
+                { _args = [ "MOZ_ENABLE_WAYLAND" "1" ]; }
+                { _args = [ "_JAVA_AWT_WM_NONREPARENTING" "1" ]; }
             ];
-            windowrule = [
-                "match:class wofi, border_size 0, stay_focused on"
-            ];
+
+            # hl.bind(keys, dispatcher[, opts])
+            bind =
+                [
+                    (bind (mod "F") (raw ''hl.dsp.exec_cmd("$BROWSER")''))                                   # Open browser
+                    (bind (mod "Return") (raw ''hl.dsp.exec_cmd("$TERMINAL")''))                             # Open terminal
+                    (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("wofi --show run --normal-window")'')) # Application launcher
+                    (bind (mod "Q") (raw "hl.dsp.window.close()"))                                           # Kill focused window
+                    (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock")''))                           # Lock screen
+                    (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))  # Mute toggle
+                    (bind (mod "SHIFT + s") (raw ''hl.dsp.exec_cmd("hyprshot -m region -z --clipboard-only")'')) # Screenshot
+
+                    # Move focus with mainMod + h j k l
+                    (bind (mod "L") (raw ''hl.dsp.focus({ direction = "right" })''))
+                    (bind (mod "H") (raw ''hl.dsp.focus({ direction = "left" })''))
+                    (bind (mod "K") (raw ''hl.dsp.focus({ direction = "up" })''))
+                    (bind (mod "J") (raw ''hl.dsp.focus({ direction = "down" })''))
+
+                    (bind (mod "v") (raw ''hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy")''))
+
+                    # Hacking stuff -- [[ ]] keeps the embedded "\n" literal for tr
+                    (bind (mod "SHIFT + W") (raw ''hl.dsp.exec_cmd([[find $(wordlists_path) | wofi -i --dmenu -M fuzzy | tr --delete "\n" | wl-copy]])''))
+
+                    # Move/resize windows with mainMod + LMB/RMB and dragging
+                    (bindOpt (mod "mouse:272") (raw "hl.dsp.window.drag()") { mouse = true; })
+                    (bindOpt (mod "mouse:273") (raw "hl.dsp.window.resize()") { mouse = true; })
+                ]
+                # Switch workspaces with mainMod + [0-9]
+                ++ map (n: bind (mod (wsKey n)) (raw "hl.dsp.focus({ workspace = ${toString n} })")) (range 1 10)
+                # Move active window to a workspace with mainMod + SHIFT + [0-9]
+                ++ map (n: bind (mod ("SHIFT + " + wsKey n)) (raw "hl.dsp.window.move({ workspace = ${toString n} })")) (range 1 10);
+
+            # Autostart -> hl.on("hyprland.start", function() ... end)
+            on = {
+                _args = [
+                    "hyprland.start"
+                    (mkLuaInline ''
+                        function()
+                            hl.exec_cmd("waybar")
+                            hl.exec_cmd("hyprpaper")
+                            hl.exec_cmd("systemctl --user start hypridle")
+                            hl.exec_cmd("nm-applet")
+                            hl.exec_cmd("blueman-applet")
+                            hl.exec_cmd("systemctl --user start hyprpolkitagent")
+                        end
+                    '')
+                ];
+            };
+
+            # hl.window_rule({ ... })
+            window_rule = {
+                match = { class = "wofi"; };
+                border_size = 0;
+                stay_focused = true;
+            };
         };
     };
 }

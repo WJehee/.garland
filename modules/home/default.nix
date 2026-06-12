@@ -17,7 +17,7 @@
     home = {
         username = "wouter";
         homeDirectory = "/home/wouter";
-        stateVersion = "24.11";
+        stateVersion = "26.11";
         packages = [];
     };
     programs.home-manager.enable = true;

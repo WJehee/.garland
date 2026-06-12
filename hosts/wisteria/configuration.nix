@@ -1,6 +1,7 @@
 { ... }: {
     imports = [
         ../../modules/core
+        ../../modules/core/workstation.nix
         ../../modules/core/osint.nix
     ];
 

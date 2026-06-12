@@ -5,6 +5,7 @@
         ./env.nix
         ./doas.nix
         ./custom.nix
+        ./overlays.nix
         ./networking.nix
         ./ssh.nix
         ./starship.nix

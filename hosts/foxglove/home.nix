@@ -1,95 +1,110 @@
-{ lib, pkgs, vars, ... }:
-let
-    monitorWorkspaces = pkgs.writeShellScriptBin "hypr-monitor-workspaces" ''
-        setup_workspaces() {
-            monitors=$(hyprctl monitors -j)
-
-            # Resolve current port name (e.g. DP-7) from a substring of the monitor description
-            find_monitor() {
-                ${pkgs.jq}/bin/jq -r --arg d "$1" \
-                    '.[] | select(.description | contains($d)) | .name' <<< "$monitors" | head -1
-            }
-
-            assign_workspace() {
-                local ws=$1 monitor=$2 extra=''${3:-}
-                hyprctl keyword workspace "$ws, monitor:$monitor''${extra:+, $extra}"
-                hyprctl dispatch moveworkspacetomonitor "$ws $monitor" 2>/dev/null
-            }
-
-            laptop=$(find_monitor "BOE")
-            primary=$(find_monitor "P2720D")
-            portrait=$(find_monitor "P2416D")
-
-            if [ -n "$primary" ] && [ -n "$portrait" ]; then
-                # Docked: spread workspaces across external monitors
-                for ws in 1 2 3 4 5; do assign_workspace "$ws" "$primary"; done
-                for ws in 6 7 8 9; do assign_workspace "$ws" "$portrait" "layoutopt:orientation:top"; done
-                assign_workspace 10 "$laptop"
-            else
-                # Any single external monitor: workspaces 1-7 on laptop, 8-10 on external
-                ext=$(${pkgs.jq}/bin/jq -r --arg laptop "$laptop" \
-                    '.[] | select(.name != $laptop) | .name' <<< "$monitors" | head -1)
-                if [ -n "$ext" ]; then
-                    for ws in 1 2 3 4 5 6 7; do assign_workspace "$ws" "$laptop"; done
-                    for ws in 8 9 10; do assign_workspace "$ws" "$ext"; done
-                else
-                    # Undocked: all workspaces on laptop screen
-                    for ws in $(seq 1 10); do assign_workspace "$ws" "$laptop"; done
-                fi
-            fi
-        }
-
-        # Kill any previous instance and register this one
-        pidfile=/tmp/hypr-monitor-workspaces.pid
-        if [ -f "$pidfile" ]; then
-            kill "$(cat $pidfile)" 2>/dev/null || true
-        fi
-        echo $$ > "$pidfile"
-
-        sleep 1
-        setup_workspaces
-
-        while true; do
-            ${pkgs.socat}/bin/socat - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" \
-                | while IFS= read -r line; do
-                    case "$line" in
-                        "monitoraddedv2>>"*)
-                            # Extract NAME from "monitoraddedv2>>ID,NAME,DESC" and wait
-                            # for hyprctl to report it with a populated description.
-                            rest=''${line#monitoraddedv2>>*,}
-                            new_name=''${rest%%,*}
-                            for _ in $(seq 1 20); do
-                                sleep 0.25
-                                desc=$(hyprctl monitors -j \
-                                    | ${pkgs.jq}/bin/jq -r --arg n "$new_name" \
-                                        '.[] | select(.name == $n) | .description // ""')
-                                [ -n "$desc" ] && break
-                            done
-                            setup_workspaces
-                            ;;
-                        "monitorremovedv2>>"*)
-                            setup_workspaces
-                            ;;
-                    esac
-                done
-            sleep 1
-        done
-    '';
-in
+{ lib, vars, ... }:
 {
     imports = [
         ../../modules/home/default.nix
     ];
-    wayland.windowManager.hyprland.settings = lib.mkIf (vars.garland.windowManager == "hyprland") {
-        monitor = [
-            ", preferred, auto, 1"
-            "desc:BOE NE135A1M-NY1, preferred, auto, 1.2"
-            "desc:Dell Inc. DELL P2416D 6RC2C5BB08FL, preferred, auto-left, 1, transform, 1"
-            "desc:Dell Inc. DELL P2720D JV69F9AP02VS, preferred, auto-left, 1"
+    wayland.windowManager.hyprland = lib.mkIf (vars.garland.windowManager == "hyprland") {
+        settings.monitor = [
+            { output = ""; mode = "preferred"; position = "auto"; scale = 1; }
+            { output = "desc:BOE NE135A1M-NY1"; mode = "preferred"; position = "auto"; scale = 1.2; }
+            { output = "desc:Dell Inc. DELL P2416D 6RC2C5BB08FL"; mode = "preferred"; position = "auto-left"; scale = 1; transform = 1; }
+            { output = "desc:Dell Inc. DELL P2720D JV69F9AP02VS"; mode = "preferred"; position = "auto-left"; scale = 1; }
         ];
-        exec = [
-            "${monitorWorkspaces}/bin/hypr-monitor-workspaces"
-        ];
+
+        # Dynamically pin workspaces to monitors based on what is connected.
+        # Replaces the old socat-based hypr-monitor-workspaces shell daemon with
+        # native Hyprland Lua monitor events.
+        extraLuaFiles."monitor-workspaces.lua" = ''
+            -- Resolve the current port name (e.g. "DP-6") from a substring of a
+            -- monitor description. Returns nil when nothing connected matches.
+            local function find_monitor(desc)
+                for _, m in ipairs(hl.get_monitors()) do
+                    if m.description and m.description:find(desc, 1, true) then
+                        return m.name
+                    end
+                end
+                return nil
+            end
+
+            -- Ids of workspaces that currently exist, so we only relocate open
+            -- ones (moving a non-existent workspace just logs a warning).
+            local function open_workspaces()
+                local open = {}
+                for _, w in ipairs(hl.get_workspaces()) do
+                    open[w.id] = true
+                end
+                return open
+            end
+
+            local function setup_workspaces()
+                local open = open_workspaces()
+
+                -- Pin a workspace to a monitor. opts may carry extra rule fields
+                -- such as `default` or `layout_opts`.
+                local function assign(ws, monitor, opts)
+                    if not monitor then return end
+                    local rule = { workspace = tostring(ws), monitor = monitor }
+                    if opts then
+                        for k, v in pairs(opts) do rule[k] = v end
+                    end
+                    hl.workspace_rule(rule)
+                    if open[ws] then
+                        hl.dispatch(hl.dsp.workspace.move({ workspace = tostring(ws), monitor = monitor }))
+                    end
+                end
+
+                -- Assign a contiguous range to a monitor, marking the first as
+                -- that monitor's default so it is shown when the monitor
+                -- (re)connects or is emptied.
+                local function band(first, last, monitor, extra)
+                    for ws = first, last do
+                        local opts = { default = ws == first }
+                        if extra then
+                            for k, v in pairs(extra) do opts[k] = v end
+                        end
+                        assign(ws, monitor, opts)
+                    end
+                end
+
+                local laptop   = find_monitor("BOE")
+                local primary  = find_monitor("P2720D")
+                local portrait = find_monitor("P2416D")
+
+                if primary and portrait then
+                    -- Docked: spread workspaces across the external monitors.
+                    band(1, 5, primary)
+                    band(6, 9, portrait, { layout_opts = { orientation = "top" } })
+                    assign(10, laptop, { default = true })
+                else
+                    -- Any single external monitor: 1-7 on laptop, 8-10 on external.
+                    local ext
+                    for _, m in ipairs(hl.get_monitors()) do
+                        if m.name ~= laptop then
+                            ext = m.name
+                            break
+                        end
+                    end
+                    if ext then
+                        band(1, 7, laptop)
+                        band(8, 10, ext)
+                    else
+                        -- Undocked: everything on the laptop screen.
+                        band(1, 10, laptop)
+                    end
+                end
+            end
+
+            -- On hotplug the monitor description is not always populated
+            -- immediately, so defer a touch to let it settle (the old daemon
+            -- polled for the same reason).
+            local function setup_soon()
+                hl.timer(setup_workspaces, { timeout = 250, type = "oneshot" })
+            end
+
+            hl.on("hyprland.start",  setup_workspaces)
+            hl.on("monitor.added",   setup_soon)
+            hl.on("monitor.removed", setup_soon)
+        '';
     };
     xdg.configFile = lib.mkIf (vars.garland.windowManager == "hyprland") {
         "hypr/hyprpaper.conf".text = ''
