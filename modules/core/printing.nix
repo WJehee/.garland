@@ -7,9 +7,4 @@
         avahi.openFirewall = true;
     };
     hardware.sane.enable = true;
-
-    # 3D printing
-    environment.systemPackages = with pkgs; [
-        bambu-studio
-    ];
 }

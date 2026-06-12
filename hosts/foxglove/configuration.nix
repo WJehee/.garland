@@ -4,6 +4,7 @@
 
         ../../modules/core
         ../../modules/core/workstation.nix
+        ../../modules/core/3d-printing.nix
         ../../modules/hacking
     ];
 
