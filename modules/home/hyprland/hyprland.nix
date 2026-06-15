@@ -17,6 +17,13 @@ let
 in {
     services.blueman-applet.enable = true;
     services.network-manager-applet.enable = true;
+    # Auto-mount removable media on insert (backend enabled in workstation.nix)
+    services.udiskie = {
+        enable = true;
+        automount = true;
+        notify = true;
+        tray = "auto";
+    };
 
     wayland.windowManager.hyprland = {
         enable = true;

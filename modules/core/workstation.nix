@@ -13,6 +13,13 @@
 
     environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
+    # Auto-mounting of removable media (USB sticks, SD cards, etc.).
+    # udisks2 is the privileged mount backend; gvfs lets pcmanfm/yazi
+    # browse and mount. The udiskie daemon that triggers mounts on insert
+    # runs as a home-manager systemd user service (see hyprland.nix).
+    services.udisks2.enable = true;
+    services.gvfs.enable = true;
+
     programs.gnupg.agent = {
         enable = true;
         pinentryPackage = pkgs.pinentry-gtk2;
