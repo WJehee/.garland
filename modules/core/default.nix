@@ -49,6 +49,17 @@
     nixpkgs.config = {
         allowUnfree = true;
         permittedInsecurePackages = [];
+        # TODO: temporary fix -- remove this allowInsecurePredicate once nixpkgs
+        # resumes maintaining librewolf and drops the insecure mark.
+        #
+        # nixpkgs marks every librewolf variant insecure -- not for a CVE, but
+        # because the packaging lost its maintainer ("lacks maintenance in
+        # nixpkgs"). librewolf-bin ships the official upstream binaries, which
+        # LibreWolf still patches, so the browser itself stays current. Allow it
+        # by name (not the versioned string) so `just update` doesn't reintroduce
+        # the eval error every time the version bumps.
+        allowInsecurePredicate = pkg:
+            builtins.elem (lib.getName pkg) [ "librewolf-bin" "librewolf-bin-unwrapped" ];
     };
     programs.nix-ld.enable = true;
     nix = {

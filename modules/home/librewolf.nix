@@ -1,6 +1,15 @@
-{ ... }: {
+{ pkgs, ... }: {
     programs.librewolf = {
         enable = true;
+        # TODO: temporary fix -- drop this back to the default `pkgs.librewolf`
+        # (and remove the allowInsecurePredicate in modules/core/default.nix)
+        # once nixpkgs resumes maintaining librewolf and drops the insecure mark.
+        #
+        # nixpkgs marks every librewolf variant insecure because the packaging
+        # lost its maintainer. librewolf-bin tracks the official upstream binaries
+        # (still patched by LibreWolf), so it stays current. The insecure flag is
+        # allowed by name in modules/core/default.nix.
+        package = pkgs.librewolf-bin;
         configPath = ".config/librewolf/librewolf";
         profiles.default = {
             isDefault = true;
