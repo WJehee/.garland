@@ -20,6 +20,7 @@
     ++ lib.optionals (vars.garland.llm.enable or false) [ ../llm.nix ];
 
     system = {
+        # DO NOT CHANGE THIS after first install
         stateVersion = "24.11";
         autoUpgrade = {
             enable = true;

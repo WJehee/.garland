@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ ... }: {
     imports = [
         # Default configs
         ../../modules/core
@@ -8,6 +8,7 @@
         # Specific configs
         ../../modules/core/home-assistant.nix
     ];
+    # DO NOT CHANGE THIS after first install
     system.stateVersion = "24.11";
     nix.settings = {
         trusted-users = [

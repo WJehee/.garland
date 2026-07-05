@@ -7,6 +7,7 @@
     home = {
         username = "admin";
         homeDirectory = "/home/admin";
+        # DO NOT CHANGE THIS after first install
         stateVersion = "24.11";
         packages = [];
     };

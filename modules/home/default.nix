@@ -17,6 +17,7 @@
     home = {
         username = "wouter";
         homeDirectory = "/home/wouter";
+        # DO NOT CHANGE THIS after first install
         stateVersion = "26.11";
         packages = [];
     };
