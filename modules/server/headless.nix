@@ -1,4 +1,12 @@
 { pkgs, ... }: {
+    # Headless machines may reboot for kernel updates, workstations stay manual
+    system.autoUpgrade = {
+        allowReboot = true;
+        rebootWindow = {
+            lower = "02:00";
+            upper = "06:00";
+        };
+    };
     services = {
         openssh = {
             enable = true;

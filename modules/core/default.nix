@@ -24,7 +24,9 @@
         stateVersion = "24.11";
         autoUpgrade = {
             enable = true;
-            flake = inputs.self.outPath;
+            # Pull from the remote: inputs.self.outPath is a frozen store
+            # snapshot, so upgrading from it never picks up new commits
+            flake = "github:WJehee/.garland";
             dates = "02:00";
             randomizedDelaySec = "45min";
         };
@@ -43,8 +45,8 @@
                 useOSProber = true;
             };
         };
-        # Needed for building SD image
-        binfmt.emulatedSystems = [ "aarch64-linux" ];
+        # Needed for building SD image, not on the PI itself
+        binfmt.emulatedSystems = lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [ "aarch64-linux" ];
     };
 
     nixpkgs.config = {

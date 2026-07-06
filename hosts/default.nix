@@ -51,10 +51,16 @@ in {
             hemlock = mkSystem { hostname = "hemlock"; username = "admin"; };
             ivy = inputs.nixpkgs.lib.nixosSystem {
                 system = "aarch64-linux";
-                specialArgs = { inherit inputs; hostname = "ivy"; };
+                specialArgs = {
+                    inherit inputs;
+                    hostname = "ivy";
+                    vars = import ./ivy/variables.nix;
+                };
                 modules = [
+                    { networking.hostName = "ivy"; }
                     inputs.nixos-hardware.nixosModules.raspberry-pi-3
                     inputs.sops-nix.nixosModules.sops
+                    inputs.nixvim.nixosModules.nixvim
                     ./ivy/configuration.nix
                 ];
             };

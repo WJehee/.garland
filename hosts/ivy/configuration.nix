@@ -1,4 +1,4 @@
-{ ... }: {
+{ lib, ... }: {
     imports = [
         # Default configs
         ../../modules/core
@@ -21,9 +21,15 @@
     };
     boot = {
         loader = {
-            grub.enable = false;
+            grub.enable = lib.mkForce false;
             generic-extlinux-compatible.enable = true;
         };
+    };
+    # Root FS as created by the SD image (the sd-image module overrides
+    # this when building the image itself)
+    fileSystems."/" = {
+        device = "/dev/disk/by-label/NIXOS_SD";
+        fsType = "ext4";
     };
     environment.variables = {
         SHELL = "zsh";

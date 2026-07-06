@@ -1,0 +1,7 @@
+{
+    garland = {
+        dev = {
+            virtualization = false;
+        };
+    };
+}
