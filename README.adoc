@@ -68,7 +68,7 @@ The OIDC client itself is registered declaratively in Authelia (`modules/server/
 +
 [source,bash]
 ----
-sudo glitchtip-manage createsuperuser
+doas glitchtip-manage createsuperuser
 ----
 
 2. Log in with it at `https://glitchtip.wouterjehee.com/admin/` and add a **Social application**:

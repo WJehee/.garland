@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, lib, pkgs, ... }: {
     sops.secrets."glitchtip-secret-key" = { };
     sops.templates."glitchtip.env".content = ''
         SECRET_KEY=${config.sops.placeholder."glitchtip-secret-key"}
@@ -10,6 +10,28 @@
     services.caddy.virtualHosts."glitchtip.wouterjehee.com".extraConfig = ''
         reverse_proxy http://localhost:8000
     '';
+
+    # The glitchtip-manage wrapper from nixpkgs hardcodes
+    # ${security.wrapperDir}/sudo, which does not exist with doas
+    # (and doas-sudo-shim does not support the -E flag it passes).
+    # Replace it with a doas equivalent; run as root: doas glitchtip-manage ...
+    environment.systemPackages =
+        let
+            cfg = config.services.glitchtip;
+            env = lib.mapAttrs (
+                _: value:
+                if value == true then "True"
+                else if value == false then "False"
+                else toString value
+            ) cfg.settings;
+        in [
+            (lib.hiPrio (pkgs.writeShellScriptBin "glitchtip-manage" ''
+                set -o allexport
+                ${lib.toShellVars env}
+                ${lib.concatMapStringsSep "\n" (f: "source ${f}") cfg.environmentFiles}
+                exec /run/wrappers/bin/doas -u ${cfg.user} ${lib.getExe cfg.package} "$@"
+            ''))
+        ];
 
     services.glitchtip = {
         enable = true;
