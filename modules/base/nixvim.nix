@@ -3,6 +3,9 @@
         imports = [ inputs.nixvim.nixosModules.nixvim ];
         programs.nixvim = {
             enable = true;
+            # Explicit source suppresses the eval warning caused by the
+            # nixvim nixpkgs follows in flake.nix (same value either way)
+            nixpkgs.source = inputs.nixpkgs;
             viAlias = true;
             vimAlias = true;
             defaultEditor = true;
