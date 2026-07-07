@@ -9,6 +9,7 @@
         ../../modules/server/lldap.nix
         ../../modules/server/radicale.nix
         ../../modules/server/immich.nix
+        ../../modules/server/glitchtip.nix
 
         ../../modules/server/projects.nix
     ];

@@ -56,6 +56,34 @@ ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age
 just secrets <hostname>
 ----
 
+== GlitchTip (error monitoring)
+
+Hemlock runs https://glitchtip.com[GlitchTip] at `https://glitchtip.wouterjehee.com` (`modules/server/glitchtip.nix`). Login is handled by Authelia through OIDC, so there is no separate account to manage. The Caddy vhost intentionally has no `forward_auth`: the OIDC redirect protects the UI, and the Sentry SDK ingest endpoints (`/api/<project>/envelope/`) must stay reachable with only a DSN.
+
+=== One-time bootstrap
+
+The OIDC client itself is registered declaratively in Authelia (`modules/server/authelia.nix`), but GlitchTip stores its side of the OIDC configuration in its database, so after the first deploy:
+
+1. Create a superuser (on hemlock):
++
+[source,bash]
+----
+sudo glitchtip-manage createsuperuser
+----
+
+2. Log in with it at `https://glitchtip.wouterjehee.com/admin/` and add a **Social application**:
++
+* Provider: `OpenID Connect`
+* Provider ID: `authelia`
+* Name: `Authelia`
+* Client id: `glitchtip`
+* Secret key: the `glitchtip-oidc-client-secret` value from `just secrets hemlock`
+* Settings: `{"server_url": "https://auth.wouterjehee.com/.well-known/openid-configuration"}`
+
+3. Log out and sign in via the Authelia button. Self-registration is disabled, but first login through Authelia creates the account (`ENABLE_SOCIAL_APPS_USER_REGISTRATION`).
+
+To send events, create a project in the UI and point the Sentry SDK of the application at the project's DSN.
+
 == Wallpaper credits
 
 * https://unsplash.com/photos/purple-flowers-in-green-leaves-Q8NdtiJ_S3A[Wisteria portrait], by https://unsplash.com/@larisabirta?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Larisa Birta]

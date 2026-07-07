@@ -3,6 +3,8 @@
         "authelia-jwt-secret".owner = "authelia-main";
         "authelia-storage-encryption-key".owner = "authelia-main";
         "authelia-session-secret".owner = "authelia-main";
+        "authelia-oidc-hmac-secret".owner = "authelia-main";
+        "authelia-oidc-issuer-private-key".owner = "authelia-main";
     };
 
     sops.templates."authelia-ldap-password.yml" = {
@@ -37,6 +39,8 @@
             jwtSecretFile = config.sops.secrets."authelia-jwt-secret".path;
             storageEncryptionKeyFile = config.sops.secrets."authelia-storage-encryption-key".path;
             sessionSecretFile = config.sops.secrets."authelia-session-secret".path;
+            oidcHmacSecretFile = config.sops.secrets."authelia-oidc-hmac-secret".path;
+            oidcIssuerPrivateKeyFile = config.sops.secrets."authelia-oidc-issuer-private-key".path;
         };
         settingsFiles = [
             config.sops.templates."authelia-ldap-password.yml".path
@@ -109,6 +113,29 @@
                         policy = "one_factor";
                     }
                 ];
+            };
+            identity_providers = {
+                oidc = {
+                    clients = [
+                        {
+                            client_id = "glitchtip";
+                            client_name = "GlitchTip";
+                            # plaintext is in sops: glitchtip-oidc-client-secret
+                            client_secret = "$pbkdf2-sha512$310000$tpQ6n.ozcfZf2sb4mIPt2Q$BcHbMzOG3tKCPWExCHjzHevAsz1x50GsLkEKGYK4D6qy7b3UMzvKU7.z39LN8wdS.QUDPDrP5iTgiKvuFjq2mg";
+                            public = false;
+                            authorization_policy = "one_factor";
+                            require_pkce = false;
+                            redirect_uris = [
+                                "https://glitchtip.wouterjehee.com/accounts/oidc/authelia/login/callback/"
+                                "https://glitchtip.wouterjehee.com/accounts/authelia/login/callback/"
+                            ];
+                            scopes = [ "openid" "email" "profile" ];
+                            response_types = [ "code" ];
+                            grant_types = [ "authorization_code" ];
+                            token_endpoint_auth_method = "client_secret_basic";
+                        }
+                    ];
+                };
             };
             notifier = {
                 filesystem = {
