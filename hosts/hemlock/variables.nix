@@ -1,5 +1,0 @@
-{
-    garland = {
-        tailscale.enable = true;
-    };
-}

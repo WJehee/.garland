@@ -1,5 +1,7 @@
-{ ... }: {
-    services.headscale = {
-        enable = true;
+{
+    flake.modules.nixos."services/headscale" = {
+        services.headscale = {
+            enable = true;
+        };
     };
 }

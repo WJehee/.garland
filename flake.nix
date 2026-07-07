@@ -4,6 +4,7 @@
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         flake-parts.url = "github:hercules-ci/flake-parts";
+        import-tree.url = "github:vic/import-tree";
         home-manager.url = "github:nix-community/home-manager";
         disko.url = "github:nix-community/disko";
         stylix.url = "github:danth/stylix";
@@ -16,21 +17,9 @@
         galeharp.url = "github:WJehee/galeharp";
     };
 
-    outputs = { flake-parts, ... }@inputs:
-        flake-parts.lib.mkFlake { inherit inputs; } {
-            systems = [
-                "x86_64-linux"
-                "aarch64-linux"
-            ];
-            imports = [
-                ./hosts
-            ];
-            flake = {
-                templates = import ./templates;
-                nvim = inputs.nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
-                    module = import ../modules/dev/nvim.nix;
-                    extraSpecialArgs.inputs = inputs;
-                };
-            };
-        };
+    # Dendritic pattern: every file under modules/ is a flake-parts module,
+    # discovered automatically. Files and directories prefixed with an
+    # underscore are skipped.
+    outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; }
+        (inputs.import-tree ./modules);
 }

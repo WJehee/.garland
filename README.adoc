@@ -11,6 +11,10 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 * **Hemlock**: my VPS machine
 * **Ivy**: Home Assistant running on Raspberry PI
 
+== Structure
+
+This repository follows the https://github.com/mightyiam/dendritic[dendritic pattern]: every Nix file under `modules/` is a flake-parts module, discovered automatically with https://github.com/vic/import-tree[import-tree] (files prefixed with an underscore are skipped). Feature modules write into the `flake.modules.nixos.<name>` and `flake.modules.homeManager.<name>` namespaces, and each host (`modules/hosts/<name>`) composes the features it wants by importing them. `modules/nixos-configurations.nix` turns every `hosts/<name>` module into a `nixosConfiguration`.
+
 == Secrets management
 
 Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.

@@ -1,5 +1,7 @@
-{ pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
-        godot_4
-    ];
+{
+    flake.modules.nixos."dev/godot" = { pkgs, ... }: {
+        environment.systemPackages = with pkgs; [
+            godot_4
+        ];
+    };
 }

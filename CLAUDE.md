@@ -30,27 +30,34 @@ This project uses **jj (Jujutsu)** backed by git. Always use `jj` commands inste
 
 ## Architecture
 
+This repository follows the **dendritic pattern** (https://github.com/mightyiam/dendritic): every Nix file under `modules/` is a flake-parts module, auto-imported by **import-tree**. Files and directories prefixed with an underscore are NOT auto-imported (plain NixOS modules referenced by path, e.g. `_hardware-configuration.nix`, `_disk/`).
+
 ### Flake Structure
 
-`flake.nix` uses **flake-parts** and defines:
-- `nixosConfigurations` for all four hosts via a `mkSystem` helper in `hosts/default.nix`
-- `templates` for bootstrapping new projects (rust, zig, elixir, python, gleam, etc.)
+`flake.nix` is minimal: inputs plus `mkFlake` over `import-tree ./modules`. Everything else lives in `modules/`:
 
-Each host configuration is assembled from: `hosts/<hostname>/configuration.nix` + `hardware-configuration.nix` + flake module inputs (disko, stylix, nixvim, sops-nix, home-manager).
+- `modules/meta.nix` -- imports `flake-parts.flakeModules.modules`, which provides the `flake.modules.<class>.<name>` namespaces everything writes into
+- `modules/nixos-configurations.nix` -- turns every `flake.modules.nixos."hosts/<name>"` into `nixosConfigurations.<name>`
+- `modules/templates.nix` -- project templates (rust, zig, elixir, python, gleam, etc.)
 
-### Home Manager
+### Feature Modules
 
-Desktop hosts (foxglove, wisteria) have a `home.nix` that imports `../../modules/home` for the Hyprland desktop environment (waybar, alacritty, librewolf, dunst, hyprlock, hypridle). Hemlock and ivy are headless and have no home config.
+A feature file defines one feature across all applicable classes: for example `modules/workstation/stylix.nix` sets both `flake.modules.nixos.workstation` (system stylix) and `flake.modules.homeManager.workstation` (home stylix) in one file. Multiple files can merge into the same module name.
+
+Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, ...). Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`.
+
+### Hosts
+
+`modules/hosts/<name>` defines `flake.modules.nixos."hosts/<name>"`: it imports the feature modules the host wants (importing a feature IS enabling it; there are no enable flags or `variables.nix`) plus host-specific config (hostname, disk/boot specifics, wallpaper, monitor layout). Home-manager users are attached there via `home-manager.users.<user>.imports`. Ivy (Raspberry PI, aarch64) is a host module like the others, just importing fewer features plus `nixos-hardware`'s raspberry-pi-3 module.
 
 ### Secrets Management
 
-Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are stored encrypted in `secrets/<hostname>.yaml` and decrypted at NixOS activation time. Key mapping is in `.sops.yaml`.
+Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are stored encrypted in `secrets/<hostname>.yaml` (path derived from `config.networking.hostName` in `modules/base/sops.nix`) and decrypted at NixOS activation time. Key mapping is in `.sops.yaml`.
 
 ## Key Patterns
 
-- The `mkSystem` helper in `hosts/default.nix` automatically wires up disko, stylix, nixvim, sops-nix, home-manager, and custom flakes for each host
-- Home Manager is conditionally enabled only when `hosts/<hostname>/home.nix` exists
-- `hostname` is passed as a `specialArgs` attribute, available in all modules
-- Ivy (Raspberry PI) has a separate config path using `nixos-hardware` instead of the standard `mkSystem`
-- `modules/default.nix` is for shared desktop configuration; server-only modules live in `modules/server/` and are imported directly by hemlock's `configuration.nix`
+- No `specialArgs` beyond `inputs`; modules read everything else from `config`
+- Flake input modules are imported by the feature that configures them (e.g. `modules/base/nixvim.nix` imports `inputs.nixvim.nixosModules.nixvim`; `modules/home-manager.nix` wires up home-manager)
+- Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
+- `home.stateVersion` lives in each host file and must never change after install
 

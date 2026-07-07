@@ -31,7 +31,7 @@ build-sd host:
 
 # Remotely install a flake
 remote-install flake conn_str:
-    nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./hosts/{{flake}}/hardware-configuration.nix
+    nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./modules/hosts/{{flake}}/_hardware-configuration.nix
 
 # Build locally and deploy the closure to a remote host, if this fails, run just r while ssh'ed
 remote-rebuild flake conn_str:

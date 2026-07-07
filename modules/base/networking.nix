@@ -1,0 +1,19 @@
+{
+    flake.modules.nixos.base = { lib, pkgs, ... }: {
+        networking = {
+            networkmanager = {
+                enable = true;
+                plugins = with pkgs; [
+                    networkmanager-openvpn
+                ];
+            };
+            nameservers = [ "194.242.2.6" ];     # Mullvad
+        };
+        services.mullvad-vpn.enable = true;
+        environment.systemPackages = with pkgs; [
+            openvpn
+        ];
+        systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+        systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+    };
+}
