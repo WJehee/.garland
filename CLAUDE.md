@@ -44,7 +44,7 @@ This repository follows the **dendritic pattern** (https://github.com/mightyiam/
 
 A feature file defines one feature across all applicable classes: for example `modules/workstation/stylix.nix` sets both `flake.modules.nixos.workstation` (system stylix) and `flake.modules.homeManager.workstation` (home stylix) in one file. Multiple files can merge into the same module name.
 
-Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, ...). Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`.
+Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, ...). Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
 
 ### Hosts
 
