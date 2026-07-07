@@ -9,11 +9,12 @@
             };
             listener = [
                 {
-                    timeout = 1200;
+                    # Start the lock screen 60s before the actual lock for fade in with grace period
+                    timeout = 540;
                     on-timeout = "loginctl lock-session";
                 }
                 {
-                    timeout = 1260;
+                    timeout = 660;
                     on-timeout = "hyprctl dispatch 'hl.dsp.dpms(\"off\")'";
                     on-resume = "hyprctl dispatch 'hl.dsp.dpms(\"on\")'";
                 }
