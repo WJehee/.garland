@@ -158,11 +158,28 @@
                 };
 
                 # hl.window_rule({ ... })
-                window_rule = {
-                    match = { class = "wofi"; };
-                    border_size = 0;
-                    stay_focused = true;
-                };
+                window_rule = [
+                    # Tile everything; per-window float rules must come after this one
+                    {
+                        match = { class = ".*"; };
+                        float = false;
+                    }
+                    # Hover/dropdown menus and tooltips are X11 override-redirect
+                    # windows: they request floating and carry no title, unlike
+                    # dialogs. Let them float; everything else stays tiled.
+                    {
+                        match = { xwayland = true; float = true; title = "^$"; };
+                        float = true;
+                    }
+                    # Launcher floats centered above the tiled windows
+                    {
+                        match = { class = "wofi"; };
+                        float = true;
+                        center = true;
+                        border_size = 0;
+                        stay_focused = true;
+                    }
+                ];
             };
         };
     };
