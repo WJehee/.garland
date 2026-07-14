@@ -4,7 +4,9 @@
             enable = true;
             settings = {
                 general = {
-                    lock_cmd = "pidof hyprlock || hyprlock";
+                    # Any input within the grace period dismisses the lock screen
+                    # without a password, the idle timeout starts hyprlock 60s early
+                    lock_cmd = "pidof hyprlock || hyprlock --grace 60";
                     before_sleep_cmd = "loginctl lock-session";
                     after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms(\"on\")'";
                 };

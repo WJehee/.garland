@@ -115,7 +115,7 @@
                         (bind (mod "Return") (raw ''hl.dsp.exec_cmd("$TERMINAL")''))                                    # Open terminal
                         (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("wofi --show run --normal-window")''))      # Application launcher
                         (bind (mod "Q") (raw "hl.dsp.window.close()"))                                                  # Kill focused window
-                        (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock")''))                                  # Lock screen
+                        (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock --no-fade-in")''))                     # Lock screen immediately, no grace
                         (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))        # Mute toggle
                         (bind (mod "SHIFT + s") (raw ''hl.dsp.exec_cmd("hyprshot -m region -z --clipboard-only")''))    # Screenshot
 
@@ -164,11 +164,17 @@
                         match = { class = ".*"; };
                         float = false;
                     }
-                    # Hover/dropdown menus and tooltips are X11 override-redirect
-                    # windows: they request floating and carry no title, unlike
-                    # dialogs. Let them float; everything else stays tiled.
+                    # Menus, dropdowns and tooltips of X11 apps (vlc) are
+                    # override-redirect windows that request floating; tiling
+                    # them breaks them. They cannot be singled out by title
+                    # (vlc titles its menu popups "vlc", not ""), so keep every
+                    # float-requesting X11 window floating. Since 0.55 rules
+                    # match after the requested float state is set, so the
+                    # float match works at map time. Wayland windows (gimp tool
+                    # windows) and normal X11 windows (hex-kit's Tool Box)
+                    # request no floating and stay tiled by the rule above.
                     {
-                        match = { xwayland = true; float = true; title = "^$"; };
+                        match = { xwayland = true; float = true; };
                         float = true;
                     }
                     # Launcher floats centered above the tiled windows

@@ -6,9 +6,8 @@
                 general = {
                     disable_loading_bar = true;
                     hide_cursor = true;
-                    # Any input within the grace period dismisses the lock screen
-                    # without a password, hypridle starts hyprlock 60s early
-                    grace = 60;
+                    # Grace period is set via `hyprlock --grace` in hypridle's
+                    # lock_cmd; since v0.9 the general:grace config option is gone
                 };
                 animations = {
                     enabled = true;

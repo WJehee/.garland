@@ -16,11 +16,15 @@
             feroxbuster
             ffuf
             wordlists
+            # cewl            # Custom wordlist generator
 
             # Passwords
             # john  # temporarily disabled: upstream bleeding-jumbo hash mismatch in nixpkgs
-            hashcat
-            hashcat-utils
+            # hashcat
+            # hashcat-utils
+
+            # Forensics
+            # sleuthkit
         ];
         environment.sessionVariables.WIRESHARK_PLUGIN_DIR = "$HOME/.local/lib/wireshark/plugins/";
         # Make hosts file writeable (by root)

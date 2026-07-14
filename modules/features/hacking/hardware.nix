@@ -7,7 +7,8 @@
             # Reverse engineering
             binwalk
             # cutter
-            frida-tools
+            # ghidra-bin
+            # frida-tools
 
             # cantoolz
             # esptool
