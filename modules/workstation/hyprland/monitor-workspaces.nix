@@ -66,12 +66,13 @@
                 return nil
             end
 
-            -- Ids of workspaces that currently exist, so we only relocate open
-            -- ones (moving a non-existent workspace just logs a warning).
+            -- Current monitor of each open workspace, so we only relocate ones
+            -- that exist (moving a non-existent workspace just logs a warning)
+            -- and are not already in place (this runs on a repeat timer).
             local function open_workspaces()
                 local open = {}
                 for _, w in ipairs(hl.get_workspaces()) do
-                    open[w.id] = true
+                    open[w.id] = w.monitor and w.monitor.name or true
                 end
                 return open
             end
@@ -116,7 +117,7 @@
                     local rule = { workspace = tostring(ws), monitor = monitor }
                     for k, v in pairs(opts) do rule[k] = v end
                     hl.workspace_rule(rule)
-                    if open[ws] then
+                    if open[ws] and open[ws] ~= monitor then
                         hl.dispatch(hl.dsp.workspace.move({ workspace = tostring(ws), monitor = monitor }))
                     end
                 end
@@ -139,15 +140,35 @@
             end
 
             -- On hotplug the monitor description is not always populated
-            -- immediately, so defer a touch to let it settle (the old daemon
-            -- polled for the same reason).
+            -- immediately; a single fixed delay loses that race and the wrong
+            -- profile sticks until the next monitor event. Instead poll until
+            -- every connected monitor has a description (bounded, in case one
+            -- never reports any). Re-running setup is safe: rule registration
+            -- is last-wins.
             local function setup_soon()
-                hl.timer(setup_workspaces, { timeout = 250, type = "oneshot" })
+                local tries = 0
+                local function attempt()
+                    tries = tries + 1
+                    for _, m in ipairs(hl.get_monitors()) do
+                        if (not m.description or m.description == "") and tries < 12 then
+                            hl.timer(attempt, { timeout = 250, type = "oneshot" })
+                            return
+                        end
+                    end
+                    setup_workspaces()
+                end
+                hl.timer(attempt, { timeout = 250, type = "oneshot" })
             end
 
-            hl.on("hyprland.start",  setup_workspaces)
-            hl.on("monitor.added",   setup_soon)
-            hl.on("monitor.removed", setup_soon)
+            hl.on("hyprland.start",   setup_soon)
+            hl.on("monitor.added",    setup_soon)
+            hl.on("monitor.removed",  setup_soon)
+            hl.on("config.reloaded",  setup_soon)
+
+            -- Safety net: `hyprctl reload` (every rebuild) wipes dynamically
+            -- registered workspace rules, and it is unclear which events fire
+            -- around a reload. Rules are last-wins so re-applying is free.
+            hl.timer(setup_workspaces, { timeout = 30000, type = "repeat" })
         '';
     };
 }

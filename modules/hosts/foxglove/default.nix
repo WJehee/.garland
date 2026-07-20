@@ -43,6 +43,10 @@ in {
                 { output = "desc:Dell Inc. DELL P2720D JV69F9AP02VS"; mode = "preferred"; position = "auto-left"; scale = 1; }
             ];
 
+            # A static desc-pinned rule set cannot express these layouts: rules
+            # bound to a disconnected monitor still count as taken (a new
+            # monitor grabs the next unruled workspace, here 11+), and there is
+            # no wildcard for "whatever monitor just got plugged in".
             monitorWorkspaces.profiles = [
                 # Docked: spread workspaces across the external monitors.
                 {
