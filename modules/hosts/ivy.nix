@@ -10,7 +10,8 @@
             config.flake.modules.nixos.server
 
             # Specific configs
-            config.flake.modules.nixos.home-assistant
+            # config.flake.modules.nixos.home-assistant
+            config.flake.modules.nixos.adguard
         ];
 
         networking.hostName = "ivy";
@@ -31,6 +32,9 @@
                 grub.enable = lib.mkForce false;
                 generic-extlinux-compatible.enable = true;
             };
+            # The SD installer profile enables ZFS, but the ZFS kernel module
+            # is marked broken for this kernel and ivy does not use ZFS
+            supportedFilesystems.zfs = lib.mkForce false;
         };
         # Root FS as created by the SD image (the sd-image module overrides
         # this when building the image itself)
