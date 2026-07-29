@@ -3,14 +3,6 @@
         system = {
             # DO NOT CHANGE THIS after first install
             stateVersion = "24.11";
-            autoUpgrade = {
-                enable = true;
-                # Pull from the remote: inputs.self.outPath is a frozen store
-                # snapshot, so upgrading from it never picks up new commits
-                flake = "github:WJehee/.garland";
-                dates = "02:00";
-                randomizedDelaySec = "45min";
-            };
         };
         time.timeZone = "Europe/Amsterdam";
         i18n.defaultLocale = "en_US.UTF-8";
