@@ -35,7 +35,7 @@ remote-install flake conn_str:
 
 # Build locally and deploy the closure to a remote host, if this fails, run just r while ssh'ed
 remote-rebuild flake conn_str:
-    nixos-rebuild switch --flake .#{{flake}} --target-host {{conn_str}}
+    nixos-rebuild switch --flake .#{{flake}} --target-host {{conn_str}} --sudo
 
 # Build locally and copy the closure to a remote host (activate manually)
 remote-copy flake conn_str:
