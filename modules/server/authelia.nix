@@ -98,7 +98,7 @@
                         # Protected admin area
                         {
                             domain = "6767ov.dorusrijkers.eu";
-                            policy = "two_factor";
+                            policy = "one_factor";
                             resources = [
                                 "^/admin/.*"
                                 "^/api/departures.*"

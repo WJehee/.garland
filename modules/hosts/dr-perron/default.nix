@@ -1,9 +1,10 @@
-# VPS server
+# Departure board server for 6767ov.dorusrijkers.eu
+# Hemlock terminates TLS and auth, then proxies here over tailscale
 { config, ... }: let
     nixos = config.flake.modules.nixos;
     hm = config.flake.modules.homeManager;
 in {
-    flake.modules.nixos."hosts/hemlock" = { pkgs, ... }: {
+    flake.modules.nixos."hosts/dr-perron" = {
         imports = [
             ./_hardware-configuration.nix
             nixos.base
@@ -11,18 +12,9 @@ in {
             nixos.server
             nixos."disk/server"
             nixos.tailscale
-
-            nixos."services/authelia"
-            nixos."services/caddy"
-            nixos."services/lldap"
-            nixos."services/radicale"
-            nixos."services/immich"
-            # nixos."services/glitchtip"
-
-            nixos."services/projects"
         ];
 
-        networking.hostName = "hemlock";
+        networking.hostName = "dr-perron";
         boot.loader.grub = {
             enable = true;
             devices = [];
@@ -30,23 +22,19 @@ in {
             efiInstallAsRemovable = true;
         };
         nix.settings.trusted-users = [ "admin" ];
-        environment.systemPackages = with pkgs; [
-            apacheHttpd
-            sqlite
-        ];
         networking.firewall = {
             enable = true;
             allowedTCPPorts = [
                 22      # ssh
-                80      # http
-                443     # https
             ];
+            # Departure board is only reachable over tailscale
+            interfaces."tailscale0".allowedTCPPorts = [ 6767 ];
         };
 
         home-manager.users.admin = {
             imports = [ hm.shell ];
             # DO NOT CHANGE THIS after first install
-            home.stateVersion = "24.11";
+            home.stateVersion = "26.11";
             programs.home-manager.enable = true;
         };
     };
