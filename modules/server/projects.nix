@@ -30,7 +30,7 @@
             "6767ov.dorusrijkers.eu".extraConfig = ''
                 route {
                     import authelia
-                    reverse_proxy http://foxglove:6767
+                    reverse_proxy http://dr-perron:6767
                 }
             '';
         };
