@@ -4,6 +4,8 @@
             ncmpcpp
             mpc
             mpd
+
+            spotify
         ];
 
         services.mpd = {
