@@ -15,6 +15,7 @@ in {
             nixos."3d-printing"
             nixos.tailscale
             nixos.music
+            nixos.dj
             nixos.llm
             nixos.cad
             nixos.dev
