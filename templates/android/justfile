@@ -1,0 +1,15 @@
+
+_default:
+    just --list
+
+# Build a debug APK
+build:
+    ./gradlew assembleDebug
+
+# Install the debug build on a connected device
+install:
+    ./gradlew installDebug
+
+# List connected devices
+devices:
+    adb devices

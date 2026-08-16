@@ -19,6 +19,7 @@ in {
             nixos.llm
             nixos.cad
             nixos.dev
+            nixos."dev/android"
             nixos.virtualization
         ];
 

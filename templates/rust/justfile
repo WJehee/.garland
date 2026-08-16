@@ -10,3 +10,10 @@ build:
 run:
     cargo run
 
+# Lint with clippy
+lint:
+    cargo clippy --all-targets
+
+# Format all sources
+fmt:
+    cargo fmt

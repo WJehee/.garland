@@ -3,6 +3,7 @@
         environment.systemPackages = with pkgs; [
             asciidoctor-with-extensions
             asciidoc-full-with-plugins
+            devenv
             gh
         ];
     };

@@ -1,5 +1,5 @@
 {
-    description = "Flake";
+    description = "Android template";
 
     inputs = {
         devenv-root = {
@@ -25,7 +25,16 @@
         systems = [
             "x86_64-linux"
         ];
-        perSystem = { ... }: {
+        perSystem = { system, ... }: {
+            # Android Studio and the SDK are unfree, which the default
+            # flake-parts pkgs does not allow.
+            _module.args.pkgs = import inputs.nixpkgs {
+                inherit system;
+                config = {
+                    allowUnfree = true;
+                    android_sdk.accept_license = true;
+                };
+            };
             devenv.shells.default = {
                 imports = [ ./devenv.nix ];
             };

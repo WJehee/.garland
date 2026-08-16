@@ -8,9 +8,9 @@
         description = "A rust project";
         welcomeText = ''
             ## Getting started
-            
-            - nix develop
-            - cargo init
+
+            - direnv allow
+            - rename the package in Cargo.toml
         '';
     };
     zig = {
@@ -18,8 +18,8 @@
         description = "A zig project";
         welcomeText = ''
             ## Getting started
-            
-            - nix develop
+
+            - direnv allow
             - zig init
         '';
     };
@@ -29,7 +29,7 @@
         welcomeText = ''
             ## Getting started
 
-            - nix develop
+            - direnv allow
             - mix new .
         '';
     };
@@ -39,9 +39,8 @@
         welcomeText = ''
             ## Getting started
 
-            - nix develop
+            - direnv allow
             - uv init
-            - uv venv
         '';
     };
     gleam = {
@@ -50,8 +49,18 @@
         welcomeText = ''
             ## Getting started
 
-            - nix develop
+            - direnv allow
             - gleam new .
+        '';
+    };
+    android = {
+        path = ./android;
+        description = "An android project";
+        welcomeText = ''
+            ## Getting started
+
+            - direnv allow
+            - create the project in this directory with Android Studio
         '';
     };
 }

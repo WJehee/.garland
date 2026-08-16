@@ -1,16 +1,10 @@
 {
     flake.modules.nixos."dev/android" = { pkgs, ... }: {
-        users.users.wouter.extraGroups = [ "adbusers" ];
-        nixpkgs.config.android_sdk.accept_license = true;
+        # The SDK, NDK and Android Studio live per-project in the android
+        # template; adb stays system level for device access (udev/uaccess
+        # rules are handled by systemd).
         environment.systemPackages = with pkgs; [
             android-tools
-            apktool
-            (android-studio.withSdk (androidenv.composeAndroidPackages {
-                includeNDK = true;
-            }).androidsdk)
-            android-studio-tools
-            apksigner
-            zulu
         ];
     };
 }
