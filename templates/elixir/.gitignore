@@ -2,3 +2,4 @@ _build/
 deps/
 .direnv
 .devenv*
+.env

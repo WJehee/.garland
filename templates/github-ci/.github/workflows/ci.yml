@@ -10,3 +10,29 @@ jobs:
     - uses: cachix/install-nix-action@v27
     - run: nix build --print-build-logs
 
+    # Secrets in CI via secretspec + sops.
+    #
+    # The runner decrypts the committed secrets.enc.yaml with a repo specific
+    # age key, so it can only ever access this repo's secrets. One time setup:
+    #
+    #   1. Generate a CI key for this repo:
+    #        nix run nixpkgs#age-keygen
+    #      It prints a public key (age1...) and a private key (AGE-SECRET-KEY-...).
+    #   2. Add the public key to .sops.yaml as a recipient:
+    #        keys:
+    #          - &ci age1...
+    #        and add "- *ci" to the age key group in creation_rules, then
+    #        re-encrypt the existing file for the new recipient:
+    #          nix run nixpkgs#sops -- updatekeys secrets.enc.yaml
+    #   3. Store the private key line in a GitHub secret named SOPS_AGE_KEY:
+    #        repo -> Settings -> Secrets and variables -> Actions
+    #        -> New repository secret
+    #      Do not keep the private key anywhere else; your own age key
+    #      remains a recipient, so nothing is lost.
+    #
+    # Then uncomment and replace the placeholder command:
+    #
+    #- run: nix shell nixpkgs#secretspec nixpkgs#sops -c secretspec run --provider sops://secrets.enc.yaml --profile production -- <command that needs secrets>
+    #  env:
+    #    SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+    #    SECRETSPEC_REASON: ci

@@ -6,9 +6,3 @@ _default:
 init:
     sed -i "s/changeme/{{file_name(justfile_directory())}}/g" secretspec.toml
 
-# Run the main program
-run:
-    # Phoenix server
-    mix phx.server 
-
-

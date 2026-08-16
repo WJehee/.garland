@@ -2,6 +2,12 @@
     default = {
         path = ./default;
         description = "Default project";
+        welcomeText = ''
+            ## Getting started
+
+            - just init      # set the project name from the directory name
+            - direnv allow
+        '';
     };
     rust = {
         path = ./rust;
@@ -9,8 +15,8 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
-            - rename the package in Cargo.toml
         '';
     };
     zig = {
@@ -19,6 +25,7 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
             - zig init
         '';
@@ -29,6 +36,7 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
             - mix new .
         '';
@@ -39,6 +47,7 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
             - uv init
         '';
@@ -49,6 +58,7 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
             - gleam new .
         '';
@@ -59,6 +69,7 @@
         welcomeText = ''
             ## Getting started
 
+            - just init      # set the project name from the directory name
             - direnv allow
             - create the project in this directory with Android Studio
         '';

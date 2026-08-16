@@ -5,6 +5,8 @@
             asciidoc-full-with-plugins
             devenv
             gh
+            secretspec
+            sops
         ];
     };
 }

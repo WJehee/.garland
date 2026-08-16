@@ -1,0 +1,12 @@
+inputs:
+  nixpkgs:
+    url: github:nixos/nixpkgs?ref=nixos-unstable
+  rust-overlay:
+    url: github:oxalica/rust-overlay
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+# Load secrets from secretspec.toml into config.secretspec.secrets.
+# Requires at least one declared secret and a reachable provider.
+# secretspec:
+#   enable: true

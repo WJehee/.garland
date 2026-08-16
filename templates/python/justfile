@@ -2,6 +2,11 @@
 _default:
     just --list
 
+# Set the project name to this directory's name (run once after flake init)
+init:
+    sed -i "s/changeme/{{file_name(justfile_directory())}}/g" secretspec.toml
+
 # Run the main program
 run:
     uv run main.py
+

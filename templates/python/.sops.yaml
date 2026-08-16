@@ -1,0 +1,9 @@
+keys:
+  - &foxglove age1maveygcju9rluzd5cz4wrqlx3fewurm062caqdnl9a9yyzejpasqrayqk8
+  # - &wisteria age1...
+
+creation_rules:
+  - path_regex: secrets\.enc\.yaml$
+    key_groups:
+      - age:
+          - *foxglove

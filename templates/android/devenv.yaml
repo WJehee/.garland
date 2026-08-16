@@ -1,0 +1,8 @@
+allowUnfree: true
+inputs:
+  nixpkgs:
+    url: github:nixos/nixpkgs?ref=nixos-unstable
+# Load secrets from secretspec.toml into config.secretspec.secrets.
+# Requires at least one declared secret and a reachable provider.
+# secretspec:
+#   enable: true
