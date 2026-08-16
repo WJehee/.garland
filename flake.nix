@@ -32,6 +32,10 @@
             url = "github:Mic92/sops-nix";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        deploy-rs = {
+            url = "github:serokell/deploy-rs";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         # My own flakes
         # No nixpkgs follows: the Leptos build needs wasm-bindgen-cli from
