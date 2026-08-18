@@ -10,6 +10,12 @@
             # ghidra-bin
             # frida-tools
 
+            # Serial monitor
+            tio
+
+            # Debugging
+            openocd
+
             # cantoolz
             # esptool
             # aircrack-ng
