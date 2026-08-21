@@ -1,0 +1,10 @@
+# .cargo/config.toml for embedded targets.
+# Set the target for the chip family and the probe-rs chip name.
+[build]
+target = "thumbv7em-none-eabihf"
+
+[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+# Flash and run via probe-rs (in the dev shell packages).
+# Replace <CHIP> with the exact chip, list with: probe-rs chip list
+runner = "probe-rs run --chip <CHIP>"
+rustflags = ["-C", "link-arg=-Tlink.x"]

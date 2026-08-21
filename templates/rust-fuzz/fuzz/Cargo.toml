@@ -1,0 +1,26 @@
+[package]
+name = "changeme-fuzz"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+env_logger = "0.11"
+libafl = "0.15"
+libafl_bolts = "0.15"
+# Fuzz the parent crate: uncomment and call into it from the harness in src/main.rs.
+# changeme = { path = ".." }
+
+# Standalone workspace so the fuzz profiles below apply even though this
+# crate lives inside the main project (same layout as cargo-fuzz).
+[workspace]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+opt-level = 3
+debug = true

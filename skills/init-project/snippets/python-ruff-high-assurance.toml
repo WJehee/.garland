@@ -1,0 +1,13 @@
+# Append to pyproject.toml for high assurance python projects.
+[tool.ruff]
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D",      # docstring rules, enable per project if wanted
+    "COM812", # conflicts with the formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004"] # allow assert and magic values in tests

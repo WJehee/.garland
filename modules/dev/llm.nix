@@ -6,7 +6,9 @@
         };
         programs.claude-code = {
             enable = true;
-            skills = {};
+            skills = {
+                init-project = ../../skills/init-project;
+            };
             context = ''
                 # General
                 You have access to Rust Token Killer (RTK), please use it for commands whenever possible

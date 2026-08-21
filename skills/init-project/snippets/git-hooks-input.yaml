@@ -1,0 +1,7 @@
+# Append under `inputs:` in devenv.yaml (required for git-hooks.hooks since
+# standalone devenv no longer bundles git-hooks.nix).
+  git-hooks:
+    url: github:cachix/git-hooks.nix
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
