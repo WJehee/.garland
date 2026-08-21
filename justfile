@@ -6,7 +6,7 @@ _default:
 
 # Rebuild OS
 rebuild:
-    sudo nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 4 --color error rebuild.log
+    nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 4 --color error rebuild.log
 
 # Update packages
 update:
