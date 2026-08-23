@@ -15,6 +15,14 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 
 This repository follows the https://github.com/mightyiam/dendritic[dendritic pattern]: every Nix file under `modules/` is a flake-parts module, discovered automatically with https://github.com/vic/import-tree[import-tree] (files prefixed with an underscore are skipped). Feature modules write into the `flake.modules.nixos.<name>` and `flake.modules.homeManager.<name>` namespaces, and each host (`modules/hosts/<name>`) composes the features it wants by importing them. `modules/nixos-configurations.nix` turns every `hosts/<name>` module into a `nixosConfiguration`.
 
+== Private modules (wreath)
+
+Some modules I want reproducible but not public live in a separate private repo, https://github.com/WJehee/.wreath[wreath].
+It follows the same dendritic pattern and exposes its module tree as `flakeModules.default`, which this flake imports as the `wreath` input.
+Because both trees write into the same `flake.modules.*` namespaces, a host imports a private feature (e.g. `nixos.hacking`) exactly like a public one.
+
+`just rebuild` runs `nix flake update wreath` first, so every rebuild pulls the latest pushed wreath. To iterate on private modules without pushing, use `just rebuild-wreath`, which overrides the input with a local `../.wreath` checkout.
+
 == Secrets management
 
 Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.
@@ -59,34 +67,6 @@ ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age
 ----
 just secrets <hostname>
 ----
-
-== GlitchTip (error monitoring)
-
-Hemlock runs https://glitchtip.com[GlitchTip] at `https://glitchtip.wouterjehee.com` (`modules/server/glitchtip.nix`). Login is handled by Authelia through OIDC, so there is no separate account to manage. The Caddy vhost intentionally has no `forward_auth`: the OIDC redirect protects the UI, and the Sentry SDK ingest endpoints (`/api/<project>/envelope/`) must stay reachable with only a DSN.
-
-=== One-time bootstrap
-
-The OIDC client itself is registered declaratively in Authelia (`modules/server/authelia.nix`), but GlitchTip stores its side of the OIDC configuration in its database, so after the first deploy:
-
-1. Create a superuser (on hemlock):
-+
-[source,bash]
-----
-doas glitchtip-manage createsuperuser
-----
-
-2. Log in with it at `https://glitchtip.wouterjehee.com/admin/` and add a **Social application**:
-+
-* Provider: `OpenID Connect`
-* Provider ID: `authelia`
-* Name: `Authelia`
-* Client id: `glitchtip`
-* Secret key: the `glitchtip-oidc-client-secret` value from `just secrets hemlock`
-* Settings: `{"server_url": "https://auth.wouterjehee.com/.well-known/openid-configuration"}`
-
-3. Log out and sign in via the Authelia button. Self-registration is disabled, but first login through Authelia creates the account (`ENABLE_SOCIAL_APPS_USER_REGISTRATION`).
-
-To send events, create a project in the UI and point the Sentry SDK of the application at the project's DSN.
 
 == Wallpaper credits
 

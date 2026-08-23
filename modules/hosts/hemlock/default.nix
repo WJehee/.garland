@@ -17,7 +17,6 @@ in {
             nixos."services/lldap"
             nixos."services/radicale"
             nixos."services/immich"
-            # nixos."services/glitchtip"
 
             nixos."services/projects"
         ];

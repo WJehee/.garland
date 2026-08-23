@@ -271,6 +271,21 @@
         "type": "github"
       }
     },
+    "import-tree_2": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "loodsenboekje": {
       "inputs": {
         "crane": "crane",
@@ -419,7 +434,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
         "sops-nix": "sops-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "wreath": "wreath"
       }
     },
     "rust-overlay": {
@@ -588,6 +604,24 @@
         "owner": "tinted-theming",
         "repo": "base16-zed",
         "type": "github"
+      }
+    },
+    "wreath": {
+      "inputs": {
+        "import-tree": "import-tree_2"
+      },
+      "locked": {
+        "lastModified": 1787477743,
+        "narHash": "sha256-Jp6nT2yY+2oQKdOrFHHv8cMgzhjlTtS79DzdjV6F2TE=",
+        "ref": "refs/heads/main",
+        "rev": "beaaf8793ce08be90c1f8ed94d1996a8f9a14d03",
+        "revCount": 3,
+        "type": "git",
+        "url": "ssh://git@github.com/WJehee/.wreath.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/WJehee/.wreath.git"
       }
     }
   },

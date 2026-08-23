@@ -33,20 +33,19 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        # My own flakes
-        # No nixpkgs follows: the Leptos build needs wasm-bindgen-cli from
-        # nixpkgs to exactly match the wasm-bindgen crate in its Cargo.lock,
-        # so it must build against its own pinned nixpkgs
+        # Private NixOS config
+        wreath.url = "git+ssh://git@github.com/WJehee/.wreath.git";
+
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
         galeharp = {
             url = "github:WJehee/galeharp";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
-
-    # Dendritic pattern: every file under modules/ is a flake-parts module,
-    # discovered automatically. Files and directories prefixed with an
-    # underscore are skipped.
-    outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; }
-        (inputs.import-tree ./modules);
+    outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+        imports = [
+            (inputs.import-tree ./modules)
+            inputs.wreath.flakeModules.default
+        ];
+    };
 }

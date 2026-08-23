@@ -4,9 +4,14 @@ alias u := update
 _default:
     just --list
 
-# Rebuild OS
+# Rebuild OS (always pulls the latest pushed wreath first)
 rebuild:
+    nix flake update wreath
     nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 4 --color error rebuild.log
+
+# Rebuild against a local wreath checkout (edit private modules without pushing)
+rebuild-wreath wreath='/home/wouter/.wreath':
+    nixos-rebuild switch --sudo --flake . --override-input wreath path:{{wreath}} &>rebuild.log || grep -C 4 --color error rebuild.log
 
 # Update packages
 update:
