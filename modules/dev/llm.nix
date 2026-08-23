@@ -1,5 +1,16 @@
 {
-    flake.modules.homeManager.dev = {
+    flake.modules.homeManager.dev = { lib, pkgs, ... }: {
+        # RTK rewrites Bash tool calls via a PreToolUse hook. Registered with
+        # `rtk init` (idempotent, runs on every activation including the first
+        # one on a fresh install) instead of programs.claude-code.settings,
+        # because the latter makes settings.json a read-only store symlink,
+        # which breaks runtime edits from /config. rtk init errors if ~/.claude
+        # does not exist yet, hence the mkdir.
+        home.activation.rtkClaudeHook = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            run mkdir -p "$HOME/.claude"
+            run ${lib.getExe pkgs.rtk} init -g --hook-only --auto-patch --no-trust-filters
+        '';
+
         programs.opencode = {
             enable = true;
             skills = {};
@@ -10,9 +21,6 @@
                 init-project = ../../skills/init-project;
             };
             context = ''
-                # General
-                You have access to Rust Token Killer (RTK), please use it for commands whenever possible
-
                 # Projects
                 All my machines run NixOS.
                 All projects use devenv (devenv.nix + devenv.yaml, direnv with `use devenv`) for the development environment.
