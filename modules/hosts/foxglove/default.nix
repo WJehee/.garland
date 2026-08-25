@@ -25,6 +25,9 @@ in {
 
         networking.hostName = "foxglove";
         boot.kernelParams = [ "i915.force_probe=46a6" ];
+
+        # Don't suspend when charging and lid is closed
+        services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
         stylix.image = ../../../wallpapers/foxglove-landscape.jpg;
 
         home-manager.users.wouter = {
