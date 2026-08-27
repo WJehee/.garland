@@ -105,6 +105,12 @@
                 env = [
                     { _args = [ "XCURSOR_SIZE" "24" ]; }
                     { _args = [ "MOZ_ENABLE_WAYLAND" "1" ]; }
+                    # Nixpkgs-wrapped Chromium/Electron apps (spotify, chromium,
+                    # ...) run natively on Wayland instead of XWayland, so their
+                    # dialogs (e.g. file pickers) are placed by Hyprland on the
+                    # focused monitor instead of at X11 coordinates on the
+                    # primary output.
+                    { _args = [ "NIXOS_OZONE_WL" "1" ]; }
                     { _args = [ "_JAVA_AWT_WM_NONREPARENTING" "1" ]; }
                 ];
 
@@ -168,13 +174,15 @@
                     # override-redirect windows that request floating; tiling
                     # them breaks them. They cannot be singled out by title
                     # (vlc titles its menu popups "vlc", not ""), so keep every
-                    # float-requesting X11 window floating. Since 0.55 rules
-                    # match after the requested float state is set, so the
-                    # float match works at map time. Wayland windows (gimp tool
-                    # windows) and normal X11 windows (hex-kit's Tool Box)
-                    # request no floating and stay tiled by the rule above.
+                    # float-requesting window floating. The same goes for
+                    # Wayland dialogs (child toplevels, e.g. the spotify file
+                    # picker). Since 0.55 rules match after the requested float
+                    # state is set, so the float match works at map time.
+                    # Wayland tool windows (gimp) and normal X11 windows
+                    # (hex-kit's Tool Box) request no floating and stay tiled
+                    # by the rule above.
                     {
-                        match = { xwayland = true; float = true; };
+                        match = { float = true; };
                         float = true;
                     }
                     # Launcher floats centered above the tiled windows

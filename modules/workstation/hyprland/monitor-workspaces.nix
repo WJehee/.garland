@@ -39,6 +39,18 @@
                     default = [ ];
                     description = "Monitors that must be connected for this profile to apply.";
                 };
+                disable = mkOption {
+                    type = types.listOf types.str;
+                    default = [ ];
+                    description = ''
+                        Monitors (by description substring) to turn off while this
+                        profile is active; re-enabled from their static
+                        `settings.monitor` spec when another profile wins. Meant
+                        for the internal panel of a docked laptop, which is
+                        always connected, so "not in get_monitors()" reliably
+                        means "disabled" rather than "unplugged".
+                    '';
+                };
                 bands = mkOption {
                     type = types.listOf band;
                     description = "Workspace ranges to pin per monitor.";
@@ -54,6 +66,11 @@
 
         config.wayland.windowManager.hyprland.extraLuaFiles."monitor-workspaces.lua" = ''
             local profiles = ${lib.generators.toLua { indent = "    "; } config.monitorWorkspaces.profiles}
+
+            -- Static monitor specs from settings.monitor, needed to restore a
+            -- monitor that a profile disabled (re-enabling requires the full
+            -- spec, not just `disabled = false`).
+            local monitor_specs = ${lib.generators.toLua { indent = "    "; } (config.wayland.windowManager.hyprland.settings.monitor or [ ])}
 
             -- Resolve the current port name (e.g. "DP-6") from a substring of a
             -- monitor description. Returns nil when nothing connected matches.
@@ -107,6 +124,46 @@
                 return names
             end
 
+            -- Every description substring some profile may disable, so a
+            -- profile without it knows what to re-enable.
+            local disablable = {}
+            for _, p in ipairs(profiles) do
+                for _, d in ipairs(p.disable) do disablable[d] = true end
+            end
+
+            -- The static spec whose output matches a disable substring.
+            local function spec_for(desc)
+                for _, s in ipairs(monitor_specs) do
+                    if s.output ~= "" and s.output:find(desc, 1, true) then
+                        return s
+                    end
+                end
+                return nil
+            end
+
+            -- Turn the winning profile's `disable` monitors off and every other
+            -- disablable monitor back on. Only acts when the desired state
+            -- differs from the current one (get_monitors() excludes disabled
+            -- monitors) so the repeat timer does not re-apply monitor rules.
+            local function apply_monitor_states(profile)
+                local off = {}
+                for _, d in ipairs(profile.disable) do off[d] = true end
+                for d in pairs(disablable) do
+                    local spec = spec_for(d)
+                    if spec then
+                        local active = find_monitor(d) ~= nil
+                        if off[d] and active then
+                            hl.monitor({ output = spec.output, disabled = true })
+                        elseif not off[d] and not active then
+                            local restore = {}
+                            for k, v in pairs(spec) do restore[k] = v end
+                            restore.disabled = false
+                            hl.monitor(restore)
+                        end
+                    end
+                end
+            end
+
             local function setup_workspaces()
                 local open = open_workspaces()
 
@@ -125,6 +182,10 @@
                 for _, profile in ipairs(profiles) do
                     local names = resolve(profile)
                     if names then
+                        -- Disabling fires monitor.removed and re-enabling fires
+                        -- monitor.added, which re-runs setup; that settles
+                        -- because the second pass finds the desired state.
+                        apply_monitor_states(profile)
                         for _, b in ipairs(profile.bands) do
                             for ws = b.from, b.to do
                                 -- The first workspace of a band is the monitor's

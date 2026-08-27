@@ -53,13 +53,16 @@ in {
             # monitor grabs the next unruled workspace, here 11+), and there is
             # no wildcard for "whatever monitor just got plugged in".
             monitorWorkspaces.profiles = [
-                # Docked: spread workspaces across the external monitors.
+                # Docked: internal panel off, workspaces on the external
+                # monitors only. `extra.default = false` keeps workspace 1 the
+                # sole default of P2720D.
                 {
                     when = [ "P2720D" "P2416D" ];
+                    disable = [ "BOE" ];
                     bands = [
                         { monitor = "P2720D"; from = 1; to = 5; }
                         { monitor = "P2416D"; from = 6; to = 9; extra.layout_opts.orientation = "top"; }
-                        { monitor = "BOE"; from = 10; to = 10; }
+                        { monitor = "P2720D"; from = 10; to = 10; extra.default = false; }
                     ];
                 }
                 # Any single external monitor: 1-7 on laptop, 8-10 on external.
