@@ -2,7 +2,6 @@
     flake.modules.homeManager.workstation = {
         programs.librewolf = {
             enable = true;
-            configPath = ".config/librewolf/librewolf";
             profiles.default = {
                 isDefault = true;
                 settings = {
@@ -68,6 +67,18 @@
                 EnableTrackingProtection = true;
                 SearchSuggestEnabled = false;
                 TranslateEnabled = false;
+                # Firefox 149+ moved translations under the AIControls policy and
+                # librewolf ships Translations = "available" in its default policies;
+                # the wrapper merges policies shallowly so this whole block must be
+                # replicated (librewolf blocks all other AI features, keep that)
+                AIControls = {
+                    Translations.Value = "blocked";
+                    PDFAltText.Value = "blocked";
+                    SmartTabGroups.Value = "blocked";
+                    LinkPreviewKeyPoints.Value = "blocked";
+                    SidebarChatbot.Value = "blocked";
+                    SmartWindow.Value = "blocked";
+                };
                 SanitizeOnShutdown = false;
 
                 HardwareAcceleration = true;
