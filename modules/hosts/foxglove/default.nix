@@ -17,6 +17,7 @@ in {
             nixos.music
             nixos.dj
             nixos.llm
+            nixos.chatterbox
             nixos.cad
             nixos.dev
             nixos."dev/android"
