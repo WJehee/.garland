@@ -2,7 +2,7 @@
 {
     languages.rust = {
         enable = true;
-        channel = "stable";
+        channel = "nightly";
     };
 
     packages = with pkgs; [

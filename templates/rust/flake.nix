@@ -20,8 +20,8 @@
             "x86_64-linux"
         ];
         perSystem = { system, pkgs, ... }: let
-            # Same source as the devenv shell toolchain (rust-overlay stable).
-            rust-toolchain = (inputs.rust-overlay.lib.mkRustBin { } pkgs).stable.latest.default;
+            # Same source as the devenv shell toolchain (rust-overlay nightly).
+            rust-toolchain = (inputs.rust-overlay.lib.mkRustBin { } pkgs).nightly.latest.default;
         in {
             packages.default = (naersk.lib.${system}.override {
                 cargo = rust-toolchain;
