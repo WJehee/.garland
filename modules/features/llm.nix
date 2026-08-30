@@ -1,5 +1,5 @@
 {
-    flake.modules.nixos.llm = { config, pkgs, ... }: {
+    flake.modules.nixos.llm = { config, pkgs, lib, ... }: {
         environment.systemPackages = with pkgs; [
             rtk
         ];
@@ -63,7 +63,13 @@
             };
         };
 
-        services.ollama.enable = true;
+        services.ollama = {
+            enable = true;
+            # Use CUDA when the host imports gpu/nvidia
+            package = lib.mkIf
+                (builtins.elem "nvidia" config.services.xserver.videoDrivers)
+                pkgs.ollama-cuda;
+        };
 
         services.open-webui = {
             enable = true;

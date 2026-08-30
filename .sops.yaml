@@ -15,3 +15,9 @@ creation_rules:
       - age:
           - *hemlock
           - *foxglove
+  # TODO: after installing oleander, add its age key here (ssh-to-age on
+  # /etc/ssh/ssh_host_ed25519_key.pub) and run `sops updatekeys secrets/oleander.yaml`
+  - path_regex: secrets/oleander\.yaml$
+    key_groups:
+      - age:
+          - *foxglove
