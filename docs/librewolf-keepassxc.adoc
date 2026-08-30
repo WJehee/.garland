@@ -1,0 +1,24 @@
+= LibreWolf + KeePassXC browser integration
+
+Manual steps needed to get the KeePassXC browser extension working in LibreWolf.
+
+== 1. Symlink the native messaging hosts directory
+
+KeePassXC writes its native messaging manifest to the Firefox location, so link it into the LibreWolf profile directory:
+
+[source,shell]
+----
+ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
+----
+
+== 2. Configure KeePassXC
+
+In KeePassXC settings, go to *Browser Integration* and select the *Advanced* tab.
+
+* Check the box for: *Use a custom Browser Configuration Location*
+* Set *Browser Type* to *Firefox*
+* Enter the following in *Config Location*:
+
+----
+~/.librewolf/native-messaging-hosts
+----
