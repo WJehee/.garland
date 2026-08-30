@@ -11,6 +11,7 @@ in {
             nixos.server
             nixos."disk/server"
             nixos.tailscale
+            # nixos.backup
 
             nixos."services/authelia"
             nixos."services/caddy"

@@ -21,6 +21,7 @@ in {
             nixos.dev
             nixos."dev/android"
             nixos.virtualization
+            # nixos.backup
         ];
 
         networking.hostName = "foxglove";

@@ -12,6 +12,7 @@ in {
             nixos."gpu/amd"
             nixos.osint
             nixos.music
+            # nixos.backup
         ];
 
         networking.hostName = "wisteria";

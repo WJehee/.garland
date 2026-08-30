@@ -12,6 +12,7 @@
             # Specific configs
             # config.flake.modules.nixos.home-assistant
             config.flake.modules.nixos.adguard
+            # config.flake.modules.nixos.backup
         ];
 
         networking.hostName = "ivy";
