@@ -1,5 +1,5 @@
 {
-    flake.modules.nixos.workstation = { pkgs, ... }: {
+    flake.modules.nixos.workstation = { config, pkgs, ... }: {
         environment.systemPackages = with pkgs; [
             clinfo
         ];
@@ -25,19 +25,16 @@
         programs.hyprland = {
             enable = true;
         };
-        services = {
-            displayManager = {
-                autoLogin = {
-                    enable = true;
-                    user = "wouter";
-                };
-            };
-            xserver = {
-                enable = true;
-                xkb = {
-                    layout = "us";
-                    options = "eurosign:e,caps:escape";
-                };
+        # Log in straight into Hyprland; unlike lightdm, greetd does not
+        # redirect the session's output to ~/.xsession-errors
+        services.greetd = {
+            enable = true;
+            settings.default_session = {
+                # start-hyprland (not the bare Hyprland binary) is the
+                # supported entry point since 0.56; it sets up the session
+                # environment the compositor expects
+                command = "${config.programs.hyprland.package}/bin/start-hyprland";
+                user = "wouter";
             };
         };
     };
