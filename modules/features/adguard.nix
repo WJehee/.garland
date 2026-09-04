@@ -1,5 +1,11 @@
 {
-    flake.modules.nixos.adguard = {
+    flake.modules.nixos.adguard = { lib, ... }: {
+        # systemd-resolved's stub listener occupies port 53, which blocks
+        # AdGuard's wildcard bind; keep resolved for the host itself but let
+        # it read upstream servers directly instead of through the stub
+        services.resolved.settings.Resolve.DNSStubListener = false;
+        environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
+
         services.adguardhome = {
             enable = true;
             # Web UI on port 3000, initial admin user is created via the
@@ -39,10 +45,14 @@
                 ];
             };
         };
-        # Plain DNS for clients on the LAN
+        # AdGuard also acts as the network's DHCP server (configured through
+        # the web UI, like the rest of the mutable settings); CAP_NET_RAW is
+        # needed for its raw DHCP sockets
+        services.adguardhome.allowDHCP = true;
+        # Plain DNS for clients on the LAN, plus DHCP
         networking.firewall = {
             allowedTCPPorts = [ 53 ];
-            allowedUDPPorts = [ 53 ];
+            allowedUDPPorts = [ 53 67 ];
         };
     };
 }
