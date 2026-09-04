@@ -7,7 +7,9 @@
                     networkmanager-openvpn
                 ];
             };
-            nameservers = [ "194.242.2.6" ];     # Mullvad
+            # No static nameservers: hosts use the DHCP-provided DNS (AdGuard
+            # on the home network), and the Mullvad daemon takes over DNS
+            # whenever the VPN is connected.
         };
         services.mullvad-vpn.enable = true;
         environment.systemPackages = with pkgs; [
