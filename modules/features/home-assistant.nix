@@ -12,6 +12,10 @@
                 default_config = {};
             };
         };
+        # Ivy runs a firewall and the frontend port is no longer derivable
+        # at eval time (services.home-assistant.openFirewall was removed),
+        # so 8123 has to be opened by hand
+        networking.firewall.allowedTCPPorts = [ 8123 ];
         # virtualisation.oci-containers = {
         #     backend = "docker";
         #     containers.homeassistant = {
