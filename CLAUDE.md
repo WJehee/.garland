@@ -4,11 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Garland is a NixOS configuration repository managing four machines (named after poisonous plants):
+Garland is a NixOS configuration repository managing these machines (named after poisonous plants):
 - **foxglove** -- Framework laptop (desktop, x86_64)
-- **wisteria** -- Desktop computer (x86_64)
+- **wisteria** -- Desktop workstation (x86_64)
+- **oleander** -- Dedicated desktop PC running as a homelab server: LLMs, Immich, Gitea (x86_64)
 - **hemlock** -- VPS server (headless, x86_64)
 - **ivy** -- Raspberry PI running Home Assistant (aarch64)
+- **wormwood** -- Raspberry PI running AdGuard Home, the network DNS filter (aarch64)
+- **manchineel**, **belladonna** -- stub hosts, base only, no role assigned yet
 
 ## Common Commands
 

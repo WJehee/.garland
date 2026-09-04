@@ -9,7 +9,11 @@
                 User admin
 
             Host ivy
-                Hostname 192.168.178.132
+                Hostname 192.168.178.43
+                User admin
+
+            Host wormwood
+                Hostname 192.168.178.44
                 User admin
         ";
         };

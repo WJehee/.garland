@@ -26,3 +26,9 @@ creation_rules:
     key_groups:
       - age:
           - *foxglove
+  # TODO: after flashing wormwood, add its age key here (ssh-to-age on
+  # /etc/ssh/ssh_host_ed25519_key.pub) and run `sops updatekeys secrets/wormwood.yaml`
+  - path_regex: secrets/wormwood\.yaml$
+    key_groups:
+      - age:
+          - *foxglove

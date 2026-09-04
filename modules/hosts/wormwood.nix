@@ -1,6 +1,6 @@
-# Raspberry PI running Home Assistant
+# Raspberry PI running AdGuard Home (network DNS filter)
 { config, inputs, ... }: {
-    flake.modules.nixos."hosts/ivy" = { lib, ... }: {
+    flake.modules.nixos."hosts/wormwood" = { lib, ... }: {
         imports = [
             inputs.nixos-hardware.nixosModules.raspberry-pi-3
 
@@ -10,15 +10,16 @@
             config.flake.modules.nixos.server
 
             # Specific configs
-            config.flake.modules.nixos.home-assistant
+            config.flake.modules.nixos.adguard
             config.flake.modules.nixos.wifi
-            # config.flake.modules.nixos.backup
         ];
 
-        networking.hostName = "ivy";
+        networking.hostName = "wormwood";
         nixpkgs.hostPlatform = "aarch64-linux";
         # DO NOT CHANGE THIS after first install
-        system.stateVersion = "24.11";
+        # mkForce: the base module pins 24.11 for the older hosts, but a
+        # fresh install should start at the release it was installed with
+        system.stateVersion = lib.mkForce "26.11";
         nix.settings = {
             trusted-users = [
                 "admin"
@@ -28,13 +29,15 @@
                 "flakes"
             ];
         };
-        # Static address so Home Assistant is always reachable at the same
-        # place; the router provides DHCP and DNS for the rest of the network
+        # Static address so the router can point every client's DNS at it.
+        # The router stays the DHCP server: an AdGuard outage then only costs
+        # filtering, not the whole network. Wormwood resolves through its own
+        # AdGuard (the static profile provides no DNS of its own).
+        networking.nameservers = [ "127.0.0.1" ];
         networking.networkmanager.ensureProfiles.profiles.home.ipv4 = {
             method = "manual";
-            addresses = "192.168.178.43/24";
+            addresses = "192.168.178.44/24";
             gateway = "192.168.178.1";
-            dns = "192.168.178.1";
         };
         # Passwordless doas for remote deploys (nixos-rebuild --target-host
         # --sudo); mkAfter so this rule sorts after the server module's
@@ -58,7 +61,7 @@
             # one-shot that failed on first boot and never retries
             growPartition = true;
             # The SD installer profile enables ZFS, but the ZFS kernel module
-            # is marked broken for this kernel and ivy does not use ZFS
+            # is marked broken for this kernel and wormwood does not use ZFS
             supportedFilesystems.zfs = lib.mkForce false;
         };
         # Root FS as created by the SD image (the sd-image module overrides
