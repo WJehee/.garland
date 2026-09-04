@@ -40,6 +40,7 @@
                 WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
                 ICEAUTHORITY = "$XDG_CACHE_HOME/ICEauthority";
                 GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+                XCOMPOSECACHE = "$XDG_CACHE_HOME/X11/xcompose";
             };
         };
     };

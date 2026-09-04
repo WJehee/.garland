@@ -1,14 +1,18 @@
 {
-    flake.modules.homeManager.dev = { lib, pkgs, ... }: {
+    flake.modules.homeManager.dev = { config, lib, pkgs, ... }: let
+        claudeDir = lib.escapeShellArg config.programs.claude-code.configDir;
+    in {
         # RTK rewrites Bash tool calls via a PreToolUse hook. Registered with
         # `rtk init` (idempotent, runs on every activation including the first
         # one on a fresh install) instead of programs.claude-code.settings,
         # because the latter makes settings.json a read-only store symlink,
-        # which breaks runtime edits from /config. rtk init errors if ~/.claude
-        # does not exist yet, hence the mkdir.
+        # which breaks runtime edits from /config. rtk init errors if the config
+        # dir does not exist yet, hence the mkdir. rtk honours CLAUDE_CONFIG_DIR
+        # but activation does not load session variables, so pass it explicitly.
         home.activation.rtkClaudeHook = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            run mkdir -p "$HOME/.claude"
-            run ${lib.getExe pkgs.rtk} init -g --hook-only --auto-patch --no-trust-filters
+            run mkdir -p ${claudeDir}
+            run env CLAUDE_CONFIG_DIR=${claudeDir} \
+                ${lib.getExe pkgs.rtk} init -g --hook-only --auto-patch --no-trust-filters
         '';
 
         programs.opencode = {
@@ -17,6 +21,8 @@
         };
         programs.claude-code = {
             enable = true;
+            # Exports CLAUDE_CONFIG_DIR; ~/.claude.json moves along with it
+            configDir = "${config.xdg.configHome}/claude";
             skills = {
                 init-project = ../../skills/init-project;
             };

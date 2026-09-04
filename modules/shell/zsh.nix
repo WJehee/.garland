@@ -13,5 +13,9 @@
             dotDir = "${config.xdg.configHome}/zsh";
             history.path = "${config.xdg.dataHome}/zsh/history";
         };
+        # home-manager writes a ~/.zshenv that only sources $ZDOTDIR/.zshenv;
+        # ZDOTDIR is already exported system wide (modules/base/zsh.nix), so
+        # zsh reads the real file directly and the stub can go.
+        home.file.".zshenv".enable = false;
     };
 }
