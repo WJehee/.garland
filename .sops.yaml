@@ -1,9 +1,9 @@
 keys:
   - &foxglove age1maveygcju9rluzd5cz4wrqlx3fewurm062caqdnl9a9yyzejpasqrayqk8
   - &hemlock age1gtuxtmfxm9y2363yf72fgg88r26l7e8ughldja3azzq7p54cy96qrrx083
-  # TODO: add wisteria and ivy age keys (derived from SSH host keys via ssh-to-age)
+  - &ivy age1ftz9x7qgv8zz35ta4vtt9kfehewz65ns5nlhuf9mn2mdey8a0fxq7q9euw
+  # TODO: add wisteria age key (derived from SSH host key via ssh-to-age)
   # - &wisteria age1...
-  # - &ivy age1...
 
 creation_rules:
   - path_regex: secrets/foxglove\.yaml$
@@ -14,6 +14,11 @@ creation_rules:
     key_groups:
       - age:
           - *hemlock
+          - *foxglove
+  - path_regex: secrets/ivy\.yaml$
+    key_groups:
+      - age:
+          - *ivy
           - *foxglove
   # TODO: after installing oleander, add its age key here (ssh-to-age on
   # /etc/ssh/ssh_host_ed25519_key.pub) and run `sops updatekeys secrets/oleander.yaml`
