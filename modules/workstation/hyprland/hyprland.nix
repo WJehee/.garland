@@ -16,14 +16,15 @@
         # workspace 10 lives on the `0` key
         wsKey = n: if n == 10 then "0" else toString n;
     in {
-        services.blueman-applet.enable = true;
-        services.network-manager-applet.enable = true;
-        # Auto-mount removable media on insert (backend enabled in workstation)
+        # Auto-mount removable media on insert (backend enabled in
+        # workstation). Network and bluetooth are handled by noctalia's own
+        # bar widgets, so no nm-applet / blueman-applet, and no tray icon
+        # here either: the bar has no tray.
         services.udiskie = {
             enable = true;
             automount = true;
             notify = true;
-            tray = "auto";
+            tray = "never";
         };
 
         wayland.windowManager.hyprland = {
@@ -151,8 +152,8 @@
                         "hyprland.start"
                         (mkLuaInline ''
                             function()
-                                -- noctalia, nm-applet and blueman-applet run as systemd user
-                                -- services bound to graphical-session.target so they survive the
+                                -- noctalia and udiskie run as systemd user services bound to
+                                -- graphical-session.target so they survive the
                                 -- hyprland-session.target restart that systemd.enable triggers at
                                 -- startup; processes exec'd directly here would be killed by it.
                                 hl.exec_cmd("hyprpaper")

@@ -29,6 +29,20 @@
                     launch_apps_as_systemd_services = true;
                     # hyprpolkitagent is started from the Hyprland autostart hook
                     polkit_agent = false;
+
+                    # Attached panels open centered along the bar; pin the
+                    # control center (and the session menu opened from it) to
+                    # the top right corner, under the widgets that open it.
+                    # A pinned position also applies to the mainMod + S bind,
+                    # unlike open_near_click_* which needs a mouse click.
+                    panel = {
+                        control_center_placement = "floating";
+                        control_center_position = "top_right";
+                        session_placement = "floating";
+                        session_position = "top_right";
+                        # Flush against the edge to edge bar
+                        floating_offset = 0;
+                    };
                 };
 
                 # hyprpaper draws the wallpapers, per monitor, see the host files
@@ -36,6 +50,13 @@
 
                 # Replaces dunst
                 notification.enable_daemon = true;
+
+                # Open-Meteo, for the bar widget and the control center tab;
+                # uses the [location] coordinates (nightlight.nix, location.nix)
+                weather = {
+                    enabled = true;
+                    unit = "celsius";
+                };
 
                 bar.main = {
                     position = "top";
@@ -54,13 +75,21 @@
                     capsule_radius = 6;
                     widget_spacing = 10;
                     start = [ "workspaces" ];
-                    center = [ "tray" ];
+                    # No tray: the applets it used to show (nm-applet,
+                    # blueman-applet, gammastep, udiskie) are replaced by the
+                    # network, bluetooth and nightlight widgets below, and the
+                    # remaining tray icon (keepassxc) was never used
+                    center = [ ];
                     end = [
                         "caffeine"
+                        "nightlight"
                         "media"
                         "volume"
+                        "network"
+                        "bluetooth"
                         "disk"
                         "battery"
+                        "weather"
                         "clock"
                         "notifications"
                         "control-center"
@@ -82,6 +111,12 @@
                         artist_first = true;
                         hide_when_no_media = true;
                     };
+                    # Icon only; the SSID / device name is in the tooltip
+                    network.show_label = false;
+                    bluetooth.show_label = false;
+                    # Glyph and temperature; the condition text is in the
+                    # tooltip and the control center weather tab
+                    weather.show_condition = false;
                     clock.format = "{:%a, %d. %b | %H:%M}";
                 };
 
