@@ -44,6 +44,12 @@
                     margin_ends = 0;
                     margin_edge = 0;
                     radius = 0;
+                    # Each widget sits in its own slightly lighter capsule so
+                    # the items are visually separated
+                    capsule = true;
+                    capsule_fill = "surface_variant";
+                    capsule_radius = 6;
+                    widget_spacing = 10;
                     start = [ "workspaces" ];
                     center = [ "tray" ];
                     end = [
