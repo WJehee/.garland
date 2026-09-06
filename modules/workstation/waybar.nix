@@ -60,6 +60,7 @@
                 position = "top";
                 modules-center = [ "tray" ];
                 modules-right = [
+                    "idle_inhibitor"
                     "mpd"
                     "wireplumber"
                     "custom/spotify"
@@ -67,6 +68,18 @@
                     "disk"
                     "clock"
                 ];
+                # Click to hold a Wayland idle inhibitor: Hyprland then never reports
+                # the session as idle, so hypridle neither locks nor turns the screen
+                # off until it is clicked again (resets when waybar restarts)
+                idle_inhibitor = {
+                    format = "{icon}";
+                    format-icons = {
+                        activated = "";
+                        deactivated = "";
+                    };
+                    tooltip-format-activated = "Screen locking disabled";
+                    tooltip-format-deactivated = "Screen locking enabled";
+                };
                 battery = {
                     format = "{capacity}% {icon}";
                     format-icons = ["" "" "" "" ""];
@@ -139,6 +152,14 @@ window#waybar {
 
 #battery {
     border-bottom: 3px solid @base0A;
+}
+
+#idle_inhibitor {
+    border-bottom: 3px solid @base03;
+}
+
+#idle_inhibitor.activated {
+    border-bottom: 3px solid @base0B;
 }
 
 #clock {
