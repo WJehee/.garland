@@ -15,6 +15,7 @@ in {
 
             nixos."services/authelia"
             nixos."services/caddy"
+            nixos."services/headscale"
             nixos."services/lldap"
             nixos."services/radicale"
             nixos."services/immich"
@@ -30,6 +31,10 @@ in {
             efiInstallAsRemovable = true;
         };
         nix.settings.trusted-users = [ "admin" ];
+        # Headscale hands out AdGuard at home as the tailnet DNS; a VPS
+        # running public services should not depend on the home network to
+        # resolve names
+        services.tailscale.extraSetFlags = [ "--accept-dns=false" ];
         environment.systemPackages = with pkgs; [
             apacheHttpd
             sqlite

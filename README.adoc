@@ -9,9 +9,9 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 * **Foxglove**: my Framework laptop
 * **Wisteria**: my desktop workstation
 * **Oleander**: my dedicated desktop PC, running as a homelab server (LLMs, Immich, Gitea)
-* **Hemlock**: my VPS machine
+* **Hemlock**: my VPS machine, also the Headscale control server
 * **Ivy**: Home Assistant running on a Raspberry PI
-* **Wormwood**: AdGuard Home, the network DNS filter, running on a Raspberry PI
+* **Wormwood**: AdGuard Home, the network DNS filter, and the tailnet gateway to the home LAN (see link:docs/remote-access.adoc[docs/remote-access.adoc]), running on a Raspberry PI
 
 A few hosts are stubs: they import only the base module and have no role yet, so they evaluate but are not installed anywhere.
 

@@ -1,4 +1,5 @@
-# Raspberry PI running AdGuard Home (network DNS filter)
+# Raspberry PI running AdGuard Home (network DNS filter) and the tailnet
+# gateway (subnet router) for remote access to the home network
 { config, inputs, ... }: {
     flake.modules.nixos."hosts/wormwood" = { lib, ... }: {
         imports = [
@@ -12,6 +13,8 @@
             # Specific configs
             config.flake.modules.nixos.adguard
             config.flake.modules.nixos.wifi
+            config.flake.modules.nixos.tailscale
+            config.flake.modules.nixos.gateway
         ];
 
         networking.hostName = "wormwood";
