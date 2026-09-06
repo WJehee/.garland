@@ -48,6 +48,15 @@
                     scouting = radicale "scouting" colors.base0B;  # green
                     work = radicale "work" colors.base03;          # dark gray
                     social = radicale "social" colors.base0E;      # purple
+                    # Public Google feed of the scouting group. ICS accounts take
+                    # only type, name, color and server_url; the other fields are
+                    # caldav-only and rejected by the config check.
+                    wilde-vaart = {
+                        type = "ics";
+                        name = "Wilde Vaart";
+                        server_url = "https://calendar.google.com/calendar/ical/7n6fglf1liq2p616rorulahce0%40group.calendar.google.com/public/basic.ics";
+                        color = colors.base0C;                     # cyan
+                    };
                 };
             };
         };
