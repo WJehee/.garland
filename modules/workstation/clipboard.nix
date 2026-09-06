@@ -4,10 +4,8 @@
 # servers as well.
 {
     flake.modules.homeManager.workstation = {
-        # Clipboard history: `wl-paste --watch cliphist store` as two systemd
-        # user services (text and images) on graphical-session.target. Without
-        # the watcher the picker below has nothing to list.
-        services.cliphist.enable = true;
+        # Clipboard history is kept by noctalia (see noctalia.nix); the bind
+        # below opens its panel.
 
         programs.alacritty.settings = {
             # Selecting text in the terminal also puts it on the clipboard, so
@@ -27,7 +25,7 @@
             {
                 _args = [
                     (lib.generators.mkLuaInline ''mainMod .. " + V"'')
-                    (lib.generators.mkLuaInline ''hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy")'')
+                    (lib.generators.mkLuaInline ''hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard")'')
                 ];
             }
         ];

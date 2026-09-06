@@ -16,10 +16,6 @@
         # workspace 10 lives on the `0` key
         wsKey = n: if n == 10 then "0" else toString n;
     in {
-        # Importing this module is what selects hyprland as the window manager,
-        # so it also puts the workspaces widget in the bar
-        programs.waybar.settings.mainBar.modules-left = [ "hyprland/workspaces" ];
-
         services.blueman-applet.enable = true;
         services.network-manager-applet.enable = true;
         # Auto-mount removable media on insert (backend enabled in workstation)
@@ -126,10 +122,10 @@
                     [
                         (bind (mod "F") (raw ''hl.dsp.exec_cmd("$BROWSER")''))                                          # Open browser
                         (bind (mod "Return") (raw ''hl.dsp.exec_cmd("$TERMINAL")''))                                    # Open terminal
-                        (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("wofi --show run --normal-window")''))      # Application launcher
+                        (bind (mod "SHIFT + Return") (raw ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher")''))  # Application launcher
                         (bind (mod "Q") (raw "hl.dsp.window.close()"))                                                  # Kill focused window
-                        (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock --no-fade-in")''))                     # Lock screen immediately, no grace
-                        (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))        # Mute toggle
+                        (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("noctalia msg session lock")''))                 # Lock screen immediately
+                        (bind (mod "M") (raw ''hl.dsp.exec_cmd("noctalia msg volume-mute")''))                          # Mute toggle (with OSD)
 
                         # Move focus with mainMod + h j k l
                         (bind (mod "L") (raw ''hl.dsp.focus({ direction = "right" })''))
@@ -155,12 +151,11 @@
                         "hyprland.start"
                         (mkLuaInline ''
                             function()
-                                -- waybar, nm-applet and blueman-applet run as systemd user
+                                -- noctalia, nm-applet and blueman-applet run as systemd user
                                 -- services bound to graphical-session.target so they survive the
                                 -- hyprland-session.target restart that systemd.enable triggers at
                                 -- startup; processes exec'd directly here would be killed by it.
                                 hl.exec_cmd("hyprpaper")
-                                hl.exec_cmd("systemctl --user start hypridle")
                                 hl.exec_cmd("systemctl --user start hyprpolkitagent")
                             end
                         '')
@@ -189,7 +184,8 @@
                         match = { float = true; };
                         float = true;
                     }
-                    # Launcher floats centered above the tiled windows
+                    # wofi (still used as dmenu for the wordlist picker) floats
+                    # centered above the tiled windows
                     {
                         match = { class = "wofi"; };
                         float = true;
