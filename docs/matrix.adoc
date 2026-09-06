@@ -1,0 +1,101 @@
+= Matrix server and bridges
+
+Manual steps after a host imports `nixos."services/matrix"` (`modules/server/matrix.nix`).
+The module runs Synapse at `matrix.wouterjehee.com` with Matrix IDs `@user:wouterjehee.com`,
+plus mautrix bridges for Signal, WhatsApp and Discord.
+
+== 1. Prerequisites
+
+* DNS: point `matrix.wouterjehee.com` at the host. The `/.well-known/matrix/*` responses
+  are served on `wouterjehee.com`, so the host must also serve that domain (hemlock today).
+* Secret: add `matrix-registration-shared-secret` to the host's secrets file, then rebuild.
++
+[source,shell]
+----
+openssl rand -hex 32
+just secrets <host>
+----
+
+== 2. Create your Matrix account
+
+Registration is closed, so create the account with the shared secret. Run this on the host:
+
+[source,shell]
+----
+doas register_new_matrix_user -c /run/secrets/rendered/matrix-synapse-secrets.yaml http://127.0.0.1:8008
+----
+
+Use localpart `wouter` and answer *yes* to "Make admin". The bridges give admin rights to
+`@wouter:wouterjehee.com`; any other local user gets normal rights and can log in to the
+bridges as well.
+
+Then sign in with a client (Element, for example). Entering `@wouter:wouterjehee.com` is enough:
+the client discovers the server through the well-known file.
+
+== 3. Log in to the bridges
+
+Every bridge is a bot user on the server. Setup is the same each time: start a direct message
+with the bot, send commands in that room, and the bot replies with the next step. Inside the
+bot's own room commands need no prefix. In any other room, prefix them with `!signal`, `!wa`
+or `!discord`.
+
+`help` lists all commands for a bot, `list-logins` shows what is connected, and `logout`
+disconnects.
+
+Check the bridge's journal if a bot does not answer:
+
+[source,shell]
+----
+journalctl -u mautrix-signal -u mautrix-whatsapp -u mautrix-discord -f
+----
+
+=== Signal (`@signalbot:wouterjehee.com`)
+
+The bridge links to your phone as a secondary device, the same way Signal Desktop does.
+
+1. Open a DM with `@signalbot:wouterjehee.com` and send `login`.
+2. The bot posts a QR code.
+3. On the phone, open Signal, go to *Settings* > *Linked devices* > *Link new device* and
+   scan the code.
+
+Chats are created on the Matrix side as messages arrive. To open a chat before that,
+send `start-chat <phone number>` (international format) or `search <name>`.
+
+=== WhatsApp (`@whatsappbot:wouterjehee.com`)
+
+The bridge links as a companion device, like WhatsApp Web.
+
+1. Open a DM with `@whatsappbot:wouterjehee.com` and send `login`.
+2. Pick a flow:
+   * `login qr`: the bot posts a QR code. On the phone, open WhatsApp, go to
+     *Settings* > *Linked devices* > *Link a device* and scan it.
+   * `login phone`: the bot asks for your phone number in international format and replies
+     with a pairing code. On the phone, choose *Link with phone number instead* on the
+     link-a-device screen and enter the code.
+
+History sync is enabled, so recent chats are backfilled after login. WhatsApp drops
+companion devices that stay offline for a long time; if that happens, `login` again.
+
+=== Discord (`@discordbot:wouterjehee.com`)
+
+The bridge logs in as your own Discord user, so it sees your DMs and servers.
+
+1. Open a DM with `@discordbot:wouterjehee.com` and send `login-qr`.
+2. The bot posts a QR code. On the phone, open Discord, go to *Settings* and tap
+   *Scan QR code*, then confirm the login.
+   * Alternative without a phone: extract your user token from the Discord web app
+     (developer tools) and send `login-token user <token>`.
+3. DMs are bridged automatically. Servers (guilds) are not until you ask:
++
+----
+guilds status
+guilds bridge <guild ID> --entire
+----
++
+`guilds status` lists your servers with their IDs. `--entire` creates a room for every
+channel up front; without it, rooms appear as messages arrive.
+
+== 4. Relay mode (optional)
+
+Bridge accounts are per user. To let other Matrix users on the server talk in a bridged room
+through your account, send `set-relay` in that room; `unset-relay` reverts it.
