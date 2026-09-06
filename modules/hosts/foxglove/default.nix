@@ -21,6 +21,7 @@ in {
             nixos.dev
             nixos."dev/android"
             nixos.virtualization
+            nixos.calendar
             # nixos.backup
         ];
 
@@ -38,6 +39,7 @@ in {
                 hm.monitor-workspaces
                 hm.shell
                 hm.dev
+                hm.calendar
             ];
             # DO NOT CHANGE THIS after first install
             home.stateVersion = "26.11";
