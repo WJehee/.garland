@@ -1,5 +1,5 @@
 {
-    flake.modules.homeManager.hyprland = { lib, ... }:
+    flake.modules.homeManager.hyprland = { config, lib, ... }:
     let
         inherit (lib.generators) mkLuaInline;
         inherit (lib) range;
@@ -45,6 +45,11 @@
                         gaps_out = 0;
                         border_size = 2;
                         layout = "master";
+                        # Drag the edge between two tiles to resize them; the
+                        # grab zone reaches 30px into the windows so the 2px
+                        # border itself is not the target
+                        resize_on_border = true;
+                        extend_border_grab_area = 30;
                     };
                     input = {
                         kb_layout = "us";
@@ -72,6 +77,8 @@
                         enabled = true;
                     };
                     misc = {
+                        # Font for Hyprland's own prompts and error banners
+                        font_family = config.stylix.fonts.monospace.name;
                         disable_hyprland_logo = true;
                         disable_splash_rendering = true;
                         mouse_move_focuses_monitor = false;
@@ -123,15 +130,12 @@
                         (bind (mod "Q") (raw "hl.dsp.window.close()"))                                                  # Kill focused window
                         (bind (mod "SHIFT + L") (raw ''hl.dsp.exec_cmd("hyprlock --no-fade-in")''))                     # Lock screen immediately, no grace
                         (bind (mod "M") (raw ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")''))        # Mute toggle
-                        (bind (mod "SHIFT + s") (raw ''hl.dsp.exec_cmd("hyprshot -m region -z --clipboard-only")''))    # Screenshot
 
                         # Move focus with mainMod + h j k l
                         (bind (mod "L") (raw ''hl.dsp.focus({ direction = "right" })''))
                         (bind (mod "H") (raw ''hl.dsp.focus({ direction = "left" })''))
                         (bind (mod "K") (raw ''hl.dsp.focus({ direction = "up" })''))
                         (bind (mod "J") (raw ''hl.dsp.focus({ direction = "down" })''))
-
-                        (bind (mod "v") (raw ''hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy")''))
 
                         # Hacking stuff -- [[ ]] keeps the embedded "\n" literal for tr
                         (bind (mod "SHIFT + W") (raw ''hl.dsp.exec_cmd([[find $(wordlists_path) | wofi -i --dmenu -M fuzzy | tr --delete "\n" | wl-copy]])''))

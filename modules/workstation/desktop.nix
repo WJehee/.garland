@@ -27,7 +27,7 @@
             libsForQt5.qtstyleplugins
             wl-clipboard
             grimblast
-            swappy
+            satty
             wofi
             libnotify
 
