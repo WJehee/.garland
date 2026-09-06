@@ -40,6 +40,9 @@
                 bar.main = {
                     position = "top";
                     reserve_space = true;
+                    # A bit taller and larger than the defaults (34 / 1.0)
+                    thickness = 40;
+                    scale = 1.15;
                     # Edge to edge instead of a floating pill
                     margin_ends = 0;
                     margin_edge = 0;
@@ -65,7 +68,11 @@
                 };
 
                 widget = {
-                    workspaces.label_source = "id";
+                    workspaces = {
+                        label_source = "id";
+                        # The workspace pills are distinct enough on their own
+                        capsule = false;
+                    };
                     disk = {
                         type = "sysmon";
                         stat = "disk_used_pct";
