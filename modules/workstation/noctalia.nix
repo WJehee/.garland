@@ -40,6 +40,10 @@
                 bar.main = {
                     position = "top";
                     reserve_space = true;
+                    # Edge to edge instead of a floating pill
+                    margin_ends = 0;
+                    margin_edge = 0;
+                    radius = 0;
                     start = [ "workspaces" ];
                     center = [ "tray" ];
                     end = [
