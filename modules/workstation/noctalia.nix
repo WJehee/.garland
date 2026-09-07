@@ -24,9 +24,11 @@
             # copy anything worth keeping back here and delete that file.
             settings = {
                 shell = {
-                    # Apps started from the launcher become transient systemd
-                    # units so they survive a shell restart
-                    launch_apps_as_systemd_services = true;
+                    # Apps started from the launcher are plain detached children
+                    # of noctalia rather than transient systemd units; the
+                    # KillMode on the service below keeps them alive across a
+                    # shell restart
+                    launch_apps_as_systemd_services = false;
                     # hyprpolkitagent is started from the Hyprland autostart hook
                     polkit_agent = false;
 
@@ -147,6 +149,10 @@
                 };
             };
         };
+
+        # Launched apps live in this service's cgroup; only kill the shell
+        # itself on stop/restart so they survive it.
+        systemd.user.services.noctalia.Service.KillMode = "process";
     };
 
     flake.modules.homeManager.hyprland = { lib, ... }:
