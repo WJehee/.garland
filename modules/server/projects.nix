@@ -24,9 +24,6 @@
                 encode gzip
                 file_server
             '';
-            "test.dorusrijkers.eu".extraConfig = ''
-                reverse_proxy http://foxglove:4000
-            '';
         };
 
         # Website deployment

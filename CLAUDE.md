@@ -11,7 +11,7 @@ Garland is a NixOS configuration repository managing these machines (named after
 - **hemlock** -- VPS server (headless, x86_64)
 - **ivy** -- Raspberry PI running Home Assistant (aarch64)
 - **wormwood** -- Raspberry PI running AdGuard Home, the network DNS filter (aarch64)
-- **manchineel**, **belladonna** -- stub hosts, base only, no role assigned yet
+- **manchineel**, **belladonna** -- stub hosts, base + server (headless), no role assigned yet
 
 ## Common Commands
 

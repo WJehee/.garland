@@ -1,10 +1,11 @@
-# Stub host: base only, no role yet. Fill in hardware, disk layout and
+# Stub host: base + server (headless), no role yet. Fill in hardware, disk layout and
 # features when the machine gets a job. `just remote-install manchineel <conn_str>`
 # generates the real hardware configuration.
 { config, ... }: {
     flake.modules.nixos."hosts/manchineel" = { lib, ... }: {
         imports = [
             config.flake.modules.nixos.base
+            config.flake.modules.nixos.server
         ];
 
         networking.hostName = "manchineel";

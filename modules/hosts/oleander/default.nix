@@ -3,7 +3,7 @@
     nixos = config.flake.modules.nixos;
     hm = config.flake.modules.homeManager;
 in {
-    flake.modules.nixos."hosts/oleander" = { lib, ... }: {
+    flake.modules.nixos."hosts/oleander" = {
         imports = [
             ./_hardware-configuration.nix
             nixos.base
@@ -37,12 +37,6 @@ in {
                 443     # https
             ];
         };
-
-        # Open WebUI binds to localhost, expose it through caddy
-        services.caddy.virtualHosts."chat.wouterjehee.com".extraConfig = ''
-            reverse_proxy http://localhost:9090
-        '';
-        services.open-webui.environment.WEBUI_URL = lib.mkForce "https://chat.wouterjehee.com";
 
         home-manager.users.admin = {
             imports = [ hm.shell ];
