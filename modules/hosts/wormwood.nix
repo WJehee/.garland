@@ -6,7 +6,6 @@
 
             # Default configs
             config.flake.modules.nixos.base
-            config.flake.modules.nixos.dev
             config.flake.modules.nixos.server
 
             # Specific configs

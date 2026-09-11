@@ -1,7 +1,5 @@
 {
     flake.modules.nixos.base = { config, lib, ... }: {
-        # sshd only runs on servers (enabled and hardened in
-        # modules/server/headless.nix); workstations are ssh clients only
         programs.ssh = {
             startAgent = true;
             extraConfig = "
