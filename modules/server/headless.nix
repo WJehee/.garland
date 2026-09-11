@@ -15,7 +15,7 @@
             initialPassword = "changeme";
             shell = pkgs.zsh;
             extraGroups = [
-                "docker"
+                "podman"
             ];
             openssh.authorizedKeys.keys = [
                 # Main SSH key

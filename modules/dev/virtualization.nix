@@ -8,11 +8,9 @@
                 qemu.swtpm.enable = true;
             };
             spiceUSBRedirection.enable = true;
-            docker.enable = true;
         };
         environment.systemPackages = with pkgs; [
-            docker
-            docker-compose
+            # Uses the podman driver; import nixos.podman alongside this
             minikube
         ];
     };

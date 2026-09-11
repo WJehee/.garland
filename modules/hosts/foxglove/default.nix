@@ -20,6 +20,7 @@ in {
             nixos.cad
             nixos.dev
             nixos."dev/android"
+            nixos.podman
             nixos.virtualization
             nixos.calendar
             # nixos.backup

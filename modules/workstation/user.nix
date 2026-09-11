@@ -5,7 +5,7 @@
             uid = 1000;
             extraGroups = [
                 "avahi"
-                "docker"
+                "podman"
                 "wireshark"
                 "libvirtd"
                 "networkmanager"

@@ -17,7 +17,7 @@
         # so 8123 has to be opened by hand
         networking.firewall.allowedTCPPorts = [ 8123 ];
         # virtualisation.oci-containers = {
-        #     backend = "docker";
+        #     backend = "podman";
         #     containers.homeassistant = {
         #         volumes = [
         #             "home-assistant:/config"

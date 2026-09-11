@@ -35,7 +35,6 @@
 
                 WGETRC = "$XDG_CONFIG_HOME/wgetrc";
                 GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
-                DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
                 GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
                 WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
                 ICEAUTHORITY = "$XDG_CACHE_HOME/ICEauthority";

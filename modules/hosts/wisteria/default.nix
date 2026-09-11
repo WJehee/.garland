@@ -9,6 +9,7 @@ in {
             nixos.base
             nixos.home-manager
             nixos.workstation
+            nixos.podman
             nixos."gpu/amd"
             nixos.osint
             nixos.music

@@ -47,7 +47,7 @@ This repository follows the **dendritic pattern** (https://github.com/mightyiam/
 
 A feature file defines one feature across all applicable classes: for example `modules/workstation/stylix.nix` sets both `flake.modules.nixos.workstation` (system stylix) and `flake.modules.homeManager.workstation` (home stylix) in one file. Multiple files can merge into the same module name.
 
-Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, ...). Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
+Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, `podman`, `virtualization`, ...). Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
 
 ### Hosts
 
@@ -63,4 +63,6 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 - Flake input modules are imported by the feature that configures them (e.g. `modules/base/nixvim.nix` imports `inputs.nixvim.nixosModules.nixvim`; `modules/home-manager.nix` wires up home-manager)
 - Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
 - `home.stateVersion` lives in each host file and must never change after install
+- Containers run on rootless podman (`nixos.podman`); there is no docker. `docker` is an alias for podman
+- Claude Code is sandboxed: `claude` (from `modules/dev/claude-sandbox.nix`, home-manager `dev`) runs the real binary in a podman container that sees the project directory, the nix store, the nix daemon socket and the host profiles, but not the home directory. Hosts importing `hm.dev` must import `nixos.podman`
 
