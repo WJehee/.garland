@@ -19,6 +19,8 @@
         services.lldap = {
             enable = true;
             settings = {
+                http_host = "127.0.0.1";
+                ldap_host = "127.0.0.1";
                 ldap_base_dn = "dc=wouterjehee,dc=com";
                 ldap_user_dn = "admin";
                 ldap_user_email = "admin@wouterjehee.com";

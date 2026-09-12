@@ -16,5 +16,13 @@
             ];
             shell = pkgs.zsh;
         };
+        # deploy-rs remote builds pass --store ssh-ng://... to the local
+        # daemon, which only accepts that setting from trusted users.
+        nix.settings.trusted-users = [ "wouter" ];
+        security.doas.extraRules = [{
+            users = [ "wouter" ];
+            keepEnv = true;
+            noPass = true;
+        }];
     };
 }

@@ -38,12 +38,19 @@ build-sd host:
 remote-install flake conn_str:
     nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./modules/hosts/{{flake}}/_hardware-configuration.nix
 
-# Escape hatches: --boot (activate on next reboot), --dry-activate (copy and
-# test only), --magic-rollback false / --auto-rollback false, or ssh in and
-# run `just r` by hand.
-# Deploy a host with deploy-rs (build locally, activate remotely, auto-rollback).
-deploy host="hemlock":
-    nix run nixpkgs#deploy-rs -- .#{{host}} --skip-checks
+# Extra deploy-rs flags pass through after the host name: --boot (activate on
+# next reboot), --dry-activate (copy and test only), --magic-rollback false /
+# --auto-rollback false. Or ssh in and run `just r` by hand.
+# The flake ref is path:. rather than . because the repo is a colocated jj
+# checkout, which nix always reports as a dirty git tree.
+# Deploy a host with deploy-rs: build on the host itself, activate, auto-rollback.
+deploy host="hemlock" *flags="":
+    nix run nixpkgs#deploy-rs -- path:.#{{host}} --skip-checks --remote-build {{flags}}
+
+# The node config defaults to local because --remote-build can only switch remote on.
+# Same, but build locally and copy the closure (when custom packages need compiling).
+deploy-local host="hemlock" *flags="":
+    nix run nixpkgs#deploy-rs -- path:.#{{host}} --skip-checks {{flags}}
 
 # If home manager does activation does not work
 fix:

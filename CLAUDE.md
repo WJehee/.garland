@@ -22,7 +22,8 @@ just secrets <host>   # Edit encrypted secrets for a host (defaults to current h
 just cleanup          # GC generations older than 14 days
 just build-sd <host>  # Build SD image for aarch64 (Raspberry PI)
 just remote-install <flake> <conn_str>  # Remote install via nixos-anywhere
-just deploy <host>    # Deploy a remote host with deploy-rs (defaults to hemlock)
+just deploy <host>    # Deploy a remote host with deploy-rs, building on the host (defaults to hemlock)
+just deploy-local <host>  # Same, but build locally and copy the closure (for compiling custom packages)
 ```
 
 ## Version Control
@@ -56,11 +57,11 @@ Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` 
 
 ### Remote Deployment
 
-Remote hosts are managed with **deploy-rs** (`modules/deploy.nix`). Each entry in that file's `hosts` attrset is a node: its name must match the `nixosConfiguration`, and it carries the address and an explicit `remoteBuild` flag (build on the host vs. build locally and copy the closure). `sshUser`, `user` and `sudo` are set once at the top level of `flake.deploy`; servers use passwordless doas, so there is no `interactiveSudo`.
+Remote hosts are managed with **deploy-rs** (`modules/deploy.nix`). Each entry in that file's `hosts` attrset is a node: its name must match the `nixosConfiguration`, and it carries the address and `remoteBuild = false`. That flag must stay false: deploy-rs's `--remote-build` CLI flag can only switch remote building on, so the justfile adds it for `just deploy` (build on the host, reusing its store) and omits it for `just deploy-local` (build here, copy the closure; use it when custom packages such as loodsenboekje or galeharp need compiling on the faster machine). `sshUser`, `user` and `sudo` are set once at the top level of `flake.deploy`; servers use passwordless doas, so there is no `interactiveSudo`.
 
 The same file is the single source for SSH access: `modules/base/ssh.nix` turns every deploy node into a `Host <name>` alias with the node's address and user, so `ssh hemlock` and `just deploy hemlock` always agree. Adding a node gives every host the alias.
 
-`just deploy <host>` runs `nix flake check` first (which evaluates every host config, not just the target), then builds, copies, activates and rolls back automatically if activation fails or the host drops off the network. Escape hatches are listed in the justfile: `--boot`, `--dry-activate`, `--magic-rollback false`, `--auto-rollback false`, or ssh in and run `just r`. Fresh installs still go through `just remote-install` (nixos-anywhere). `deploy-schema` and `deploy-activate` are exposed as flake checks on x86_64-linux.
+`just deploy <host>` skips deploy-rs's pre-checks (`--skip-checks`, since they evaluate every host config, not just the target), then builds, copies, activates and rolls back automatically if activation fails or the host drops off the network. Extra deploy-rs flags pass through after the host name: `just deploy hemlock --dry-activate`, `--boot`, `--magic-rollback false`, `--auto-rollback false`; or ssh in and run `just r`. Fresh installs still go through `just remote-install` (nixos-anywhere). `deploy-schema` and `deploy-activate` are exposed as flake checks on x86_64-linux.
 
 ### Secrets Management
 
@@ -73,5 +74,6 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 - Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
 - `home.stateVersion` lives in each host file and must never change after install
 - Containers run on rootless podman (`nixos.podman`); there is no docker. `docker` is an alias for podman
+- When a workaround exists only because of an actively tracked upstream issue (a library, nixpkgs, a tool), mark it with a `TODO` comment that links the issue and says what to remove or revert once it is fixed upstream. Example: the monospace fallback entries in `modules/workstation/fontconfig.nix` for alacritty issue 481
 - Claude Code is sandboxed: `claude` (from `modules/dev/claude-sandbox.nix`, home-manager `dev`) runs the real binary in a podman container that sees the project directory, the nix store, the nix daemon socket and the host profiles, but not the home directory. Hosts importing `hm.dev` must import `nixos.podman`
 

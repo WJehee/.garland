@@ -29,7 +29,6 @@ in {
             efiSupport = true;
             efiInstallAsRemovable = true;
         };
-        nix.settings.trusted-users = [ "admin" ];
         environment.systemPackages = with pkgs; [
             apacheHttpd
             sqlite

@@ -1,6 +1,8 @@
-# deploy-rs nodes for remote deployment: `just deploy <host>`.
-# Builds locally, copies the closure and activates it remotely, with
-# automatic rollback if activation fails or the host becomes unreachable.
+# deploy-rs nodes for remote deployment. `just deploy <host>` builds on the
+# host (only the derivations are copied; the host reuses its own store and
+# pulls the rest from cache.nixos.org), `just deploy-local <host>` builds
+# here and copies the closure. Both activate remotely with automatic
+# rollback if activation fails or the host becomes unreachable.
 #
 # This is the single place a remote host's address and login user live:
 # modules/base/ssh.nix turns every node into an SSH host alias, so
@@ -8,9 +10,11 @@
 { config, inputs, lib, ... }: let
     activate = inputs.deploy-rs.lib.x86_64-linux.activate.nixos;
     # Remote hosts, keyed by node name (must match the nixosConfiguration).
-    # remoteBuild: build on the host itself instead of locally and copying
-    # the closure over. Off for small VPSes, on for machines with more
-    # compute than the deploying laptop.
+    # remoteBuild must stay false: the deploy-rs `--remote-build` flag can
+    # only turn remote building on, never off, so the justfile adds it for
+    # the default `just deploy` and omits it for `just deploy-local`. A true
+    # here would make local builds (for compiling custom packages on the
+    # faster machine) impossible.
     hosts = {
         hemlock = { hostname = "88.198.175.151"; remoteBuild = false; };
     };

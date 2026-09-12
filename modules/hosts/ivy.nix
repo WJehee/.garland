@@ -19,9 +19,6 @@
         # DO NOT CHANGE THIS after first install
         system.stateVersion = "24.11";
         nix.settings = {
-            trusted-users = [
-                "admin"
-            ];
             experimental-features = [
                 "nix-command"
                 "flakes"

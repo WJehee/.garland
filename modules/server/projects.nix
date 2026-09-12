@@ -46,6 +46,11 @@
         services.loodsenboekje.enable = true;
 
         # Galeharp
-        services.galeharp.enable = true;
+        services.galeharp = {
+            enable = true;
+            # The module's own default reads the deprecated pkgs.system and
+            # emits an evaluation warning; an explicit package skips it.
+            package = inputs.galeharp.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        };
     };
 }

@@ -12,7 +12,6 @@
         };
         users.users.admin = {
             isNormalUser = true;
-            initialPassword = "changeme";
             shell = pkgs.zsh;
             extraGroups = [
                 "podman"
@@ -22,6 +21,7 @@
                 "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAV7jskmE1QgWJARUS4VtDMscikpRYVGRHZBEWculRLd wouter@rusty-desktop"
             ];
         };
+        nix.settings.trusted-users = [ "admin" ];
         security = {
             sudo.enable = false;
             doas = {

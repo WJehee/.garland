@@ -40,6 +40,10 @@
         # Private NixOS config
         wreath.url = "git+ssh://git@github.com/WJehee/.wreath.git";
 
+        # Not following our nixpkgs on purpose: loodsenboekje is a custom
+        # package whose build depends on the exact nixpkgs, rust-overlay and
+        # crane revisions locked in its own repo. Sharing nixpkgs would
+        # rebuild it against toolchain versions it was never tested with.
         loodsenboekje.url = "github:wjehee/loodsenboekje.com";
         galeharp = {
             url = "github:WJehee/galeharp";

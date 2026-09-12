@@ -28,7 +28,6 @@ in {
             efiSupport = true;
             efiInstallAsRemovable = true;
         };
-        nix.settings.trusted-users = [ "admin" ];
         networking.firewall = {
             enable = true;
             allowedTCPPorts = [

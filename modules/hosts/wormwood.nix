@@ -20,9 +20,6 @@
         # fresh install should start at the release it was installed with
         system.stateVersion = lib.mkForce "26.11";
         nix.settings = {
-            trusted-users = [
-                "admin"
-            ];
             experimental-features = [
                 "nix-command"
                 "flakes"

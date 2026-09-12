@@ -660,24 +660,6 @@
         "type": "github"
       }
     },
-    "wreath": {
-      "inputs": {
-        "import-tree": "import-tree_2"
-      },
-      "locked": {
-        "lastModified": 1787477743,
-        "narHash": "sha256-Jp6nT2yY+2oQKdOrFHHv8cMgzhjlTtS79DzdjV6F2TE=",
-        "ref": "refs/heads/main",
-        "rev": "beaaf8793ce08be90c1f8ed94d1996a8f9a14d03",
-        "revCount": 3,
-        "type": "git",
-        "url": "ssh://git@github.com/WJehee/.wreath.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/WJehee/.wreath.git"
-      }
-    },
     "utils": {
       "inputs": {
         "systems": "systems"
@@ -694,6 +676,24 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
+      }
+    },
+    "wreath": {
+      "inputs": {
+        "import-tree": "import-tree_2"
+      },
+      "locked": {
+        "lastModified": 1787477743,
+        "narHash": "sha256-Jp6nT2yY+2oQKdOrFHHv8cMgzhjlTtS79DzdjV6F2TE=",
+        "ref": "refs/heads/main",
+        "rev": "beaaf8793ce08be90c1f8ed94d1996a8f9a14d03",
+        "revCount": 3,
+        "type": "git",
+        "url": "ssh://git@github.com/WJehee/.wreath.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/WJehee/.wreath.git"
       }
     }
   },

@@ -4,11 +4,6 @@
         security = {
             sudo.enable = false;
             doas.enable = true;
-            doas.extraRules = [{
-                users = [ "wouter" ];
-                keepEnv = true;
-                noPass = true;
-            }];
         };
     };
 }
