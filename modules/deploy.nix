@@ -7,21 +7,20 @@
 # `ssh hemlock` and `just deploy hemlock` always agree.
 { config, inputs, lib, ... }: let
     activate = inputs.deploy-rs.lib.x86_64-linux.activate.nixos;
-    # Remote hosts: node name (must match the nixosConfiguration) -> address
+    # Remote hosts, keyed by node name (must match the nixosConfiguration).
+    # remoteBuild: build on the host itself instead of locally and copying
+    # the closure over. Off for small VPSes, on for machines with more
+    # compute than the deploying laptop.
     hosts = {
-        hemlock = "88.198.175.151";
+        hemlock = { hostname = "88.198.175.151"; remoteBuild = false; };
     };
 in {
     flake.deploy = {
-        # Defaults for every node (a node or profile can override them)
         sshUser = "admin";
         user = "root";
-        # Servers use doas instead of sudo; the admin rule is noPass, so no
-        # interactiveSudo (that would prompt for a password every deploy)
         sudo = "doas -u";
 
-        nodes = lib.mapAttrs (name: hostname: {
-            inherit hostname;
+        nodes = lib.mapAttrs (name: host: host // {
             profiles.system.path = activate config.flake.nixosConfigurations.${name};
         }) hosts;
     };
