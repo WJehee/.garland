@@ -4,12 +4,6 @@
             ledger-live-desktop
             trezor-suite
         ];
-        users = {
-            groups.plugdev = {};
-            users.wouter.extraGroups = [
-                "plugdev"
-            ];
-        };
         hardware.ledger.enable = true;
         services.trezord.enable = true;
         services.pcscd.enable = true;

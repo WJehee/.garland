@@ -12,6 +12,13 @@
 #
 # The wrapper refuses to start from the home directory or any of its parents,
 # since mounting those would hand the whole home directory over anyway.
+#
+# A project can opt in to extra podman flags by setting CLAUDE_SANDBOX_ARGS in
+# its environment (devenv.nix: `env.CLAUDE_SANDBOX_ARGS = "...";`, picked up
+# through direnv). The value is split on whitespace and appended to the
+# `podman run` call, for example to hand a USB device to the session:
+#   --volume /dev/bus/usb:/dev/bus/usb:dev
+# Projects without the variable keep the locked-down defaults.
 {
     flake.modules.homeManager.dev = { config, lib, pkgs, osConfig, ... }: let
         claude = pkgs.claude-code;
@@ -138,7 +145,7 @@
                         PATH|HOME|USER|LOGNAME|SHELL|PWD|OLDPWD|SHLVL|_|TMPDIR|TMP|TEMP| \
                         NIX_REMOTE|SSL_CERT_FILE|NIX_SSL_CERT_FILE|TZDIR| \
                         XDG_RUNTIME_DIR|XDG_SESSION_*|XDG_SEAT*|XDG_VTNR|DBUS_*|SSH_*|GPG_TTY| \
-                        DISPLAY|WAYLAND_DISPLAY|XAUTHORITY|HYPRLAND_*|HYPRCURSOR_*|TMUX*|DIRENV_*)
+                        DISPLAY|WAYLAND_DISPLAY|XAUTHORITY|HYPRLAND_*|HYPRCURSOR_*|TMUX*|DIRENV_*|CLAUDE_SANDBOX_ARGS)
                             continue ;;
                     esac
                     env_args+=(--env "$kv")
@@ -160,6 +167,12 @@
                     tty=(--tty)
                 fi
 
+                # Per-project extra flags, see the header
+                extra=()
+                if [ -n "''${CLAUDE_SANDBOX_ARGS:-}" ]; then
+                    read -ra extra <<< "$CLAUDE_SANDBOX_ARGS"
+                fi
+
                 exec podman run --rm --interactive "''${tty[@]}" --init \
                     --pull never \
                     --hostname claude-sandbox \
@@ -173,6 +186,7 @@
                     --volume "$(readlink -f /run/current-system):/run/current-system:ro" \
                     --volume "$(readlink -f /etc/profiles/per-user/${user}):/etc/profiles/per-user/${user}:ro" \
                     --tmpfs /tmp:mode=1777 \
+                    "''${extra[@]}" \
                     "''${env_args[@]}" \
                     --env HOME="$home" \
                     --env USER=${user} \
