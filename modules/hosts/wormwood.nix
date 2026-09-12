@@ -38,14 +38,6 @@
             addresses = "192.168.178.44/24";
             gateway = "192.168.178.1";
         };
-        # Passwordless doas for remote deploys (nixos-rebuild --target-host
-        # --sudo); mkAfter so this rule sorts after the server module's
-        # noPass = false rule, since doas takes the last matching rule
-        security.doas.extraRules = lib.mkAfter [{
-            users = [ "admin" ];
-            keepEnv = true;
-            noPass = true;
-        }];
         # Chainload u-boot from the GPU firmware; without this the firmware
         # partition has no kernel= entry at all and the PI does not boot
         # (7 blinks of the ACT led)
@@ -55,9 +47,6 @@
                 grub.enable = lib.mkForce false;
                 generic-extlinux-compatible.enable = true;
             };
-            # Grow the root partition to fill the SD card from the initrd on
-            # every boot; the sd-image expand-root-partition service is a
-            # one-shot that failed on first boot and never retries
             growPartition = true;
             # The SD installer profile enables ZFS, but the ZFS kernel module
             # is marked broken for this kernel and wormwood does not use ZFS

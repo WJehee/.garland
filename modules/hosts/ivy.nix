@@ -35,14 +35,6 @@
             gateway = "192.168.178.1";
             dns = "192.168.178.1";
         };
-        # Passwordless doas for remote deploys (nixos-rebuild --target-host
-        # --sudo); mkAfter so this rule sorts after the server module's
-        # noPass = false rule, since doas takes the last matching rule
-        security.doas.extraRules = lib.mkAfter [{
-            users = [ "admin" ];
-            keepEnv = true;
-            noPass = true;
-        }];
         # Chainload u-boot from the GPU firmware; without this the firmware
         # partition has no kernel= entry at all and the PI does not boot
         # (7 blinks of the ACT led)

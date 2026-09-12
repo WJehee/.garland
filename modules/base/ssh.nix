@@ -6,17 +6,8 @@
             Host hemlock
                 Hostname 88.198.175.151
                 User admin
-
-            Host ivy
-                Hostname 192.168.178.43
-                User admin
-
-            Host wormwood
-                Hostname 192.168.178.44
-                User admin
         ";
         };
-
         # startAgent only exports SSH_AUTH_SOCK from shell init. The desktop
         # shell (noctalia) is a systemd user service and everything launched
         # from it inherits its environment, so without this the agent is

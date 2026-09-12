@@ -1,5 +1,5 @@
 # VPS server
-{ config, lib, ... }: let
+{ config, ... }: let
     nixos = config.flake.modules.nixos;
     hm = config.flake.modules.homeManager;
 in {
@@ -30,14 +30,6 @@ in {
             efiInstallAsRemovable = true;
         };
         nix.settings.trusted-users = [ "admin" ];
-        # Passwordless doas for remote deploys (nixos-rebuild --target-host
-        # --sudo); mkAfter so this rule sorts after the server module's
-        # noPass = false rule, since doas takes the last matching rule
-        security.doas.extraRules = lib.mkAfter [{
-            users = [ "admin" ];
-            keepEnv = true;
-            noPass = true;
-        }];
         environment.systemPackages = with pkgs; [
             apacheHttpd
             sqlite
