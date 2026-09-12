@@ -30,6 +30,39 @@ Because both trees write into the same `flake.modules.*` namespaces, a host impo
 
 `just rebuild` runs `nix flake update wreath` first, so every rebuild pulls the latest pushed wreath. To iterate on private modules without pushing, use `just rebuild-wreath`, which overrides the input with a local `../.wreath` checkout.
 
+== Remote hosts
+
+Servers are installed once with https://github.com/nix-community/nixos-anywhere[nixos-anywhere] and updated afterwards with https://github.com/serokell/deploy-rs[deploy-rs]:
+
+[source,bash]
+----
+just remote-install <host> <user@address>   # first install, partitions the disk
+just deploy <host>                          # every update after that
+----
+
+`just deploy` builds the configuration, copies the closure to the host, activates it and rolls back automatically if activation fails or the host becomes unreachable. It runs `nix flake check` first, which evaluates every host configuration, so a broken config anywhere stops the deploy.
+
+All remote hosts are declared in one place, `modules/deploy.nix`. An entry gives the node its address and an explicit `remoteBuild`: build on the host itself, or build locally and copy the closure (the default for small VPSes). The login user, the target user and the doas command are shared by all nodes and set once at the top level.
+
+The same declaration feeds the SSH client config: every deploy node becomes a `Host <name>` alias with its address and user on all machines, so `ssh hemlock` works wherever this configuration is installed and never disagrees with the deploy target.
+
+=== Adding a remote host
+
+1. Add the host module under `modules/hosts/<name>` as usual and install it with `just remote-install`.
+2. Add an entry to `hosts` in `modules/deploy.nix` with its address and `remoteBuild` choice.
+3. Rebuild your workstation to pick up the SSH alias, then `just deploy <name>`.
+
+=== When a deploy goes wrong
+
+The escape hatches, all passed after `--` to `just deploy`:
+
+* `--boot` copies the closure and activates it on the next reboot.
+* `--dry-activate` copies and tests the closure without switching.
+* `--magic-rollback false` / `--auto-rollback false` disable the automatic rollback.
+* `--skip-checks` skips the `nix flake check` step.
+
+The manual fallback always works: ssh in and run `just r` in a checkout of this repository.
+
 == Secrets management
 
 Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.

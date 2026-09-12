@@ -19,9 +19,10 @@ Garland is a NixOS configuration repository managing these machines (named after
 just rebuild          # Rebuild NixOS (alias: just r)
 just update           # Update flake inputs (alias: just u)
 just secrets <host>   # Edit encrypted secrets for a host (defaults to current hostname)
-just cleanup          # GC generations older than 30 days
+just cleanup          # GC generations older than 14 days
 just build-sd <host>  # Build SD image for aarch64 (Raspberry PI)
 just remote-install <flake> <conn_str>  # Remote install via nixos-anywhere
+just deploy <host>    # Deploy a remote host with deploy-rs (defaults to hemlock)
 ```
 
 ## Version Control
@@ -52,6 +53,14 @@ Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` 
 ### Hosts
 
 `modules/hosts/<name>` defines `flake.modules.nixos."hosts/<name>"`: it imports the feature modules the host wants (importing a feature IS enabling it; there are no enable flags or `variables.nix`) plus host-specific config (hostname, disk/boot specifics, wallpaper, monitor layout). Home-manager users are attached there via `home-manager.users.<user>.imports`. Ivy (Raspberry PI, aarch64) is a host module like the others, just importing fewer features plus `nixos-hardware`'s raspberry-pi-3 module.
+
+### Remote Deployment
+
+Remote hosts are managed with **deploy-rs** (`modules/deploy.nix`). Each entry in that file's `hosts` attrset is a node: its name must match the `nixosConfiguration`, and it carries the address and an explicit `remoteBuild` flag (build on the host vs. build locally and copy the closure). `sshUser`, `user` and `sudo` are set once at the top level of `flake.deploy`; servers use passwordless doas, so there is no `interactiveSudo`.
+
+The same file is the single source for SSH access: `modules/base/ssh.nix` turns every deploy node into a `Host <name>` alias with the node's address and user, so `ssh hemlock` and `just deploy hemlock` always agree. Adding a node gives every host the alias.
+
+`just deploy <host>` runs `nix flake check` first (which evaluates every host config, not just the target), then builds, copies, activates and rolls back automatically if activation fails or the host drops off the network. Escape hatches are listed in the justfile: `--boot`, `--dry-activate`, `--magic-rollback false`, `--auto-rollback false`, or ssh in and run `just r`. Fresh installs still go through `just remote-install` (nixos-anywhere). `deploy-schema` and `deploy-activate` are exposed as flake checks on x86_64-linux.
 
 ### Secrets Management
 
