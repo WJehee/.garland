@@ -1,0 +1,33 @@
+
+# cargo-vet config file
+#
+# Every third-party crate must be covered by an audit (audits.toml), an
+# imported audit from one of the organisations below, or an exemption.
+# `cargo vet` tells you which of the three is missing and suggests the
+# cheapest fix. See https://mozilla.github.io/cargo-vet/
+
+[cargo-vet]
+version = "0.10"
+
+# Audit sets from the cargo-vet registry. Together these cover a large part of
+# the common ecosystem. Imports are not transitive: you only get the audits
+# these organisations wrote themselves. Add more with `cargo vet import <name>`.
+[imports.google]
+url = "https://raw.githubusercontent.com/google/supply-chain/main/audits.toml"
+
+[imports.mozilla]
+url = "https://raw.githubusercontent.com/mozilla/supply-chain/main/audits.toml"
+
+[imports.bytecode-alliance]
+url = "https://raw.githubusercontent.com/bytecodealliance/wasmtime/main/supply-chain/audits.toml"
+
+# Workspace members default to requiring safe-to-deploy for normal dependencies
+# and safe-to-run for dev-dependencies, so no [policy] entries are needed.
+# Override per crate like this if a subtree needs something else:
+#
+# [policy.mycrate]
+# dependency-criteria = "safe-to-run"
+
+# Crates in use but not yet audited. `cargo vet suggest` ranks these by the
+# effort needed to clear them; `cargo vet prune` drops ones no longer needed.
+[exemptions]

@@ -95,6 +95,23 @@
             - run: cargo run --manifest-path fuzz/Cargo.toml --release
         '';
     };
+    rust-supply-chain = {
+        path = ./rust-supply-chain;
+        description = "Add-on: cargo-vet, cargo-deny and cargo-supply-chain config for a rust project";
+        welcomeText = ''
+            Added supply-chain/ (cargo-vet), deny.toml (cargo-deny) and
+            .github/workflows/supply-chain.yml.
+
+            - add cargo-vet, cargo-deny and cargo-supply-chain to packages in devenv.nix
+            - set `publish = false` or a `license` in Cargo.toml, or cargo-deny
+              reports the crate itself as unlicensed
+            - baseline existing dependencies as exemptions and fetch the imported
+              audits, then commit supply-chain/ (CI runs with --locked):
+                cargo vet regenerate exemptions && cargo vet
+            - justfile recipes: `cargo deny check`, `cargo vet`, `cargo vet suggest`,
+              `cargo supply-chain publishers`
+        '';
+    };
     codeql-ci = {
         path = ./codeql-ci;
         description = "Add-on: GitHub Actions CodeQL analysis workflow";

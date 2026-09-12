@@ -43,6 +43,20 @@
 
                 # Writing
                 When writing, please do not use em dashes and emoji's 🙏.
+
+                # Code comments
+                Comments explain the why; readable code already explains the how. Write comments for:
+                - TODOs, with enough detail that someone else can pick up the work (use TODO, never FIXME)
+                - References to papers, posts or repos the code is based on, noting where the implementation diverges
+                - Correctness arguments for code whose correctness is not obvious from reading it
+                - Hard-learned lessons: fixes or incantations that only work for non-obvious reasons
+                - Rationale for constants and magic numbers: where they come from and what breaks if changed
+                - Load-bearing choices: invariants where this code silently depends on a detail elsewhere
+                - Algorithm outlines: a high-level description at the top of a long or complex implementation
+                - Why nots: why the obvious or conventional approach was not used
+                - Intentional trade-offs, as a Y-statement: in the context of X, facing Y, we chose Z to achieve W, accepting V
+
+                Write comments as technical writing: complete sentences, precise names, enough words to be clear. Assume the reader (human or LLM agent) lacks the context you have right now. Do not restate what the code does, and do not comment on the process of editing (e.g. "removed X", "changed to Y"); that belongs in the commit message.
             '';
         };
     };

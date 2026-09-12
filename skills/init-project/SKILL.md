@@ -1,6 +1,6 @@
 ---
 name: init-project
-description: Interactively initialize a new project from the garland flake templates. Asks language, project kind, lint strictness and optional add-ons (LibAFL fuzzing, Kani verification, CodeQL/semgrep CI, git hooks), then scaffolds, wires everything up and smoke tests the dev shell. Use when the user wants to start, create, scaffold or initialize a new project.
+description: Interactively initialize a new project from the garland flake templates. Asks language, project kind, lint strictness and optional add-ons (LibAFL fuzzing, Kani verification, supply chain checks, CodeQL/semgrep CI, git hooks), then scaffolds, wires everything up and smoke tests the dev shell. Use when the user wants to start, create, scaffold or initialize a new project.
 ---
 
 # init-project
@@ -35,6 +35,7 @@ Ask:
 4. **Add-ons** (multiSelect, only offer what fits the language):
    - Fuzzing, LibAFL based (rust only)
    - Formal verification with Kani (rust only)
+   - Supply chain checks: cargo-vet, cargo-deny, cargo-supply-chain (rust only)
    - Nix build CI (GitHub Actions)
    - CodeQL CI (GitHub Actions)
    - Semgrep CI (GitHub Actions)
@@ -54,7 +55,7 @@ nix flake init -t <flake>#<language>
 
 Then apply each selected file-only add-on the same way (they only add new files,
 so they compose): `#github-ci` for nix build CI, `#codeql-ci`, `#semgrep-ci`,
-`#rust-fuzz` for fuzzing.
+`#rust-fuzz` for fuzzing, `#rust-supply-chain` for supply chain checks.
 
 Initialize VCS and the project name:
 
@@ -125,6 +126,32 @@ just tell the user.
       cargo kani
   ```
 
+- **Supply chain checks**: the `rust-supply-chain` template added
+  `supply-chain/` (cargo-vet config importing the google, mozilla and
+  bytecode-alliance audit sets), `deny.toml` and
+  `.github/workflows/supply-chain.yml`. Add `cargo-vet`, `cargo-deny` and
+  `cargo-supply-chain` to `packages` in `devenv.nix` and append
+  `snippets/rust-supply-chain.just` to the justfile. cargo-deny reports the
+  crate itself as unlicensed unless it is marked private or licensed: add
+  `publish = false` under `[package]` in `Cargo.toml` for binaries, web
+  services and embedded; for a library ask the user which `license` to set.
+  In step 7, inside the dev shell, run `cargo generate-lockfile` if there is
+  no `Cargo.lock` yet, then baseline and lock:
+
+  ```
+  cargo vet regenerate exemptions
+  cargo vet
+  cargo deny check
+  ```
+
+  The first command writes every current dependency into `[exemptions]`
+  (what `cargo vet init` would have done); the second fetches the imported
+  audits and writes `supply-chain/imports.lock`. Commit both, CI runs
+  `cargo vet --locked`. If deny fails on a dependency license, add that
+  license to the allow list in `deny.toml` rather than removing the check.
+  All of this needs network access; if the sandbox has none, tell the user to
+  run the three commands themselves before the first commit.
+
 - **Git hooks**: ensure `devenv.yaml` has the git-hooks input (the rust template
   already ships it; for other languages append `snippets/git-hooks-input.yaml`
   under `inputs:`). Then make sure `devenv.nix` has a `git-hooks.hooks` block:
@@ -166,4 +193,5 @@ jj commit -m "Initial project scaffold"
 ```
 
 Finish by summarizing what was set up and any manual follow-ups (age keys, CI
-repo secrets, fuzz harness wiring, `just kani-setup`).
+repo secrets, fuzz harness wiring, `just kani-setup`, clearing the cargo-vet
+exemption backlog with `just vet-suggest`).

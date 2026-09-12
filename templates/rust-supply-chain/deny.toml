@@ -1,0 +1,56 @@
+# cargo-deny configuration. See https://embarkstudios.github.io/cargo-deny/
+#
+# Run `cargo deny check` to lint the dependency graph for known advisories,
+# license problems, duplicate versions and unexpected sources.
+
+[graph]
+# Only the host target. Add targets here if the crate is cross compiled, so
+# that platform specific dependencies are checked too.
+targets = []
+all-features = false
+
+[advisories]
+# RustSec advisory database. Unmaintained and yanked crates are reported too.
+ignore = []
+
+[licenses]
+# Every dependency must have a license from this list. Extend it deliberately
+# rather than widening it to everything.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "MPL-2.0",
+]
+confidence-threshold = 0.8
+exceptions = []
+# Allowed licenses that no dependency uses yet are not worth a warning.
+unused-allowed-license = "allow"
+
+[licenses.private]
+# Workspace crates with `publish = false` need no license field. Crates without
+# it must set `license` in Cargo.toml or cargo-deny reports them as unlicensed.
+ignore = true
+
+[bans]
+# Several versions of the same crate usually mean an outdated dependency
+# pulling in an old copy. Warn rather than deny: this is common and not
+# always fixable from this side.
+multiple-versions = "warn"
+wildcards = "allow"
+highlight = "all"
+deny = []
+skip = []
+skip-tree = []
+
+[sources]
+# Only crates.io. Git and alternative registries need an explicit entry.
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

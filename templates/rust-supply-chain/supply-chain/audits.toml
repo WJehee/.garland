@@ -1,0 +1,8 @@
+
+# cargo-vet audits file
+#
+# Record your own audits here with `cargo vet certify`. Never delete an entry
+# unless it turns out to be wrong: audits of crates you no longer use still
+# help others who import this file.
+
+[audits]
