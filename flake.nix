@@ -32,6 +32,10 @@
             url = "github:Mic92/sops-nix";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        deploy-rs = {
+            url = "github:serokell/deploy-rs";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         # Private NixOS config
         wreath.url = "git+ssh://git@github.com/WJehee/.wreath.git";

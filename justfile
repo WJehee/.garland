@@ -38,20 +38,12 @@ build-sd host:
 remote-install flake conn_str:
     nix run github:nix-community/nixos-anywhere -- --flake ./#{{flake}} --target-host {{conn_str}} --generate-hardware-config nixos-generate-config ./modules/hosts/{{flake}}/_hardware-configuration.nix
 
-# Build locally and deploy the closure to a remote host, if this fails, run just r while ssh'ed
-remote-rebuild flake conn_str:
-    nixos-rebuild switch --flake .#{{flake}} --target-host {{conn_str}} --sudo
-
-# Build locally and copy the closure to a remote host (activate manually)
-remote-copy flake conn_str:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    out=$(nix build --no-link --print-out-paths ".#nixosConfigurations.{{flake}}.config.system.build.toplevel")
-    nix copy --to "ssh://{{conn_str}}" "$out"
-    echo
-    echo "Closure copied. On {{conn_str}}, run:"
-    echo "  doas nix-env -p /nix/var/nix/profiles/system --set $out"
-    echo "  doas $out/bin/switch-to-configuration switch"
+# Escape hatches: --boot (activate on next reboot), --dry-activate (copy and
+# test only), --magic-rollback false / --auto-rollback false, or ssh in and
+# run `just r` by hand.
+# Deploy a host with deploy-rs (build locally, activate remotely, auto-rollback).
+deploy host="hemlock":
+    nix run nixpkgs#deploy-rs -- .#{{host}}
 
 # If home manager does activation does not work
 fix:
