@@ -13,6 +13,17 @@
             # provides the GIO TLS backend, without which the webview reports
             # "no TLS support" and nothing from the web loads.
             extraPkgs = pkgs: with pkgs; [ webkitgtk_4_1 glib-networking ];
+            # wrapType2 only produces the binary; install the desktop entry and
+            # icons from the AppImage so launchers can find it. Exec resolves
+            # through PATH to the wrapped launcher below.
+            extraInstallCommands = let
+                contents = pkgs.appimageTools.extract { pname = "bambu-studio"; inherit version src; };
+            in ''
+                install -Dm444 ${contents}/BambuStudio.desktop $out/share/applications/bambu-studio.desktop
+                substituteInPlace $out/share/applications/bambu-studio.desktop \
+                    --replace-fail 'Exec=AppRun %U' 'Exec=bambu-studio %U'
+                cp -r ${contents}/usr/share/icons $out/share/icons
+            '';
         };
         # The FHS `runScript` does not source /etc/profile, so buildFHSEnv's
         # `profile` env never reaches the AppImage. Wrap the launcher instead:
