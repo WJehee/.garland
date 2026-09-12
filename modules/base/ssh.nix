@@ -1,12 +1,15 @@
 # SSH client config. Every deploy-rs node (modules/deploy.nix) doubles as a
 # host alias, so the address and user of a remote host are declared once.
 { config, lib, ... }: let
-    hostAlias = name: node: lib.concatStringsSep "\n" ([
+    deploy = config.flake.deploy;
+    hostAlias = name: node: let
+        user = node.sshUser or deploy.sshUser or null;
+    in lib.concatStringsSep "\n" ([
         "Host ${name}"
         "    HostName ${node.hostname}"
-    ] ++ lib.optional (node ? sshUser) "    User ${node.sshUser}") + "\n";
+    ] ++ lib.optional (user != null) "    User ${user}") + "\n";
     hostAliases = lib.concatStrings
-        (lib.mapAttrsToList hostAlias config.flake.deploy.nodes);
+        (lib.mapAttrsToList hostAlias deploy.nodes);
 in {
     flake.modules.nixos.base = { config, lib, ... }: {
         programs.ssh = {

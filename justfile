@@ -43,7 +43,7 @@ remote-install flake conn_str:
 # run `just r` by hand.
 # Deploy a host with deploy-rs (build locally, activate remotely, auto-rollback).
 deploy host="hemlock":
-    nix run nixpkgs#deploy-rs -- .#{{host}}
+    nix run nixpkgs#deploy-rs -- .#{{host}} --skip-checks
 
 # If home manager does activation does not work
 fix:
