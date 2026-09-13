@@ -63,6 +63,22 @@ The escape hatches, all passed after `--` to `just deploy`:
 
 The manual fallback always works: ssh in and run `just r` in a checkout of this repository.
 
+== Vulnerability audit
+
+`just audit [host]` scans a system closure for known CVEs with https://github.com/tiiuae/sbomnix[vulnxscan], which runs vulnix, grype and OSV and merges their findings into one report. Without a host it scans the running system of the current machine; with a host name it evaluates that host from this flake and scans the toplevel it would deploy.
+
+[source,bash]
+----
+just audit                    # the machine you are on, as it runs
+just audit hemlock            # what a deploy to hemlock would ship
+just audit ivy --buildtime    # aarch64: scan the derivation graph without building
+just audit hemlock --triage   # also look up newer nixpkgs and upstream versions
+----
+
+Results are written to `audit/<host>.csv`. Findings that are known and accepted go in `audit/whitelist.csv` (columns `vuln_id`, `package`, `whitelist`, `comment`; `vuln_id` is a regular expression, `package` restricts the match to one package). Whitelisted findings disappear from the console output but stay annotated in the csv.
+
+The scanners match on package name and version, so expect false positives. vulnxscan drops a CVE when nixpkgs applies a patch file named after it, but fixes carried under other names or backported upstream without a version bump still show up. Check the tracker at https://tracker.security.nixos.org before acting on a finding, then whitelist it with a comment saying why.
+
 == Secrets management
 
 Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.

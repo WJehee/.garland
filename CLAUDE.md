@@ -24,6 +24,7 @@ just build-sd <host>  # Build SD image for aarch64 (Raspberry PI)
 just remote-install <flake> <conn_str>  # Remote install via nixos-anywhere
 just deploy <host>    # Deploy a remote host with deploy-rs, building on the host (defaults to hemlock)
 just deploy-local <host>  # Same, but build locally and copy the closure (for compiling custom packages)
+just audit <host>     # Scan a host closure for known CVEs with vulnxscan (defaults to the running system)
 ```
 
 ## Version Control

@@ -16,7 +16,6 @@ in {
             nixos.tailscale
             nixos.music
             nixos.dj
-            nixos.llm
             nixos.cad
             nixos.dev
             nixos."dev/android"
@@ -24,7 +23,9 @@ in {
             nixos.podman
             nixos.virtualization
             nixos.calendar
+
             # nixos.backup
+            # nixos.llm
         ];
 
         networking.hostName = "foxglove";

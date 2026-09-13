@@ -52,6 +52,24 @@ deploy host="hemlock" *flags="":
 deploy-local host="hemlock" *flags="":
     nix run nixpkgs#deploy-rs -- path:.#{{host}} --skip-checks {{flags}}
 
+# The audit uses vulnxscan from sbomnix, which merges vulnix, grype
+# and OSV into one report. The current machine is scanned as it runs;
+# any other host is evaluated from this flake and its toplevel built locally,
+# so pass --buildtime for the aarch64 hosts (scans the derivation graph
+# without building, at the cost of including build-time dependencies).
+# Findings matching audit/whitelist.csv are hidden from the console and
+# annotated in the csv; results land in audit/<host>.csv (gitignored).
+# Scan a host closure for known CVEs (current machine by default)
+audit host=`hostname` *flags="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ "{{host}}" = "$(hostname)" ]; then
+        target="$(readlink -f /run/current-system)"
+    else
+        target="path:.#nixosConfigurations.{{host}}.config.system.build.toplevel"
+    fi
+    nix shell nixpkgs#sbomnix -c vulnxscan --whitelist audit/whitelist.csv -o "audit/{{host}}.csv" {{flags}} "$target"
+
 # If home manager does activation does not work
 fix:
     doas -u wouter nix-env -iE 'p: {}'

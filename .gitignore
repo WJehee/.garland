@@ -2,3 +2,5 @@
 result/
 *.sd
 .claude/settings.local.json
+audit/*.csv
+!audit/whitelist.csv
