@@ -2,7 +2,8 @@
 
 Manual steps before and after a host imports `nixos."services/mail"` (`modules/server/mail.nix`).
 The module runs Simple NixOS Mailserver at `mail.wouterjehee.com` and serves mail for
-`wouterjehee.com`, delivered to the `wouter@wouterjehee.com` mailbox.
+`wouterjehee.com`. Accounts come from lldap: every member of the lldap group `mail` gets a
+mailbox at the address in their `mail` attribute.
 
 == 1. Before enabling the module
 
@@ -12,12 +13,18 @@ The module runs Simple NixOS Mailserver at `mail.wouterjehee.com` and serves mai
 * Reverse DNS: in the provider's panel, set the PTR record of the host's IPv4 (and IPv6)
   address to `mail.wouterjehee.com`. Without a matching PTR most receivers treat the mail as
   spam.
-* Secret: add the password hash to the host's secrets file.
+* lldap, at https://ldap.wouterjehee.com:
+** Create the group `mail`.
+** Create the user `mailserver` with a random password and add it to `lldap_strict_readonly`.
+   The mail server binds as this user to look accounts up.
+** For every mailbox: set the user's email to `<user>@wouterjehee.com` and add the user to
+   `mail`. Start with `wouter`, the target of the postmaster and abuse forwards.
+* Secret: add the bind password to the host's secrets file. Enter it as a plain
+  `key: value` line, the file is read verbatim and a trailing newline breaks the bind.
 +
 [source,shell]
 ----
-nix run nixpkgs#mkpasswd -- -s
-just secrets <host>    # key: mail-password-hash-wouter
+just secrets <host>    # key: mail-ldap-bind-password
 ----
 
 Verify the records against an authoritative nameserver before continuing, so cached answers
@@ -34,12 +41,14 @@ dig -x <ipv4> +short
 
 Uncomment `nixos."services/mail"` in the host file and deploy. On first activation the
 module generates the DKIM key pair under `/var/dkim` and requests the TLS certificate. Check
-that both worked:
+that both worked and that the LDAP lookups resolve:
 
 [source,shell]
 ----
 systemctl status acme-mail.wouterjehee.com postfix dovecot rspamd
 cat /var/dkim/wouterjehee.com.mail.txt
+doas doveadm user wouter
+doas doveadm auth test wouter
 ----
 
 == 3. DNS records for the domain
@@ -72,7 +81,8 @@ Then send a message to https://www.mail-tester.com and fix whatever it flags.
 
 [cols="1,3"]
 |===
-| Username | `wouter@wouterjehee.com`
+| Username | the lldap username, for example `wouter` (not the address)
+| Password | the lldap password
 | IMAP | `mail.wouterjehee.com`, port 993, SSL/TLS
 | SMTP | `mail.wouterjehee.com`, port 465, SSL/TLS
 |===
@@ -80,8 +90,10 @@ Then send a message to https://www.mail-tester.com and fix whatever it flags.
 Plain IMAP (143) and STARTTLS submission (587) are disabled by default. Enable
 `mailserver.enableSubmission` in the module if a client cannot do implicit TLS.
 
-== Adding domains or mailboxes
+== Adding mailboxes, aliases or domains
 
-Add the domain to `mailserver.domains` and repeat section 3 for it; the DKIM key file appears
-under `/var/dkim` after the next deploy. Each mailbox is an entry in `mailserver.accounts`
-with its own password hash secret.
+* Mailbox: in lldap, set the user's email and add them to the `mail` group. No deploy needed.
+* Alias: SNM has no LDAP-backed aliases yet. Add a `mailserver.forwards` entry (receive only)
+  in the module; sending from an alias needs a static `mailserver.accounts` entry instead.
+* Domain: add it to `mailserver.domains`, repeat section 3 for it, and give users an email at
+  that domain. The DKIM key file appears under `/var/dkim` after the next deploy.
