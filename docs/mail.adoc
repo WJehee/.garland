@@ -1,0 +1,87 @@
+= Mail server
+
+Manual steps before and after a host imports `nixos."services/mail"` (`modules/server/mail.nix`).
+The module runs Simple NixOS Mailserver at `mail.wouterjehee.com` and serves mail for
+`wouterjehee.com`, delivered to the `wouter@wouterjehee.com` mailbox.
+
+== 1. Before enabling the module
+
+* Port 25: check that the VPS provider allows outbound SMTP on port 25. Many block it by
+  default and unblock it on request.
+* Forward DNS: point `mail.wouterjehee.com` at the host (A record, plus AAAA if it has IPv6).
+* Reverse DNS: in the provider's panel, set the PTR record of the host's IPv4 (and IPv6)
+  address to `mail.wouterjehee.com`. Without a matching PTR most receivers treat the mail as
+  spam.
+* Secret: add the password hash to the host's secrets file.
++
+[source,shell]
+----
+nix run nixpkgs#mkpasswd -- -s
+just secrets <host>    # key: mail-password-hash-wouter
+----
+
+Verify the records against an authoritative nameserver before continuing, so cached answers
+do not mislead:
+
+[source,shell]
+----
+dig NS wouterjehee.com +short
+dig @<ns> A mail.wouterjehee.com +short
+dig -x <ipv4> +short
+----
+
+== 2. Enable and deploy
+
+Uncomment `nixos."services/mail"` in the host file and deploy. On first activation the
+module generates the DKIM key pair under `/var/dkim` and requests the TLS certificate. Check
+that both worked:
+
+[source,shell]
+----
+systemctl status acme-mail.wouterjehee.com postfix dovecot rspamd
+cat /var/dkim/wouterjehee.com.mail.txt
+----
+
+== 3. DNS records for the domain
+
+[cols="3,1,4"]
+|===
+| Name | Type | Value
+
+| `wouterjehee.com.`
+| MX
+| `10 mail.wouterjehee.com.`
+
+| `wouterjehee.com.`
+| TXT
+| `v=spf1 mx -all`
+
+| `mail._domainkey.wouterjehee.com.`
+| TXT
+| `v=DKIM1; k=rsa; p=...` from `/var/dkim/wouterjehee.com.mail.txt`, the two quoted strings
+  glued together without quotes or spaces
+
+| `_dmarc.wouterjehee.com.`
+| TXT
+| `v=DMARC1; p=none;` to start; tighten to `p=quarantine` or `p=reject` once mail flows
+|===
+
+Then send a message to https://www.mail-tester.com and fix whatever it flags.
+
+== 4. Client settings
+
+[cols="1,3"]
+|===
+| Username | `wouter@wouterjehee.com`
+| IMAP | `mail.wouterjehee.com`, port 993, SSL/TLS
+| SMTP | `mail.wouterjehee.com`, port 465, SSL/TLS
+|===
+
+Plain IMAP (143) and STARTTLS submission (587) are disabled by default. Enable
+`mailserver.enableSubmission` in the module if a client cannot do implicit TLS.
+
+== Adding domains or mailboxes
+
+Add the domain to `mailserver.domains` and repeat section 3 for it; the DKIM key file appears
+under `/var/dkim` after the next deploy. Each mailbox is an entry in `mailserver.accounts`
+with its own password hash secret.

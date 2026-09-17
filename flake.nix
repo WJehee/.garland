@@ -36,6 +36,13 @@
             url = "github:serokell/deploy-rs";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        # Follows master: SNM branches per NixOS release and master tracks
+        # nixos-unstable, which is what this flake runs. Its release check
+        # warns when the two drift apart
+        nixos-mailserver = {
+            url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         # Private NixOS config
         wreath.url = "git+ssh://git@github.com/WJehee/.wreath.git";
