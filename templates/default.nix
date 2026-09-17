@@ -74,6 +74,20 @@
             - create the project in this directory with Android Studio
         '';
     };
+    secretspec = {
+        path = ./secretspec;
+        description = "Add-on: secretspec declarations plus sops config for secrets";
+        welcomeText = ''
+            Added secretspec.toml (declarations, committed) and .sops.yaml
+            (age recipients for the encrypted secrets.enc.yaml).
+
+            - just init      # set the project name from the directory name
+            - put your age public key in .sops.yaml
+            - declare at least one secret in secretspec.toml, then enable
+              loading in devenv.yaml with `secretspec: { enable: true }`
+            - set values with `secretspec set`, verify with `secretspec check`
+        '';
+    };
     github-ci = {
         path = ./github-ci;
         description = "Add-on: GitHub Actions nix build workflow";

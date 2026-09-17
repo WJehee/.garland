@@ -42,6 +42,7 @@ Ask:
    - Git hooks (formatter/linter pre-commit hooks via devenv git-hooks)
    - Property testing (skip for zig, which has no mature library; see
      `references/property-testing.md`)
+   - Secrets via secretspec + sops (only if the project will need secrets)
 
 ## Step 2: Scaffold
 
@@ -55,7 +56,8 @@ nix flake init -t <flake>#<language>
 
 Then apply each selected file-only add-on the same way (they only add new files,
 so they compose): `#github-ci` for nix build CI, `#codeql-ci`, `#semgrep-ci`,
-`#rust-fuzz` for fuzzing, `#rust-supply-chain` for supply chain checks.
+`#rust-fuzz` for fuzzing, `#rust-supply-chain` for supply chain checks,
+`#secretspec` for secrets.
 
 Initialize VCS and the project name:
 
@@ -173,9 +175,12 @@ just tell the user.
 
 ## Step 6: Secrets
 
-The templates ship `secretspec.toml` and `.sops.yaml` with placeholder
-recipients. Remind the user to put their age public key in `.sops.yaml` before
-using `secretspec set`. Do not create or touch any secret values.
+Only relevant when the secretspec add-on was chosen. It ships `secretspec.toml`
+and `.sops.yaml` with placeholder recipients; `just init` (step 2) has already
+set the project name in `secretspec.toml`. Remind the user to put their age
+public key in `.sops.yaml` before using `secretspec set`, and to add
+`secretspec: { enable: true }` to `devenv.yaml` once a secret is declared.
+Do not create or touch any secret values.
 
 ## Step 7: Activate and smoke test
 

@@ -2,9 +2,9 @@
 _default:
     just --list
 
-# Set the project name to this directory's name (run once after flake init)
+# Set the project name to this directory's name (run after flake init, and again after adding the secretspec add-on)
 init:
-    sed -i "s/changeme/{{file_name(justfile_directory())}}/g" secretspec.toml Cargo.toml
+    for f in secretspec.toml Cargo.toml; do if [ -f "$f" ]; then sed -i "s/changeme/{{file_name(justfile_directory())}}/g" "$f"; fi; done
 
 # Build the project
 build:
