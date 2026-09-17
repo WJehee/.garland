@@ -31,7 +31,6 @@
                 PYTHONDONTWRITEBYTECODE = "1";
                 VIRTUAL_ENV = "/var/lib/chatterbox/venv";
                 UV_CACHE_DIR = "/var/lib/chatterbox/uv-cache";
-                UV_PYTHON = lib.getExe pkgs.python311;
                 UV_PYTHON_DOWNLOADS = "never";
                 # pip wheels expect FHS system libraries; the service environment
                 # does not go through nix-ld, so provide them directly.
@@ -51,25 +50,53 @@
                 torchInstall = if cuda
                     then ''uv pip install "torch<2.7" "torchaudio<2.7"''
                     else ''uv pip install "torch<2.7" "torchaudio<2.7" --index-url https://download.pytorch.org/whl/cpu'';
-                venvMarker = "${src}:${if cuda then "cuda" else "cpu"}";
+                # setuptools<81: perth imports pkg_resources, absent from uv
+                # venvs and removed from newer setuptools
+                depsInstall = ''
+                    uv pip install "setuptools<81" fastapi "uvicorn[standard]" python-dotenv python-multipart requests psutil pydub sse-starlette resemble-perth
+                    uv pip install "git+https://github.com/travisvn/chatterbox-multilingual.git@exp"
+                '';
+                venvMarker = builtins.hashString "sha256" "${src}:${torchInstall}:${depsInstall}";
             in ''
                 if [ "$(cat .venv-for 2>/dev/null)" != "${venvMarker}" ]; then
                     rm -rf "$VIRTUAL_ENV"
-                    uv venv "$VIRTUAL_ENV"
+                    # UV_PYTHON is not used here: uv pip would then target the
+                    # immutable store python instead of $VIRTUAL_ENV
+                    uv venv --python ${lib.getExe pkgs.python311} "$VIRTUAL_ENV"
                     ${torchInstall}
-                    uv pip install fastapi "uvicorn[standard]" python-dotenv python-multipart requests psutil pydub sse-starlette resemble-perth
-                    uv pip install "git+https://github.com/travisvn/chatterbox-multilingual.git@exp"
+                    ${depsInstall}
                     echo "${venvMarker}" > .venv-for
                 fi
                 exec "$VIRTUAL_ENV/bin/python" ${src}/main.py
             '';
 
             serviceConfig = {
-                DynamicUser = true;
+                # Not DynamicUser: systemd mounts its StateDirectory noexec,
+                # which breaks native extensions (.so mmap) in the venv
+                User = "chatterbox";
+                Group = "chatterbox";
                 StateDirectory = "chatterbox";
                 WorkingDirectory = "/var/lib/chatterbox";
                 Restart = "on-failure";
             };
         };
+
+        # If the host also runs Open WebUI, use chatterbox for its speech.
+        # Open WebUI persists audio settings in its database and env vars only
+        # seed the initial values; once changed in the UI, update them via
+        # Admin Panel > Settings > Audio instead.
+        services.open-webui.environment = lib.mkIf config.services.open-webui.enable {
+            AUDIO_TTS_ENGINE = "openai";
+            AUDIO_TTS_OPENAI_API_BASE_URL = "http://127.0.0.1:4123/v1";
+            AUDIO_TTS_OPENAI_API_KEY = "unused";
+            AUDIO_TTS_MODEL = "tts-1";
+            AUDIO_TTS_VOICE = "alloy";
+        };
+
+        users.users.chatterbox = {
+            isSystemUser = true;
+            group = "chatterbox";
+        };
+        users.groups.chatterbox = {};
     };
 }

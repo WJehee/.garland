@@ -1,0 +1,85 @@
+= Remote access (Headscale)
+
+Remote access to the home network runs over a self-hosted tailnet: https://github.com/juanfont/headscale[Headscale] on hemlock is the control server, every device runs the Tailscale client, and wormwood (the Raspberry PI that already runs AdGuard Home) is a subnet router that advertises the home LAN. Nodes talk to each other directly with WireGuard (NAT traversal is handled by Tailscale, falling back to Tailscale's public DERP relays), so the home router needs no open port and no dynamic DNS.
+
+NOTE: No host imports these modules yet. They are kept ready for when the tailnet is set up; the steps below describe how to bring it up.
+
+* `modules/server/headscale.nix`: the control server, its ACL policy and the tailnet DNS settings. Reached at `https://headscale.wouterjehee.com` through caddy.
+* `modules/features/tailscale.nix`: the client, imported by every host that should be on the tailnet.
+* `modules/features/gateway.nix`: turns a host into the subnet router for `192.168.178.0/24` (wormwood).
+
+DNS over the tailnet goes to AdGuard on wormwood (`192.168.178.44`, reached through the subnet route), so filtering applies remotely too. Wormwood and hemlock opt out with `--accept-dns=false` and keep their own resolvers.
+
+== Groups
+
+Access control is the Headscale ACL policy in `modules/server/headscale.nix`. A node belongs to the headscale *user* it was registered under, and the policy's groups are made of users, so the user you pick when registering a device decides what it may reach:
+
+[cols="1,1,3"]
+|===
+| Headscale user | Group | May reach
+
+| `wouter`
+| admin
+| everything: the LAN, every tailnet node, the internet
+
+| `guest`
+| restricted
+| Home Assistant (`192.168.178.43:8123`) and DNS on AdGuard (`192.168.178.44:53`), nothing else
+|===
+
+Tailscale enforces the policy on the receiving node and, for the LAN, on wormwood for every packet it forwards. To add a group, add a user, a `group:` entry and an `acls` rule; headscale reloads the policy when hemlock is rebuilt.
+
+== One-time setup
+
+. Deploy hemlock (`just remote-rebuild hemlock hemlock`) and make sure `headscale.wouterjehee.com` points at it.
+. Create the users on hemlock:
++
+[source,bash]
+----
+doas headscale users create wouter
+doas headscale users create guest
+----
+. Create a pre-auth key for the gateway and store it as `tailscale-authkey` in wormwood's secrets (`just secrets wormwood`):
++
+[source,bash]
+----
+doas headscale preauthkeys create --user wouter --reusable --expiration 1y
+----
++
+The key is created for the admin user because `tag:gateway` is owned by `group:admin`; the gateway advertises that tag and its LAN route is then approved automatically.
+. Deploy wormwood (`just remote-rebuild wormwood wormwood`) and check the route shows as approved: `doas headscale nodes list-routes`.
+
+Existing hosts that were logged into tailscale.com have to be moved over once: `doas tailscale logout`, then register as below.
+
+== Adding a device
+
+Interactive (laptops, phones, anything with a browser):
+
+. On the device: `tailscale up --login-server https://headscale.wouterjehee.com` (NixOS hosts: `doas tailscale up ...`; the Tailscale apps have a "custom control server" setting). It prints a registration URL containing a node key.
+. On hemlock, register it under the user that gives it the right group:
++
+[source,bash]
+----
+doas headscale nodes register --user guest --key <nodekey from the URL>
+----
+
+Unattended (a host that should rejoin after a reinstall): create a pre-auth key for the right user, store it as the `tailscale-authkey` secret of that host, and the tailscale feature picks it up on the next rebuild. Keys are runtime state in headscale's database, not in this repository.
+
+To revoke a device: `doas headscale nodes delete --identifier <id>` on hemlock (`doas headscale nodes list` shows the ids). Pre-auth keys can be expired with `headscale preauthkeys expire`.
+
+== Checking
+
+[source,bash]
+----
+# On hemlock
+doas headscale nodes list                 # registered nodes, users, last seen
+doas headscale nodes list-routes          # the LAN route must be approved and primary
+doas headscale policy get                 # the active policy (headscale refuses to start on a bad one)
+
+# On any node
+tailscale status                          # peers, direct vs relayed connections
+tailscale ping wormwood                   # does NAT traversal work
+dig @192.168.178.44 example.com           # DNS through AdGuard over the tailnet
+----
+
+Things that were considered and not done: an embedded DERP relay on hemlock (Tailscale's public relays are used instead), OIDC login through Authelia instead of pre-auth keys and manual registration, and IPv6 on the LAN route.

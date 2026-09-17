@@ -72,7 +72,7 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 
 - No `specialArgs` beyond `inputs`; modules read everything else from `config`
 - Flake input modules are imported by the feature that configures them (e.g. `modules/base/nixvim.nix` imports `inputs.nixvim.nixosModules.nixvim`; `modules/home-manager.nix` wires up home-manager)
-- Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
+- Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `gateway`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
 - `home.stateVersion` lives in each host file and must never change after install
 - Containers run on rootless podman (`nixos.podman`); there is no docker. `docker` is an alias for podman
 - When a workaround exists only because of an actively tracked upstream issue (a library, nixpkgs, a tool), mark it with a `TODO` comment that links the issue and says what to remove or revert once it is fixed upstream. Example: the monospace fallback entries in `modules/workstation/fontconfig.nix` for alacritty issue 481
