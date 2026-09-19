@@ -14,6 +14,10 @@ in {
             nixos.osint
             nixos.music
             # nixos.backup
+
+            nixos.llm
+            nixos.ollama
+            nixos.chatterbox
         ];
 
         networking.hostName = "wisteria";

@@ -1,8 +1,17 @@
+# LLM gateway and chat UI: LiteLLM exposes the Anthropic models and, when the
+# host also imports nixos.ollama, the local ones behind a single OpenAI
+# compatible endpoint; Open WebUI talks to that endpoint only.
 {
-    flake.modules.nixos.llm = { config, pkgs, lib, ... }: {
-        environment.systemPackages = with pkgs; [
-            rtk
-        ];
+    flake.modules.nixos.llm = { config, lib, ... }: let
+        ollama = config.services.ollama;
+        localModel = name: model: {
+            model_name = name;
+            litellm_params = {
+                model = "ollama/${model}";
+                api_base = "http://${ollama.host}:${toString ollama.port}";
+            };
+        };
+    in {
         sops.secrets = {
             "anthropic-api-key" = {};
             "litellm-master-key" = {};
@@ -42,33 +51,14 @@
                             api_key = "os.environ/ANTHROPIC_API_KEY";
                         };
                     }
-                    {
-                        model_name = "local-llama";
-                        litellm_params = {
-                            model = "ollama/llama3.2";
-                            api_base = "http://localhost:11434";
-                        };
-                    }
-                    {
-                        model_name = "local-qwen-coder";
-                        litellm_params = {
-                            model = "ollama/qwen2.5-coder";
-                            api_base = "http://localhost:11434";
-                        };
-                    }
+                ] ++ lib.optionals ollama.enable [
+                    (localModel "local-llama" "llama3.2")
+                    (localModel "local-qwen-coder" "qwen2.5-coder")
                 ];
                 litellm_settings = {
                     drop_params = true;
                 };
             };
-        };
-
-        services.ollama = {
-            enable = true;
-            # Use CUDA when the host imports gpu/nvidia
-            package = lib.mkIf
-                (builtins.elem "nvidia" config.services.xserver.videoDrivers)
-                pkgs.ollama-cuda;
         };
 
         services.open-webui = {

@@ -30,3 +30,9 @@ creation_rules:
     key_groups:
       - age:
           - *foxglove
+  # TODO: after flashing belladonna, add its age key here (ssh-to-age on
+  # /etc/ssh/ssh_host_ed25519_key.pub) and run `sops updatekeys secrets/belladonna.yaml`
+  - path_regex: secrets/belladonna\.yaml$
+    key_groups:
+      - age:
+          - *foxglove

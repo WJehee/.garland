@@ -8,15 +8,15 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 
 * **Foxglove**: my Framework laptop
 * **Wisteria**: my desktop workstation
-* **Oleander**: my dedicated desktop PC, running as a homelab server (LLMs, Immich, Gitea)
+* **Oleander**: my homelab machine
 * **Hemlock**: my VPS machine
 * **Ivy**: Home Assistant running on a Raspberry PI
 * **Wormwood**: AdGuard Home, the network DNS filter, running on a Raspberry PI
+* **Belladonna**: Raspberry PI with Kodi for watching media
 
 A few hosts are stubs: they import only the base module and have no role yet, so they evaluate but are not installed anywhere.
 
 * **Manchineel**
-* **Belladonna**
 
 == Structure
 

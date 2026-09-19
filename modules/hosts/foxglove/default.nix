@@ -24,7 +24,6 @@ in {
             nixos.calendar
 
             # nixos.backup
-            # nixos.llm
         ];
 
         networking.hostName = "foxglove";
