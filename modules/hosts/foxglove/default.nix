@@ -16,7 +16,6 @@ in {
             nixos.tailscale
             nixos.music
             nixos.dj
-            nixos.cad
             nixos.dev
             nixos."dev/android"
             nixos."dev/embedded"
