@@ -18,10 +18,6 @@
                     "nl"
                     "en-US"
                 ];
-                "DnsOverHttpsMode" = "secure";
-                "DnsOverHttpsTemplates" = [
-                    "https://dns.quad9.net/dns-query{?dns}"
-                ];
             };
         };
     };
