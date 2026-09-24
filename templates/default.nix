@@ -63,6 +63,17 @@
             - gleam new .
         '';
     };
+    typst = {
+        path = ./typst;
+        description = "A typst document";
+        welcomeText = ''
+            ## Getting started
+
+            - just init      # set the project name from the directory name
+            - direnv allow
+            - just build     # or just watch; <leader>tp in neovim for the live preview
+        '';
+    };
     android = {
         path = ./android;
         description = "An android project";

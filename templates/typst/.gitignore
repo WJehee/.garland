@@ -1,0 +1,5 @@
+.direnv
+.devenv*
+.env
+
+*.pdf

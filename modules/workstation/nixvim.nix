@@ -38,7 +38,6 @@
                         };
                         tailwindcss.enable = true;
                         zls.enable = true;
-                        texlab.enable = true;
                     };
                 };
                 # tailwind-tools.enable = true;

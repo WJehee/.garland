@@ -1,0 +1,19 @@
+
+_default:
+    just --list
+
+# Set the project name to this directory's name (run after flake init, and again after adding the secretspec add-on)
+init:
+    for f in secretspec.toml main.typ; do if [ -f "$f" ]; then sed -i "s/changeme/{{file_name(justfile_directory())}}/g" "$f"; fi; done
+
+# Compile main.typ to main.pdf
+build:
+    typst compile main.typ
+
+# Recompile main.pdf whenever a source file changes
+watch:
+    typst watch main.typ
+
+# Format every typst file in place
+fmt:
+    typstyle --inplace .
