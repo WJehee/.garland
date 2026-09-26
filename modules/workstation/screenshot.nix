@@ -20,10 +20,14 @@
                 hyprshot -m region -z -r -s > "$raw" || exit 0
                 [ -s "$raw" ] || exit 0
 
-                # Ctrl+S / Enter saves and exits; Ctrl+C copies, saves and exits
+                # Ctrl+S / Enter saves and exits; Ctrl+C copies, saves and exits.
+                # satty always pipes PNG bytes to the copy command. The type is
+                # set explicitly because a bare wl-copy guesses it through
+                # xdg-mime and falls back to text/plain, which browsers and
+                # Electron apps (Signal, WhatsApp Web) refuse to paste as an image
                 satty --filename "$raw" \
                     --output-filename "$file" \
-                    --copy-command wl-copy \
+                    --copy-command "wl-copy --type image/png" \
                     --save-after-copy \
                     --early-exit \
                     --initial-tool arrow \

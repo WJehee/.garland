@@ -134,6 +134,9 @@
                         (bind (mod "K") (raw ''hl.dsp.focus({ direction = "up" })''))
                         (bind (mod "J") (raw ''hl.dsp.focus({ direction = "down" })''))
 
+                        # Master layout: swap the focused window into the master tile
+                        (bind (mod "SHIFT + M") (raw ''hl.dsp.layout("swapwithmaster")''))
+
                         # Hacking stuff -- [[ ]] keeps the embedded "\n" literal for tr
                         (bind (mod "SHIFT + W") (raw ''hl.dsp.exec_cmd([[find $(wordlists_path) | wofi -i --dmenu -M fuzzy | tr --delete "\n" | wl-copy]])''))
 
