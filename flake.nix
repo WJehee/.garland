@@ -56,6 +56,7 @@
             url = "github:WJehee/galeharp";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        blotter.url = "git+ssh://git@github.com/WJehee/blotter.git";
     };
     outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
         imports = [

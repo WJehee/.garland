@@ -17,7 +17,6 @@ in {
             nixos."services/caddy"
             nixos."services/lldap"
             nixos."services/radicale"
-            nixos."services/immich"
             # Not switched on yet: needs the DNS records, reverse DNS and
             # secret from docs/mail.adoc first
             # nixos."services/mail"

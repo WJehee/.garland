@@ -1,8 +1,14 @@
-{ inputs, ... }: {
-    flake.modules.nixos."services/projects" = { pkgs, ... }: {
+{ inputs, ... }: let
+    # Read from blotter's secretspec.toml, the same list its module asserts
+    # against, so a secret added there only needs a value, not a garland edit.
+    blotterSecrets = builtins.attrNames
+        (builtins.fromTOML (builtins.readFile "${inputs.blotter}/secretspec.toml")).profiles.default;
+in {
+    flake.modules.nixos."services/projects" = { config, lib, pkgs, ... }: {
         imports = [
             inputs.loodsenboekje.nixosModules.loodsenboekje
             inputs.galeharp.nixosModules.default
+            inputs.blotter.nixosModules.default
         ];
 
         services.caddy.virtualHosts = {
@@ -11,6 +17,12 @@
                 encode gzip
                 file_server
             '';
+            "galeharp.wouterjehee.com".extraConfig = ''
+                root * /var/www/galeharp
+                encode gzip
+                file_server
+            '';
+
             "dorusrijkers.eu".extraConfig = ''
                 root * /var/www/dorusrijkers.eu
                 encode gzip
@@ -19,10 +31,8 @@
             "loodsenboekje.dorusrijkers.eu".extraConfig = ''
                 reverse_proxy http://localhost:1744
             '';
-            "galeharp.wouterjehee.com".extraConfig = ''
-                root * /var/www/galeharp
-                encode gzip
-                file_server
+            "royale.dorusrijkers.eu".extraConfig = ''
+                reverse_proxy http://localhost:${toString config.services.blotter.port}
             '';
         };
 
@@ -52,5 +62,18 @@
             # emits an evaluation warning; an explicit package skips it.
             package = inputs.galeharp.packages.${pkgs.stdenv.hostPlatform.system}.default;
         };
+
+        # Blotter
+        services.blotter = {
+            enable = true;
+            host = "royale.dorusrijkers.eu";
+            package = inputs.blotter.packages.${pkgs.stdenv.hostPlatform.system}.default;
+            secretFiles = lib.genAttrs blotterSecrets
+                (name: config.sops.secrets."blotter/${name}".path);
+        };
+        # Values live under a `blotter:` map in secrets/hemlock.yaml (sops-nix
+        # treats the slash as nesting). They stay root owned because the
+        # module hands them to the service through systemd's LoadCredential.
+        sops.secrets = lib.genAttrs (map (name: "blotter/${name}") blotterSecrets) (_: {});
     };
 }
