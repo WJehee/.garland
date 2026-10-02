@@ -42,9 +42,14 @@ in {
             isSystemUser = true;
             group = "decree";
             shell = "${pkgs.bash}/bin/bash";
-            openssh.authorizedKeys.keys = [
+            openssh.authorizedKeys.keys = let
+                keys = import ../_ssh-keys.nix;
+                restrict = key: ''command="${pkgs.rrsync}/bin/rrsync /var/www/wouterjehee.com",restrict ${key}'';
+            in [
                 # Key defined in Github secrets
-                ''command="${pkgs.rrsync}/bin/rrsync /var/www/wouterjehee.com",restrict ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9Ak2oGjRlLkDPHwm8u59i3NkyBIQ/6r9KpkDt1jbbz wouter@foxglove''
+                (restrict "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9Ak2oGjRlLkDPHwm8u59i3NkyBIQ/6r9KpkDt1jbbz wouter@foxglove")
+                (restrict keys.nitrokey)
+                (restrict keys.nitrokey-backup)
             ];
         };
         users.groups.decree = {};

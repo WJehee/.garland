@@ -77,5 +77,6 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 - `home.stateVersion` lives in each host file and must never change after install
 - Containers run on rootless podman (`nixos.podman`); there is no docker. `docker` is an alias for podman
 - When a workaround exists only because of an actively tracked upstream issue (a library, nixpkgs, a tool), mark it with a `TODO` comment that links the issue and says what to remove or revert once it is fixed upstream. Example: the monospace fallback entries in `modules/workstation/fontconfig.nix` for alacritty issue 481
+- SSH access to the servers and git/jj commit signing use a FIDO2 resident credential on a Nitrokey (`modules/features/nitrokey.nix`, public keys in `modules/_ssh-keys.nix`); there is no gpg-agent and no gpg in the SSH or signing path. Procedures (enrolling a machine, new token, switching to the backup) are in `docs/nitrokey.adoc`
 - Claude Code is sandboxed: `claude` (from `modules/dev/claude-sandbox.nix`, home-manager `dev`) runs the real binary in a podman container that sees the project directory, the nix store, the nix daemon socket and the host profiles, but not the home directory. Hosts importing `hm.dev` must import `nixos.podman`
 

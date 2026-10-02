@@ -21,8 +21,8 @@ in {
         # from it inherits its environment, so without this the agent is
         # invisible to graphical apps (keepassxc could not add keys).
         # environment.d is where the user manager takes its environment from.
-        # Skipped when a feature replaces the agent (nitrokey forces startAgent
-        # off in favour of gpg-agent).
+        # Skipped if a feature ever turns the agent off, so a replacement can
+        # claim the variable.
         environment.etc."environment.d/10-ssh-agent.conf" = lib.mkIf config.programs.ssh.startAgent {
             text = ''
                 SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent

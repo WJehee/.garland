@@ -116,6 +116,10 @@ ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age
 just secrets <hostname>
 ----
 
+== SSH keys and commit signing
+
+Logins to the servers and git/jj signatures use a FIDO2 resident credential on a Nitrokey; a second Nitrokey is the backup. Public keys live in `modules/_ssh-keys.nix`. See link:docs/nitrokey.adoc[docs/nitrokey.adoc] for enrolling a machine, creating a credential on a new token and switching to the backup.
+
 == Wallpaper credits
 
 * https://unsplash.com/photos/purple-flowers-in-green-leaves-Q8NdtiJ_S3A[Wisteria portrait], by https://unsplash.com/@larisabirta?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash[Larisa Birta]

@@ -1,5 +1,7 @@
 {
-    flake.modules.nixos.server = { pkgs, ... }: {
+    flake.modules.nixos.server = { pkgs, ... }: let
+        keys = import ../_ssh-keys.nix;
+    in {
         services = {
             openssh = {
                 enable = true;
@@ -17,7 +19,9 @@
                 "podman"
             ];
             openssh.authorizedKeys.keys = [
-                # Main SSH key
+                keys.nitrokey
+                keys.nitrokey-backup
+                # Software key kept as a fallback for when the token is not at hand
                 "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAV7jskmE1QgWJARUS4VtDMscikpRYVGRHZBEWculRLd wouter@rusty-desktop"
             ];
         };

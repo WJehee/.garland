@@ -2,17 +2,8 @@
     flake.modules.nixos.workstation = { pkgs, ... }: {
         environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
-        # Auto-mounting of removable media (USB sticks, SD cards, etc.).
-        # udisks2 is the privileged mount backend; gvfs lets pcmanfm/yazi
-        # browse and mount. The udiskie daemon that triggers mounts on insert
-        # runs as a home-manager systemd user service (see hyprland.nix).
         services.udisks2.enable = true;
         services.gvfs.enable = true;
-
-        programs.gnupg.agent = {
-            enable = true;
-            pinentryPackage = pkgs.pinentry-gnome3;
-        };
 
         environment.systemPackages = with pkgs; [
             # Desktop environment
@@ -33,14 +24,18 @@
 
             # General applications
             syncthing
-            gnupg
             pavucontrol
             pcmanfm
             yazi
             imv
             brightnessctl
             inetutils
-            handlr
+            # TODO: re-enable handlr once its nixpkgs tests pass again with
+            # shared-mime-info >= 2.5, which renamed shell scripts from
+            # application/x-shellscript to text/x-shellscript. handlr-regex,
+            # the maintained fork, fails the same way and tracks it in
+            # https://github.com/Anomalocaridid/handlr-regex/issues/139.
+            # handlr
             playerctl
 
             # Applications

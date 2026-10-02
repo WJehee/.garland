@@ -1,0 +1,87 @@
+= SSH and commit signing with the Nitrokey
+
+SSH logins to the servers and git/jj commit signatures use a FIDO2 credential on a Nitrokey 3 rather than a key file. Every use needs a touch on the token and nothing else: there is no PIN in daily use, and nothing on disk can log in or sign without the token plugged in.
+
+* `modules/_ssh-keys.nix`: the public keys of both tokens. `nitrokey` is the daily token and the signing key, `nitrokey-backup` the spare.
+* `modules/features/nitrokey.nix`: tells ssh which handle file to use, and configures git and jj to sign with it. Imported by every workstation.
+* `modules/server/headless.nix` and `modules/server/projects.nix`: the server users that accept both keys.
+
+== How the key is stored
+
+A FIDO2 token does not keep the private key. It generates the key, encrypts it with a master secret that never leaves the token, and hands that ciphertext back as a _key handle_. To sign, ssh sends the handle to the token, which decrypts it internally, signs, and forgets the key again. So ssh needs the handle as a file on every machine, and the handle is useless without the matching token.
+
+The credentials are _resident_: the token keeps a copy of the handle in its own flash, so a new machine downloads it from the token instead of needing the file copied over. The FIDO2 standard requires a PIN for creating and downloading resident credentials; that is the only place the PIN appears. After eight wrong PIN attempts the FIDO2 part of the token locks and can only be reset, which wipes its credentials.
+
+Each credential also stores a username. `ssh-keygen -K` uses it to name the downloaded files, so the handle of the daily token lands at `~/.ssh/id_ed25519_sk_rk_wouter@nitrokey-1`, which is the path the config points at.
+
+== Enrolling a machine
+
+Once per workstation, with only the daily token plugged in:
+
+[source,bash]
+----
+cd ~/.ssh && ssh-keygen -K
+----
+
+Enter the PIN and leave the passphrase empty. It writes `id_ed25519_sk_rk_wouter@nitrokey-1` and its `.pub`. Nothing else is needed: the config already references that file, and ssh silently skips it on machines that have not been enrolled.
+
+Check that it works:
+
+[source,bash]
+----
+echo test | ssh-keygen -Y sign -n test -f ~/.ssh/id_ed25519_sk_rk_wouter@nitrokey-1   # token blinks, asks for a touch
+ssh hemlock                                                                           # same
+git commit --allow-empty -m test && git log --show-signature -1                       # "Good signature"
+----
+
+Git signs every commit and tag. jj signs only on push (`git.sign-on-push`), since each signature is a touch and jj rewrites commits constantly. For verified badges, add the daily token's public key as an SSH signing key in Gitea and GitHub.
+
+== Creating a credential on a new token
+
+Needed for a replacement token, or to add another backup. With only the new token plugged in:
+
+. Set a FIDO2 PIN if the token has none (`fido2-token -I /dev/hidrawX` shows `noclientPin` in that case):
++
+[source,bash]
+----
+nitropy fido2 set-pin
+----
+. Create the resident credential. The username is what later names the handle file, so follow the `wouter@nitrokey-<n>` pattern:
++
+[source,bash]
+----
+ssh-keygen -t ed25519-sk -O resident -O user=wouter@nitrokey-3 -C "wouter@nitrokey-3" -f ~/.ssh/id_ed25519_sk_rk_wouter@nitrokey-3
+----
++
+It asks the PIN, a touch and a passphrase for the file, which stays empty.
+. Put the contents of the `.pub` file into `modules/_ssh-keys.nix`, as `nitrokey` or `nitrokey-backup` depending on its role, and deploy every server (`just deploy <host>`) so they accept it. The deploy itself goes over a key the servers already know.
+. If the token is a backup, delete the handle files again: the token holds the credential, and `ssh-keygen -K` brings them back whenever needed.
+
+To see what is on a token, or to delete a credential from it:
+
+[source,bash]
+----
+nitropy fido2 list-credentials
+nitropy fido2 delete-credential --cred-id <id>
+----
+
+Two resident credentials for the same application and username cannot coexist on one token, so delete a credential before recreating it.
+
+== Switching to the backup token
+
+When the daily token is lost or broken:
+
+. Remove its public key from `modules/_ssh-keys.nix` and deploy the servers, so the lost token can no longer log in. Do this first; the servers keep accepting it until then.
+. Download the backup's handle on each workstation, with the backup token plugged in:
++
+[source,bash]
+----
+cd ~/.ssh && ssh-keygen -K
+----
++
+This writes `id_ed25519_sk_rk_wouter@nitrokey-2`.
+. Point the config at that file: change `handle` in `modules/features/nitrokey.nix` to `.ssh/id_ed25519_sk_rk_wouter@nitrokey-2` and rebuild. ssh, git and jj now use the backup. Old signatures keep verifying because the allowed signers list carries both keys.
+. Update the signing key in Gitea and GitHub.
+. When a replacement token arrives, create a credential on it as described above and decide which token is the daily one from then on. Keep `modules/_ssh-keys.nix` as the single place that says which key is which.
+
+If a workstation itself is lost, nothing needs to change: the handle on its disk is inert without the token.
