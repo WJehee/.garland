@@ -31,6 +31,10 @@ in {
 
         # Don't suspend when charging and lid is closed
         services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
+
+        # Framework publishes BIOS and EC updates on LVFS; fwupd stages the UEFI
+        # capsule on the ESP and the firmware applies it on the next boot.
+        services.fwupd.enable = true;
         stylix.image = ../../../wallpapers/foxglove-landscape.jpg;
 
         home-manager.users.wouter = {

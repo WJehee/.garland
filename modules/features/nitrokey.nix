@@ -58,13 +58,17 @@ in {
         # git and jj both run ssh-keygen with stderr captured and only show it
         # when signing fails, so its "Confirm user presence" prompt never
         # reaches the user and the token blinks unnoticed. This wrapper
-        # announces the touch itself, on the terminal when there is one and
-        # as a desktop notification, before handing over to ssh-keygen.
+        # announces the touch itself before handing over to ssh-keygen: on
+        # the terminal when there is one, and as a desktop notification only
+        # when there is none (a GUI client or editor plugin invoking git, a
+        # process without a controlling tty), so the token does not blink
+        # unnoticed there either.
         sshKeygen = pkgs.writeShellScriptBin "ssh-keygen-touch" ''
             if [ "$1" = "-Y" ] && [ "$2" = "sign" ]; then
                 msg="Touch the Nitrokey to sign"
-                { echo "$msg" > /dev/tty; } 2>/dev/null || true
-                ${lib.getExe pkgs.libnotify} --expire-time=15000 Nitrokey "$msg" 2>/dev/null || true
+                { echo "$msg" > /dev/tty; } 2>/dev/null \
+                    || ${lib.getExe pkgs.libnotify} --expire-time=15000 Nitrokey "$msg" 2>/dev/null \
+                    || true
             fi
             exec ${pkgs.openssh}/bin/ssh-keygen "$@"
         '';
