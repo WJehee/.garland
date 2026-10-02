@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Garland is a NixOS configuration repository managing these machines (named after poisonous plants):
 - **foxglove** -- Framework laptop (desktop, x86_64)
 - **wisteria** -- Desktop workstation (x86_64)
-- **oleander** -- Homelab server, hardware not settled yet (likely an Intel NUC): Immich, Gitea and the media stack from wreath (Jellyfin, Seerr, Navidrome, Sonarr, Radarr, Lidarr, Prowlarr, Bazarr, qbittorrent) (x86_64)
+- **oleander** -- Homelab server, hardware not settled yet (likely an Intel NUC): Immich, Gitea and the media stack (Jellyfin, Seerr, Navidrome, Sonarr, Radarr, Lidarr, Prowlarr, Bazarr, qbittorrent) (x86_64)
 - **hemlock** -- VPS server (headless, x86_64)
 - **ivy** -- Raspberry PI running Home Assistant (aarch64)
 - **wormwood** -- Raspberry PI running AdGuard Home, the network DNS filter (aarch64)
@@ -51,7 +51,7 @@ This repository follows the **dendritic pattern** (https://github.com/mightyiam/
 
 A feature file defines one feature across all applicable classes: for example `modules/workstation/stylix.nix` sets both `flake.modules.nixos.workstation` (system stylix) and `flake.modules.homeManager.workstation` (home stylix) in one file. Multiple files can merge into the same module name.
 
-Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `ollama`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, `kodi`, `podman`, `virtualization`, ...). `hacking`, `osint` and `media` (Jellyfin plus the arr stack) are defined in the private wreath input, not under `modules/`. Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
+Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `ollama`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, `kodi`, `podman`, `virtualization`, ...). `hacking` lives in `modules/features/hacking/`, `media` (Jellyfin plus the arr stack, shared constants in `_lib.nix`) in `modules/server/media/`; both are multi-file modules merging into one name. Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
 
 ### Hosts
 

@@ -22,14 +22,6 @@ A few hosts are stubs: they import only the base module and have no role yet, so
 
 This repository follows the https://github.com/mightyiam/dendritic[dendritic pattern]: every Nix file under `modules/` is a flake-parts module, discovered automatically with https://github.com/vic/import-tree[import-tree] (files prefixed with an underscore are skipped). Feature modules write into the `flake.modules.nixos.<name>` and `flake.modules.homeManager.<name>` namespaces, and each host (`modules/hosts/<name>`) composes the features it wants by importing them. `modules/nixos-configurations.nix` turns every `hosts/<name>` module into a `nixosConfiguration`.
 
-== Private modules (wreath)
-
-Some modules I want reproducible but not public live in a separate private repo, https://github.com/WJehee/.wreath[wreath].
-It follows the same dendritic pattern and exposes its module tree as `flakeModules.default`, which this flake imports as the `wreath` input.
-Because both trees write into the same `flake.modules.*` namespaces, a host imports a private feature (e.g. `nixos.hacking`) exactly like a public one.
-
-`just rebuild` runs `nix flake update wreath` first, so every rebuild pulls the latest pushed wreath. To iterate on private modules without pushing, use `just rebuild-wreath`, which overrides the input with a local `../.wreath` checkout.
-
 == Remote hosts
 
 Servers are installed once with https://github.com/nix-community/nixos-anywhere[nixos-anywhere] and updated afterwards with https://github.com/serokell/deploy-rs[deploy-rs]:

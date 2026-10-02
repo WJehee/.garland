@@ -7,7 +7,7 @@
 # to the GPU and input devices without running as root.
 #
 # Ships the OSMC skin and the Jellyfin addon so the box is a client for the
-# jellyfin on oleander (the media stack in wreath). Kodi keeps its own state
+# jellyfin on oleander (the media stack in modules/server/media). Kodi keeps its own state
 # (library, addon settings, skin choice) in /var/lib/kodi.
 {
     flake.modules.nixos.kodi = { config, pkgs, ... }: let

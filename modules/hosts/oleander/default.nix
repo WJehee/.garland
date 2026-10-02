@@ -19,7 +19,7 @@ in {
             nixos."services/caddy"
             nixos."services/gitea"
             nixos."services/immich"
-            # Jellyfin, Seerr, Navidrome and the arr stack, from wreath
+            # Jellyfin, Seerr, Navidrome and the arr stack (modules/server/media)
             nixos.media
         ];
 
@@ -39,7 +39,7 @@ in {
             ];
         };
 
-        # Hardware transcoding is left to the host by wreath's jellyfin
+        # Hardware transcoding is left to the host by the media jellyfin
         # module, since it depends on the GPU: VA-API on the intel iGPU, on
         # its only render node. Only written to encoding.xml on first start,
         # later changes are made in the jellyfin dashboard.

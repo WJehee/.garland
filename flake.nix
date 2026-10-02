@@ -44,9 +44,6 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        # Private NixOS config
-        wreath.url = "git+ssh://git@github.com/WJehee/.wreath.git";
-
         # Not following our nixpkgs on purpose: loodsenboekje is a custom
         # package whose build depends on the exact nixpkgs, rust-overlay and
         # crane revisions locked in its own repo. Sharing nixpkgs would
@@ -61,7 +58,6 @@
     outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
         imports = [
             (inputs.import-tree ./modules)
-            inputs.wreath.flakeModules.default
         ];
     };
 }
