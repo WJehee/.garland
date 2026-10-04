@@ -6,18 +6,32 @@
 
         screenshot-edit = pkgs.writeShellApplication {
             name = "screenshot-edit";
-            runtimeInputs = with pkgs; [ hyprshot satty wl-clipboard libnotify coreutils ];
+            runtimeInputs = with pkgs; [ hyprpicker slurp grim satty wl-clipboard libnotify coreutils ];
             text = ''
                 dir="''${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
                 mkdir -p "$dir"
                 file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
 
-                # Capture to a temp file first: cancelling the region selection
-                # (Escape) makes hyprshot exit non-zero with nothing on stdout,
-                # and satty would otherwise open on an empty image
+                # slurp and grim are called directly rather than through
+                # hyprshot: hyprshot runs its capture as a background job and
+                # exits as soon as the slurp overlay closes, so with --raw the
+                # image reaches stdout after hyprshot has already returned and
+                # the file below is still empty when it is checked. The freeze
+                # works like hyprshot's: hyprpicker paints a frozen copy of the
+                # screen over everything, slurp selects on that still image and
+                # grim captures the overlay. The short sleep gives hyprpicker
+                # time to map its layer before slurp maps its own on top
+                hyprpicker --render-inactive --no-zoom &
+                picker=$!
                 raw="$(mktemp --suffix .png)"
-                trap 'rm -f "$raw"' EXIT
-                hyprshot -m region -z -r -s > "$raw" || exit 0
+                trap 'kill "$picker" 2>/dev/null; rm -f "$raw"' EXIT
+                sleep 0.2
+
+                # Cancelling the region selection (Escape) makes slurp exit
+                # non-zero; stop quietly instead of opening satty on nothing
+                geometry=$(slurp -d) || exit 0
+                grim -g "$geometry" "$raw"
+                kill "$picker" 2>/dev/null
                 [ -s "$raw" ] || exit 0
 
                 # Ctrl+S / Enter saves and exits; Ctrl+C copies, saves and exits.

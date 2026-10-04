@@ -13,6 +13,14 @@
 # The wrapper refuses to start from the home directory or any of its parents,
 # since mounting those would hand the whole home directory over anyway.
 #
+# The container has no Wayland access, but Claude Code pastes screenshots
+# (Ctrl+V) by running `wl-paste -l` and `wl-paste --type image/png` itself.
+# Mounting the Wayland socket would also expose clipboard text, screen capture
+# and input injection, so instead the wrapper runs a clipboard broker on the
+# host that answers exactly those two requests over a unix socket, and the
+# container's PATH carries a `wl-paste` shim that forwards them. Any other
+# clipboard type is refused on both ends.
+#
 # A project can opt in to extra podman flags by setting CLAUDE_SANDBOX_ARGS in
 # its environment (devenv.nix: `env.CLAUDE_SANDBOX_ARGS = "...";`, picked up
 # through direnv). The value is split on whitespace and appended to the
@@ -89,6 +97,57 @@
             config.Cmd = [ "/bin/sh" ];
         };
 
+        # Host side of the clipboard broker: socat spawns one of these per
+        # connection with the socket on stdin and stdout. The request is a
+        # single line, either `types` or an image mime type, and the response
+        # is the raw wl-paste output. The accepted types are the ones Claude
+        # Code probes for, so text can never be read through here
+        clipboardBroker = pkgs.writeShellApplication {
+            name = "claude-clipboard-broker";
+            runtimeInputs = with pkgs; [ wl-clipboard gnugrep ];
+            text = ''
+                IFS= read -r request || exit 1
+                case "$request" in
+                    types)
+                        wl-paste --list-types | grep -E "^image/" || true ;;
+                    image/png|image/jpeg|image/jpg|image/gif|image/webp|image/bmp)
+                        wl-paste --type "$request" ;;
+                    *)
+                        echo "claude-clipboard-broker: refused request: $request" >&2
+                        exit 1 ;;
+                esac
+            '';
+        };
+
+        # Container side: shadows the real wl-paste on the sandbox PATH and
+        # speaks the broker protocol. After sending the request socat half
+        # closes the connection and keeps relaying the reply for at most the
+        # -t timeout; the default of half a second cuts off a large screenshot
+        clipboardSocket = "/run/claude-sandbox/clipboard.sock";
+        wlPasteShim = pkgs.writeShellApplication {
+            name = "wl-paste";
+            runtimeInputs = [ pkgs.socat ];
+            text = ''
+                request=""
+                while [ $# -gt 0 ]; do
+                    case "$1" in
+                        -l|--list-types) request=types ;;
+                        -t|--type) request="$2"; shift ;;
+                        --type=*) request="''${1#--type=}" ;;
+                        -n|--no-newline) ;;
+                        *) echo "wl-paste: option $1 is not supported in the Claude sandbox" >&2; exit 1 ;;
+                    esac
+                    shift
+                done
+                case "$request" in
+                    types|image/*) ;;
+                    *) echo "wl-paste: only image clipboard contents are available in the Claude sandbox" >&2; exit 1 ;;
+                esac
+                [ -S ${clipboardSocket} ] || { echo "wl-paste: clipboard broker socket is missing" >&2; exit 1; }
+                printf '%s\n' "$request" | socat -t 30 - UNIX-CONNECT:${clipboardSocket}
+            '';
+        };
+
         sandbox = pkgs.writeShellApplication {
             name = "claude";
             # No runtimeInputs: that would prepend to PATH before the host
@@ -161,6 +220,20 @@
                             path="''${path:+$path:}$entry" ;;
                     esac
                 done
+                path=${wlPasteShim}/bin:$path
+
+                # Clipboard broker, one per session so that concurrent
+                # sessions do not share a socket; socat forks a broker per
+                # connection. The socket directory is mounted into the
+                # container at a fixed path, so the shim needs no
+                # configuration. podman is not exec'd below so that the EXIT
+                # trap can tear this down when the session ends
+                clipdir=$(mktemp -d "$dir/clipboard.XXXXXX")
+                trap 'kill "$broker" 2>/dev/null; rm -rf "$clipdir"' EXIT
+                ${pkgs.socat}/bin/socat -t 30 \
+                    UNIX-LISTEN:"$clipdir/clipboard.sock",fork,unlink-early,mode=600 \
+                    EXEC:${clipboardBroker}/bin/claude-clipboard-broker >/dev/null 2>&1 &
+                broker=$!
 
                 tty=()
                 if [ -t 0 ] && [ -t 1 ]; then
@@ -173,7 +246,7 @@
                     read -ra extra <<< "$CLAUDE_SANDBOX_ARGS"
                 fi
 
-                exec podman run --rm --interactive "''${tty[@]}" --init \
+                podman run --rm --interactive "''${tty[@]}" --init \
                     --pull never \
                     --hostname claude-sandbox \
                     --userns keep-id \
@@ -186,6 +259,7 @@
                     --volume "$(readlink -f /run/current-system):/run/current-system:ro" \
                     --volume "$(readlink -f /etc/profiles/per-user/${user}):/etc/profiles/per-user/${user}:ro" \
                     --tmpfs /tmp:mode=1777 \
+                    --volume "$clipdir:${dirOf clipboardSocket}" \
                     "''${extra[@]}" \
                     "''${env_args[@]}" \
                     --env HOME="$home" \
