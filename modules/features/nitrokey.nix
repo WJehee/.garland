@@ -25,8 +25,15 @@
     # one, otherwise as a desktop notification (a GUI client or editor plugin
     # invoking git, a process without a controlling tty). Arguments: a short
     # message and an optional detail.
+    #
+    # The terminal write first returns to column 0 and erases the line: the
+    # caller may have left an unterminated progress line on screen (jj prints
+    # "Signing <id>" without a newline while signing on push and erases it
+    # afterwards), and writing after it glued the message to that line.
+    # Erasing it costs nothing, since the caller would have erased it anyway,
+    # and jj's own erase then hits the empty line left behind.
     announce = pkgs: pkgs.writeShellScript "nitrokey-announce" ''
-        { echo "$1''${2:+ ($2)}" > /dev/tty; } 2>/dev/null \
+        { printf '\r\033[K%s\n' "$1''${2:+ ($2)}" > /dev/tty; } 2>/dev/null \
             || ${lib.getExe pkgs.libnotify} --expire-time=15000 Nitrokey "$1''${2:+: $2}" 2>/dev/null \
             || true
     '';
