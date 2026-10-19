@@ -155,13 +155,38 @@
         systemd.user.services.noctalia.Service.KillMode = "process";
     };
 
-    flake.modules.homeManager.hyprland = { lib, ... }:
+    flake.modules.homeManager.hyprland = { lib, pkgs, ... }:
     let
         inherit (lib.generators) mkLuaInline;
         msg = cmd: mkLuaInline ''hl.dsp.exec_cmd("noctalia msg ${cmd}")'';
         modBind = combo: cmd: { _args = [ (mkLuaInline ''mainMod .. " + ${combo}"'') (msg cmd) ]; };
         keyBind = key: cmd: { _args = [ key (msg cmd) ]; };
+
+        # TODO: remove once https://github.com/noctalia-dev/noctalia-shell/issues/4890
+        # is fixed and the fix has reached nixpkgs. Since noctalia 5.3.0 its
+        # Hyprland IPC requests give up after 500 ms, and the single `j/status`
+        # request that decides whether Hyprland runs a Lua config is made only
+        # once, in the runtime's constructor. The service starts together with
+        # graphical-session.target while Hyprland is still busy starting up, so
+        # that request can time out; noctalia then assumes a classic config for
+        # the rest of the session and every dispatch it sends (workspace clicks,
+        # taskbar focus, dpms off, exit) uses the legacy syntax, which Lua-mode
+        # Hyprland rejects. Nothing is logged. Waiting until hyprctl gets an
+        # answer makes that startup check reliable. 40 attempts of 0.3 s plus
+        # 0.25 s is about 20 s; after that start anyway so a broken IPC socket
+        # cannot keep the bar from ever appearing.
+        waitForHyprlandIpc = pkgs.writeShellScript "wait-for-hyprland-ipc" ''
+            for _ in $(${pkgs.coreutils}/bin/seq 40); do
+                if ${pkgs.coreutils}/bin/timeout 0.3 ${lib.getExe' pkgs.hyprland "hyprctl"} -j status > /dev/null 2>&1; then
+                    exit 0
+                fi
+                ${pkgs.coreutils}/bin/sleep 0.25
+            done
+            echo "hyprland IPC did not answer in time, starting noctalia anyway" >&2
+        '';
     in {
+        systemd.user.services.noctalia.Service.ExecStartPre = "${waitForHyprlandIpc}";
+
         wayland.windowManager.hyprland.settings = {
             bind = [
                 (modBind "S" "panel-toggle control-center")
