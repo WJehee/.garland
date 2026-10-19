@@ -89,11 +89,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1792318890,
-        "narHash": "sha256-eqJROi9K0u8gfWNA5SoJf1I2jwvsjVU2aGVp26m6b6s=",
+        "lastModified": 1792437613,
+        "narHash": "sha256-j90/GXlwCSgCCAJyBaORzwEsaEh2wgRsKhnV9ndEz0s=",
         "ref": "refs/heads/main",
-        "rev": "257494fa8953bc0c057f0bca9ca92420e99b2c36",
-        "revCount": 237,
+        "rev": "e75faa15fc13ce5e52a00f6064f61b495652b88c",
+        "revCount": 242,
         "type": "git",
         "url": "ssh://git@github.com/WJehee/blotter.git"
       },
