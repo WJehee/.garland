@@ -45,7 +45,6 @@
                     { Title = "Syncthing"; URL = "http://localhost:8384/"; Placement = "toolbar"; Folder = "Tech"; }
                     { Title = "Hetzner"; URL = "https://console.hetzner.com/projects"; Placement = "toolbar"; Folder = "Tech"; }
                     { Title = "Claude"; URL = "https://claude.ai/"; Placement = "toolbar"; Folder = "Tech"; }
-                    { Title = "Hugging Face"; URL = "https://huggingface.co/"; Placement = "toolbar"; Folder = "Tech"; }
                     { Title = "Open WebUI"; URL = "http://localhost:9090"; Placement = "toolbar"; Folder = "Tech"; }
 
                     { Title = "Intigriti"; URL = "https://app.intigriti.com/researcher/dashboard"; Placement = "toolbar"; Folder = "Hacking"; }

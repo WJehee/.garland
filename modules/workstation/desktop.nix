@@ -30,12 +30,7 @@
             imv
             brightnessctl
             inetutils
-            # TODO: re-enable handlr once its nixpkgs tests pass again with
-            # shared-mime-info >= 2.5, which renamed shell scripts from
-            # application/x-shellscript to text/x-shellscript. handlr-regex,
-            # the maintained fork, fails the same way and tracks it in
-            # https://github.com/Anomalocaridid/handlr-regex/issues/139.
-            # handlr
+            handlr
             playerctl
 
             # Applications
