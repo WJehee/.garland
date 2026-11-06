@@ -20,10 +20,6 @@
                 ${lib.getExe pkgs.rtk} init -g --hook-only --auto-patch --no-trust-filters
         '';
 
-        programs.opencode = {
-            enable = true;
-            skills = {};
-        };
         programs.claude-code = {
             enable = true;
             # Exports CLAUDE_CONFIG_DIR; ~/.claude.json moves along with it
