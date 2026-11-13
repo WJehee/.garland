@@ -142,7 +142,7 @@ in {
                 backends.ssh.program = lib.getExe sshKeygen;
                 backends.ssh.allowed-signers = "${allowedSigners}";
             };
-            git.sign-on-push = true;
+            revsets.git-sign-on-push = "~signed() & mine()";
         };
     };
 
