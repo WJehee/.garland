@@ -10,6 +10,7 @@ in {
             nixos.home-manager
             nixos.workstation
             nixos.podman
+            nixos.playground-key
             nixos."gpu/amd"
             nixos.osint
             nixos.music

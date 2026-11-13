@@ -21,6 +21,22 @@
 { config, lib, ... }: let
     keys = import ../_ssh-keys.nix;
     handle = ".ssh/id_ed25519_sk_rk_wouter@nitrokey-1";
+    # Desktop notification with summary "Nitrokey" and the given body. All
+    # touch notifications go through here and share one slot: the id of the
+    # last one is kept in the runtime directory and the next one replaces it
+    # instead of stacking a second popup on top. Two can legitimately follow
+    # each other within seconds (several connections opened before the first
+    # touch, signing followed by pushing), and only the latest one says
+    # anything useful. A stale id is harmless: the notification daemon treats
+    # a replacement for an id it no longer knows as a new notification.
+    notify = pkgs: pkgs.writeShellScript "nitrokey-notify" ''
+        slot="''${XDG_RUNTIME_DIR:-/tmp}/nitrokey-notification-id"
+        previous=$(cat "$slot" 2>/dev/null)
+        id=$(${lib.getExe pkgs.libnotify} --expire-time=15000 --print-id \
+            ''${previous:+--replace-id="$previous"} Nitrokey "$1" 2>/dev/null) || exit 1
+        echo "$id" > "$slot" 2>/dev/null
+        exit 0
+    '';
     # Announce a pending touch: on the terminal when the calling process has
     # one, otherwise as a desktop notification (a GUI client or editor plugin
     # invoking git, a process without a controlling tty). Arguments: a short
@@ -34,7 +50,7 @@
     # and jj's own erase then hits the empty line left behind.
     announce = pkgs: pkgs.writeShellScript "nitrokey-announce" ''
         { printf '\r\033[K%s\n' "$1''${2:+ ($2)}" > /dev/tty; } 2>/dev/null \
-            || ${lib.getExe pkgs.libnotify} --expire-time=15000 Nitrokey "$1''${2:+: $2}" 2>/dev/null \
+            || ${notify pkgs} "$1''${2:+: $2}" \
             || true
     '';
 in {
@@ -68,9 +84,16 @@ in {
         # in which case the connection needs no touch. The check uses
         # -F /dev/null so it does not read this config and re-trigger the
         # Match. The control socket path must stay in sync with ssh.nix.
+        #
+        # It only does so when its own stderr is a terminal. ssh hands its
+        # stderr to Match exec commands unchanged, so this is the same test
+        # ssh uses to choose between printing the prompt and running the
+        # askpass. Without it, a connection whose stderr is captured was
+        # announced twice: once from here and once from the askpass.
         touchNotify = pkgs.writeShellScript "nitrokey-touch-notify" ''
+            [ -t 2 ] || exit 0
             ${pkgs.openssh}/bin/ssh -F /dev/null -S "$1" -O check x >/dev/null 2>&1 && exit 0
-            ${lib.getExe pkgs.libnotify} --expire-time=15000 Nitrokey "Touch the Nitrokey to connect to $2" 2>/dev/null
+            ${notify pkgs} "Touch the Nitrokey to connect to $2"
             exit 0
         '';
         # Delivered through an Include rather than inline in extraConfig: a
