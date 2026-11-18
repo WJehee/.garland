@@ -11,9 +11,10 @@ in {
             nixos.workstation
             nixos."disk/luks-lvm-span"
             nixos.podman
-            nixos."gpu/amd"
+            nixos."gpu/nvidia"
             nixos.osint
             nixos.music
+            nixos.gaming
             # nixos.backup
 
             # TODO: re-enable once wisteria is installed and secrets/wisteria.yaml
@@ -22,7 +23,7 @@ in {
             # /etc/ssh/ssh_host_ed25519_key.pub, add the result and a wisteria
             # rule to .sops.yaml, then `just secrets wisteria`.
             # nixos.llm
-            nixos.ollama
+            # nixos.ollama
         ];
 
         networking.hostName = "wisteria";
@@ -45,6 +46,7 @@ in {
                 hm.hyprland
                 hm.shell
                 hm.dev
+                hm.gaming
             ];
             # DO NOT CHANGE THIS after first install
             home.stateVersion = "26.11";

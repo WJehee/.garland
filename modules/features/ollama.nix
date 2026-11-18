@@ -7,8 +7,7 @@
         services.ollama = {
             enable = true;
             # CUDA when the host imports gpu/nvidia, the default build
-            # otherwise. No rocm mapping for gpu/amd: the cards that module
-            # targets are too old for rocm, and the rocm closure is huge.
+            # otherwise.
             # Chosen via package, not services.ollama.acceleration, which
             # nixpkgs deprecated in favour of the package variants.
             package =

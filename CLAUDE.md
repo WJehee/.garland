@@ -51,7 +51,7 @@ This repository follows the **dendritic pattern** (https://github.com/mightyiam/
 
 A feature file defines one feature across all applicable classes: for example `modules/workstation/stylix.nix` sets both `flake.modules.nixos.workstation` (system stylix) and `flake.modules.homeManager.workstation` (home stylix) in one file. Multiple files can merge into the same module name.
 
-Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `ollama`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, `kodi`, `podman`, `virtualization`, ...). `hacking` lives in `modules/features/hacking/`, `media` (Jellyfin plus the arr stack, shared constants in `_lib.nix`) in `modules/server/media/`; both are multi-file modules merging into one name. Server services are `"services/<name>"`, GPU variants `"gpu/amd"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `monitor-workspaces`.
+Main module names: `base` (all hosts), `workstation` (desktop bundle), `server` (headless bundle), `dev`, `hacking`, and one name per optional feature (`tailscale`, `music`, `llm`, `ollama`, `cad`, `osint`, `"3d-printing"`, `home-assistant`, `kodi`, `podman`, `virtualization`, ...). `hacking` lives in `modules/features/hacking/`, `media` (Jellyfin plus the arr stack, shared constants in `_lib.nix`) in `modules/server/media/`; both are multi-file modules merging into one name. Server services are `"services/<name>"`, GPU variants `"gpu/nvidia"`/`"gpu/intel"`, disk layouts `"disk/luks-lvm"`/`"disk/server"`. Home-manager names: `workstation`, `hyprland`, `shell`, `dev`, `gaming`, `monitor-workspaces`.
 
 ### Hosts
 
@@ -73,7 +73,7 @@ Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are st
 
 - No `specialArgs` beyond `inputs`; modules read everything else from `config`
 - Flake input modules are imported by the feature that configures them (e.g. `modules/base/nixvim.nix` imports `inputs.nixvim.nixosModules.nixvim`; `modules/home-manager.nix` wires up home-manager)
-- Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`gaming`, `opensnitch`, `"services/headscale"`, `gateway`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
+- Defining a `flake.modules.*` entry activates nothing by itself; orphan features (`opensnitch`, `"services/headscale"`, `gateway`, `"services/ntfy"`, `freetube`) exist as names no host currently imports
 - `home.stateVersion` lives in each host file and must never change after install
 - Containers run on rootless podman (`nixos.podman`); there is no docker. `docker` is an alias for podman
 - When a workaround exists only because of an actively tracked upstream issue (a library, nixpkgs, a tool), mark it with a `TODO` comment that links the issue and says what to remove or revert once it is fixed upstream. Example: the monospace fallback entries in `modules/workstation/fontconfig.nix` for alacritty issue 481

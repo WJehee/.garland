@@ -86,7 +86,7 @@
                     };
                     # Software cursors: with hardware cursor planes the pointer
                     # vanishes shortly after it stops moving and flickers now
-                    # and then (first seen on wisteria's AMD card).
+                    # and then (first seen on wisteria, an RTX 3060 on the nouveau driver).
                     cursor.no_hardware_cursors = 1;
                 };
 
