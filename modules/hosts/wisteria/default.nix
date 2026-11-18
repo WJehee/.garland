@@ -9,22 +9,34 @@ in {
             nixos.base
             nixos.home-manager
             nixos.workstation
+            nixos."disk/luks-lvm-span"
             nixos.podman
             nixos."gpu/amd"
             nixos.osint
             nixos.music
             # nixos.backup
 
-            nixos.llm
+            # TODO: re-enable once wisteria is installed and secrets/wisteria.yaml
+            # exists with `anthropic-api-key` and `litellm-master-key`. That
+            # needs the new host key first: run ssh-to-age on
+            # /etc/ssh/ssh_host_ed25519_key.pub, add the result and a wisteria
+            # rule to .sops.yaml, then `just secrets wisteria`.
+            # nixos.llm
             nixos.ollama
-            nixos.chatterbox
         ];
 
         networking.hostName = "wisteria";
-        boot.initrd.luks.devices.nixos = {
-            device = "/dev/disk/by-uuid/79f8374d-c878-442c-acd0-88f474dda0d6";
-            preLVM = true;
-        };
+        # The two NVMe drives that disk/luks-lvm-span partitions at install
+        # time; the first one gets the ESP. Kernel names such as nvme0n1 can
+        # swap between boots, so confirm them with `lsblk` in the installer
+        # right before running `just remote-install`, or replace them with
+        # /dev/disk/by-id paths.
+        _module.args.disks = [ "/dev/nvme0n1" "/dev/nvme1n1" ];
+        # Without this, grub is installed with --no-nvram: the files land on the
+        # ESP but the firmware gets no boot entry, and since grub is not at the
+        # removable fallback path either, the disk does not show up in the
+        # firmware boot menu at all.
+        boot.loader.efi.canTouchEfiVariables = true;
         stylix.image = ../../../wallpapers/wisteria-landscape.jpg;
 
         home-manager.users.wouter = {
