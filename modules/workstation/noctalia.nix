@@ -37,6 +37,21 @@
                     # the top right corner, under the widgets that open it.
                     # A pinned position also applies to the mainMod + S bind,
                     # unlike open_near_click_* which needs a mouse click.
+                    #
+                    # TODO: the power icon in the control center does not open
+                    # the session menu (noctalia 5.4.1 on Hyprland). The debug
+                    # log (`noctalia msg log-level-set debug`) shows the panel
+                    # being opened and closed again right away, so Hyprland
+                    # most likely clears the hyprland_focus_grab noctalia sets
+                    # for the new panel while the control center under the
+                    # pointer is being swapped out; which Hyprland code path
+                    # does that is not pinned down yet. Opening the menu any
+                    # other way works: `noctalia msg panel-toggle session`,
+                    # also while the control center is open. No upstream issue
+                    # exists yet. Options: report it to noctalia-dev/noctalia,
+                    # patch the package (do not close on a grab clear that
+                    # arrives right after opening), or work around it with a
+                    # "session" bar widget and a keybind.
                     panel = {
                         control_center_placement = "floating";
                         control_center_position = "top_right";
@@ -77,12 +92,14 @@
                     capsule_radius = 6;
                     widget_spacing = 10;
                     start = [ "workspaces" ];
-                    # No tray: the applets it used to show (nm-applet,
-                    # blueman-applet, gammastep, udiskie) are replaced by the
-                    # network, bluetooth and nightlight widgets below, and the
-                    # remaining tray icon (keepassxc) was never used
                     center = [ ];
                     end = [
+                        # Only there for KeePassXC, which hides into it on
+                        # close (keepassxc.nix). The applets it used to show
+                        # (nm-applet, blueman-applet, gammastep, udiskie) are
+                        # replaced by the network, bluetooth and nightlight
+                        # widgets below.
+                        "tray"
                         "caffeine"
                         "nightlight"
                         "media"

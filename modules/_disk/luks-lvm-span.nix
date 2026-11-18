@@ -9,10 +9,11 @@
 # accepting that losing any one drive loses the whole volume group.
 #
 # Every container is formatted with the same passphrase (/tmp/secret.key on
-# the install target). That is load-bearing for booting: the systemd initrd
-# caches the first passphrase typed and retries it on the remaining
-# containers, so one prompt unlocks all of them. Giving a container a
-# different passphrase later means one prompt per container.
+# the install target). That is load-bearing for booting: systemd-cryptsetup
+# stores a typed passphrase in the kernel keyring and tries that cache before
+# prompting, so one prompt can unlock all containers. Giving a container a
+# different passphrase later means one prompt per container. See the unit
+# ordering at the bottom of this file for what makes the cache actually hit.
 #
 # `disks` has no default and must be set by the importing host through
 # `_module.args.disks`. It is only read when partitioning at install time; the
@@ -92,4 +93,22 @@ in {
             };
         };
     };
+
+    # Unlock the first container before the others. systemd-cryptsetup looks
+    # in the passphrase cache only once, when its unit starts. Without an
+    # ordering all units start in parallel, every one of them finds the cache
+    # empty and queues its own prompt, so the passphrase has to be typed once
+    # per disk. Started after the first container is open, the others find the
+    # passphrase in the keyring and never prompt. After= only orders: if the
+    # first unlock fails, the others still start and prompt themselves.
+    #
+    # The units come from systemd-cryptsetup-generator at boot, so this has to
+    # be a drop-in; a full unit file here would shadow the generated one.
+    boot.initrd.systemd.services = lib.listToAttrs (lib.imap1 (offset: _: {
+        name = "systemd-cryptsetup@${luksName offset}";
+        value = {
+            overrideStrategy = "asDropin";
+            after = [ "systemd-cryptsetup@${luksName 0}.service" ];
+        };
+    }) (lib.tail disks));
 }

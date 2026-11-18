@@ -1,7 +1,13 @@
 {
-    flake.modules.homeManager.workstation = {
+    flake.modules.homeManager.workstation = { pkgs, ... }: {
         programs.librewolf = {
             enable = true;
+            # Links the manifest that the keepassxc package ships into
+            # ~/.librewolf/native-messaging-hosts, so the browser extension
+            # (force installed below) can start keepassxc-proxy. KeePassXC
+            # only knows the Firefox location (~/.mozilla) on its own; see
+            # keepassxc.nix for the matching KeePassXC side.
+            nativeMessagingHosts = [ pkgs.keepassxc ];
             profiles.default = {
                 isDefault = true;
                 settings = {

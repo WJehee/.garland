@@ -1,24 +1,33 @@
 = LibreWolf + KeePassXC browser integration
 
-Manual steps needed to get the KeePassXC browser extension working in LibreWolf.
+The KeePassXC browser extension talks to KeePassXC through a native messaging host: a manifest in `~/.librewolf/native-messaging-hosts` that tells LibreWolf which program (`keepassxc-proxy`) to start.
+KeePassXC can write that manifest itself, but only knows the Firefox location (`~/.mozilla`), which used to require a manual symlink and a custom location in the KeePassXC settings.
 
-== 1. Symlink the native messaging hosts directory
+This is now declarative:
 
-KeePassXC writes its native messaging manifest to the Firefox location, so link it into the LibreWolf profile directory:
+* `modules/workstation/librewolf.nix` sets `programs.librewolf.nativeMessagingHosts = [ pkgs.keepassxc ]`, so home-manager links the manifest shipped by the keepassxc package into `~/.librewolf/native-messaging-hosts`.
+* `modules/workstation/keepassxc.nix` switches off *Use a custom Browser Configuration Location* in KeePassXC on every activation, since the manifest is a read-only link into the nix store.
+
+The only setting left to the KeePassXC UI is *Browser Integration* > *Enable browser integration*, plus connecting the extension to the database once.
+
+== Migrating a machine that used the manual setup
+
+The old setup left a symlink behind that home-manager refuses to overwrite ("existing file would be clobbered").
+Remove it once, before rebuilding:
 
 [source,shell]
 ----
-ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
+rm ~/.librewolf/native-messaging-hosts
+just rebuild
 ----
 
-== 2. Configure KeePassXC
+Then restart KeePassXC and LibreWolf.
 
-In KeePassXC settings, go to *Browser Integration* and select the *Advanced* tab.
+== Checking that it works
 
-* Check the box for: *Use a custom Browser Configuration Location*
-* Set *Browser Type* to *Firefox*
-* Enter the following in *Config Location*:
-
+[source,shell]
 ----
-~/.librewolf/native-messaging-hosts
+cat ~/.librewolf/native-messaging-hosts/org.keepassxc.keepassxc_browser.json
 ----
+
+The file must be a link into `/nix/store` and its `path` must point at an existing `keepassxc-proxy`.

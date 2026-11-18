@@ -19,7 +19,7 @@
         # Auto-mount removable media on insert (backend enabled in
         # workstation). Network and bluetooth are handled by noctalia's own
         # bar widgets, so no nm-applet / blueman-applet, and no tray icon
-        # here either: the bar has no tray.
+        # here either: the bar's tray is kept for KeePassXC alone.
         services.udiskie = {
             enable = true;
             automount = true;
@@ -84,6 +84,10 @@
                     ecosystem = {
                         no_update_news = true;
                     };
+                    # Software cursors: with hardware cursor planes the pointer
+                    # vanishes shortly after it stops moving and flickers now
+                    # and then (first seen on wisteria's AMD card).
+                    cursor.no_hardware_cursors = 1;
                 };
 
                 # hl.curve("myBezier", { type = "bezier", points = { ... } })
