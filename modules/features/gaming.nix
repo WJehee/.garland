@@ -12,9 +12,13 @@
             };
             gamescope = {
                 enable = true;
-                # Lets gamescope raise its own scheduling priority, which
-                # keeps frame pacing even while the game saturates the CPU.
-                capSysNice = true;
+                # capSysNice stays off: it replaces `gamescope` with a
+                # capability wrapper in /run/wrappers, and such wrappers
+                # refuse to run inside Steam's bubblewrap sandbox (it sets
+                # no_new_privs). A `gamescope ... -- %command%` launch option
+                # then exits before the game starts. The cost is that
+                # gamescope cannot raise its own scheduling priority.
+                capSysNice = false;
             };
             gamemode.enable = true;
         };
@@ -47,6 +51,17 @@
                     # window; gamescope is the nested compositor itself.
                     match.class = "^(steam_app_.*|gamescope)$";
                     immediate = true;
+                }
+                {
+                    # Elden Ring (Steam app id 1245620) reports "fullscreen" in
+                    # its own settings but only opens a monitor-sized X11
+                    # window, which Hyprland then tiles below the bar like any
+                    # other window. Fullscreening it from the compositor side
+                    # does not depend on what the game requests. The Easy
+                    # Anti-Cheat splash shares the class, so it is fullscreened
+                    # too for the few seconds it is shown.
+                    match.class = "^steam_app_1245620$";
+                    fullscreen = true;
                 }
             ];
         };
