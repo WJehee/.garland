@@ -42,6 +42,11 @@
                 Always use jj commands instead of git commands whenever possible.
                 For example, use `jj status` instead of `git status`, `jj log` instead of `git log`, etc.
 
+                # Playground
+                To show me a static site or build output for review, publish it to the playground on my VPS:
+                `rsync -rlt --delete -e "ssh -i ~/.ssh/playground" ./dist/ playground@88.198.175.151:<site>/`
+                It is then served at `https://playground.wouterjehee.com/<site>/`, behind authelia. Use the project name as `<site>` unless I say otherwise. Sites must use relative URLs, because they are served from a subdirectory. The `playground` account can only run rsync, confined to the playground web root, and a permission rule already allows rsync to this host.
+
                 # Writing
                 When writing, please do not use em dashes and emoji's 🙏.
 

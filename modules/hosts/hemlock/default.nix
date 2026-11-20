@@ -22,6 +22,7 @@ in {
             # nixos."services/mail"
 
             nixos."services/projects"
+            nixos."services/playground"
         ];
 
         networking.hostName = "hemlock";

@@ -20,6 +20,7 @@ in {
             nixos."dev/android"
             nixos."dev/embedded"
             nixos.podman
+            nixos.playground-key
             nixos.virtualization
 
             # nixos.backup

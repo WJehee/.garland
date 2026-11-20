@@ -14,6 +14,7 @@ in {
             nixos."dev/android"
             nixos."dev/embedded"
             nixos.podman
+            nixos.playground-key
             nixos."gpu/nvidia"
             nixos.virtualization
             nixos.hacking

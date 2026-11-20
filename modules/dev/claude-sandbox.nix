@@ -27,13 +27,32 @@
 # `podman run` call, for example to hand a USB device to the session:
 #   --volume /dev/bus/usb:/dev/bus/usb:dev
 # Projects without the variable keep the locked-down defaults.
+#
+# Hosts that import the `playground-key` NixOS feature below additionally get
+# the upload key for the playground on hemlock (modules/server/playground.nix)
+# mounted read-only at ~/.ssh/playground. The key comes from sops, so every
+# workstation shares one key and it survives wiping the sandbox home. Add it
+# with `just secrets <host>` as `playground-ssh-key` (the full private key
+# file, as a YAML block scalar ending in a newline; ssh rejects a key file
+# without the trailing newline).
 {
+    flake.modules.nixos.playground-key = {
+        # Owned by the user because the rootless container maps only that
+        # uid; sops-nix's default mode 0400 is also what ssh insists on for
+        # a private key.
+        sops.secrets."playground-ssh-key".owner = "wouter";
+    };
+
     flake.modules.homeManager.dev = { config, lib, pkgs, osConfig, ... }: let
         claude = pkgs.claude-code;
         user = config.home.username;
         home = config.home.homeDirectory;
         configDir = config.programs.claude-code.configDir;
         sandboxDir = "${config.xdg.dataHome}/claude-sandbox";
+
+        # Null on hosts that do not import the playground-key feature, which
+        # keeps this module usable without the secret.
+        playgroundKey = osConfig.sops.secrets."playground-ssh-key".path or null;
 
         osUser = osConfig.users.users.${user};
         uid = toString osUser.uid;
@@ -246,6 +265,18 @@
                     read -ra extra <<< "$CLAUDE_SANDBOX_ARGS"
                 fi
 
+                ${lib.optionalString (playgroundKey != null) ''
+                    # Resolved first because the path is a symlink into the
+                    # current sops generation and podman must bind the file
+                    # itself. The test covers the window between adding the
+                    # feature and the first activation that decrypts the key.
+                    # The mount point directory has to exist in the sandbox
+                    # home, otherwise podman creates it owned by root.
+                    if [ -r ${playgroundKey} ]; then
+                        mkdir -p "$sandbox/.ssh"
+                        extra+=(--volume "$(readlink -f ${playgroundKey}):$home/.ssh/playground:ro")
+                    fi
+                ''}
                 podman run --rm --interactive "''${tty[@]}" --init \
                     --pull never \
                     --hostname claude-sandbox \
