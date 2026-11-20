@@ -10,8 +10,14 @@ in {
             nixos.home-manager
             nixos.workstation
             nixos."disk/luks-lvm-span"
+            nixos.dev
+            nixos."dev/android"
+            nixos."dev/embedded"
             nixos.podman
             nixos."gpu/nvidia"
+            nixos.virtualization
+            nixos.hacking
+            nixos."3d-printing"
             nixos.osint
             nixos.music
             nixos.gaming

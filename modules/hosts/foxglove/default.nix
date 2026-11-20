@@ -21,7 +21,6 @@ in {
             nixos."dev/embedded"
             nixos.podman
             nixos.virtualization
-            nixos.calendar
 
             # nixos.backup
         ];
@@ -44,16 +43,29 @@ in {
                 hm.monitor-workspaces
                 hm.shell
                 hm.dev
-                hm.calendar
             ];
             # DO NOT CHANGE THIS after first install
             home.stateVersion = "26.11";
 
             wayland.windowManager.hyprland.settings.monitor = [
                 { output = ""; mode = "preferred"; position = "auto"; scale = 1; }
-                { output = "desc:BOE NE135A1M-NY1"; mode = "preferred"; position = "auto"; scale = 1.2; }
-                { output = "desc:Dell Inc. DELL P2416D 6RC2C5BB08FL"; mode = "preferred"; position = "auto-left"; scale = 1; transform = 1; }
-                { output = "desc:Dell Inc. DELL P2720D JV69F9AP02VS"; mode = "preferred"; position = "auto-left"; scale = 1; }
+                # Desk layout, left to right: P2720D (landscape), P2416D
+                # (portrait), laptop panel. The positions are explicit because
+                # `auto-left` places monitors in the order they are detected,
+                # not in rule order: whenever the dock enumerated the P2720D
+                # first, the portrait P2416D ended up on the far left instead
+                # of in the middle.
+                #
+                # Logical sizes the coordinates are derived from; the x offsets
+                # must be recomputed if a mode, scale or transform changes:
+                #   P2720D 2560x1440, P2416D 1440x2560 (2560x1440 rotated),
+                #   BOE 2400x1600 (2880x1920 at scale 1.2).
+                # Vertically the P2720D is centred on the portrait screen
+                # ((2560 - 1440) / 2 = 560) and the laptop is bottom-aligned
+                # with it (2560 - 1600 = 960).
+                { output = "desc:Dell Inc. DELL P2720D JV69F9AP02VS"; mode = "preferred"; position = "0x560"; scale = 1; }
+                { output = "desc:Dell Inc. DELL P2416D 6RC2C5BB08FL"; mode = "preferred"; position = "2560x0"; scale = 1; transform = 1; }
+                { output = "desc:BOE NE135A1M-NY1"; mode = "preferred"; position = "4000x960"; scale = 1.2; }
             ];
 
             # A static desc-pinned rule set cannot express these layouts: rules

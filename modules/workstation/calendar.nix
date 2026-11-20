@@ -1,6 +1,7 @@
 # Calendars in noctalia's control center: the radicale CalDAV server on
-# hemlock plus a public ICS feed. Its own feature (not part of workstation)
-# because it needs host secrets, which wisteria cannot decrypt yet.
+# hemlock plus a public ICS feed. The workstation bundle imports it, so every
+# workstation host needs a secrets/<host>.yaml holding the two secrets below;
+# a host without them fails to build.
 #
 # Secrets to add with `just secrets <host>`:
 #   noctalia-caldav-password: the radicale password for the user below
@@ -10,7 +11,10 @@
 # clipboard history; without it both live in memory only and are lost on
 # every shell restart. Keep it stable, replacing it makes existing data
 # unreadable.
-{
+{ config, ... }: {
+    flake.modules.nixos.workstation.imports = [ config.flake.modules.nixos.calendar ];
+    flake.modules.homeManager.workstation.imports = [ config.flake.modules.homeManager.calendar ];
+
     flake.modules.nixos.calendar = {
         sops.secrets = {
             "noctalia-caldav-password".owner = "wouter";
