@@ -23,11 +23,10 @@ in {
             nixos.gaming
             # nixos.backup
 
-            # TODO: re-enable once wisteria is installed and secrets/wisteria.yaml
-            # exists with `anthropic-api-key` and `litellm-master-key`. That
-            # needs the new host key first: run ssh-to-age on
-            # /etc/ssh/ssh_host_ed25519_key.pub, add the result and a wisteria
-            # rule to .sops.yaml, then `just secrets wisteria`.
+            # TODO: re-enable once secrets/wisteria.yaml exists with
+            # `anthropic-api-key` and `litellm-master-key` (create it with
+            # `just secrets wisteria`; the wisteria key and rule are already
+            # in .sops.yaml).
             # nixos.llm
             # nixos.ollama
         ];

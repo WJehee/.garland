@@ -1,3 +1,20 @@
+# Authelia, the single sign-on portal that caddy consults (the `authelia`
+# snippet) before proxying to protected sites. Users come from lldap.
+#
+# Secrets, add with `just secrets <host>`. All three are generated, each
+# with its own `openssl rand -hex 32`:
+#   authelia-jwt-secret:             signs the links in identity verification
+#                                    and password reset mails.
+#   authelia-storage-encryption-key: encrypts sensitive columns of the
+#                                    database (TOTP secrets and the like).
+#                                    Never replace it: the existing database
+#                                    becomes unreadable.
+#   authelia-session-secret:         encrypts session data; replacing it only
+#                                    logs everyone out.
+#
+# This module also reads `lldap-admin-password`, which is declared and
+# described in modules/server/lldap.nix, so a host importing authelia must
+# import lldap as well.
 {
     flake.modules.nixos."services/authelia" = { config, ... }: {
         sops.secrets = {

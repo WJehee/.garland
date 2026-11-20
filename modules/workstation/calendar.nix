@@ -3,8 +3,10 @@
 # workstation host needs a secrets/<host>.yaml holding the two secrets below;
 # a host without them fails to build.
 #
-# Secrets to add with `just secrets <host>`:
-#   noctalia-caldav-password: the radicale password for the user below
+# Secrets, add with `just secrets <host>`:
+#   noctalia-caldav-password: the plaintext radicale password of the user
+#                             `wouter`, the same on every workstation (its
+#                             hash is `radicale-htpasswd` on the server)
 #   noctalia-storage-key:     64 hex chars, `head -c 32 /dev/urandom | xxd -p -c 64`
 #
 # The storage key encrypts noctalia's on-disk calendar event cache and

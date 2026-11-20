@@ -1,3 +1,17 @@
+# My own projects hosted on the server: the static sites, loodsenboekje,
+# galeharp and blotter.
+#
+# Secrets, add with `just secrets <host>`:
+#   blotter/<NAME>: one entry for every secret in the `default` profile of
+#                   blotter's secretspec.toml (in the blotter repository,
+#                   which also describes each value). They are nested under
+#                   one map, not written with a slash:
+#                     blotter:
+#                         <NAME>: <value>
+#                         <OTHER_NAME>: <value>
+#                   The list is read from that file at evaluation time, so a
+#                   secret added to blotter shows up here as a missing key
+#                   after the next flake update.
 { inputs, ... }: let
     # Read from blotter's secretspec.toml, the same list its module asserts
     # against, so a secret added there only needs a value, not a garland edit.

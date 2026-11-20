@@ -17,7 +17,7 @@
 # the same name and redirect the challenge request to HTTPS.
 # Postfix and dovecot read the key as root, so no group changes are needed.
 #
-# Secret, add with `just secrets <host>`:
+# Secrets, add with `just secrets <host>`:
 #   mail-ldap-bind-password: password of the lldap user `mailserver`,
 #   without a trailing newline (SNM binds with the file verbatim)
 #

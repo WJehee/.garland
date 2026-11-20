@@ -3,13 +3,16 @@
 # tailscale feature. Access to the LAN is governed by the headscale policy
 # (modules/server/headscale.nix); tailscale enforces it on this node for
 # every packet it forwards.
+#
+# Secrets, add with `just secrets <host>`:
+#   tailscale-authkey: a headscale pre-auth key, so the gateway rejoins the
+#                      tailnet on its own after a reflash. Create it on
+#                      hemlock for the admin user (who owns tag:gateway):
+#                        headscale preauthkeys create --user wouter --reusable --expiration 1y
+#                      and paste the printed key. It expires after a year;
+#                      replace it then.
 {
     flake.modules.nixos.gateway = { config, ... }: {
-        # Pre-auth key so the gateway rejoins the tailnet on its own after a
-        # reflash. Created on hemlock for the admin user (who owns
-        # tag:gateway):
-        #   headscale preauthkeys create --user wouter --reusable --expiration 1y
-        # and stored with `just secrets <host>`
         sops.secrets."tailscale-authkey" = {
             restartUnits = [ "tailscaled-autoconnect.service" ];
         };

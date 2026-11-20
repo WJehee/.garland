@@ -1,0 +1,117 @@
+= Host enrollment
+
+Everything needed to take a machine from bare hardware to a fully enrolled host. "Admin machine" below means an already enrolled workstation with a checkout of this repository.
+
+== 1. Prepare the configuration
+
+On the admin machine:
+
+1. Add the host module under `modules/hosts/<host>`. `_hardware-configuration.nix` is generated during the install, but the file must exist for the flake to evaluate, so start with an empty module (`{ }`).
+2. If the host imports anything that declares sops secrets, `secrets/<host>.yaml` must exist before the first build. Every workstation does: the calendar module needs `noctalia-caldav-password` and `noctalia-storage-key` (see `modules/workstation/calendar.nix`). Add a `creation_rules` entry for `secrets/<host>.yaml` to `.sops.yaml` that lists only the admin machine's key, then create the file with `just secrets <host>`. The host's own key is added in the last step; until then the host cannot decrypt its secrets and the services that need them stay broken.
+
+== 2. Boot the live USB
+
+Boot the target from a NixOS installer USB and connect it to the network (wired is easiest).
+
+== 3. Note the IP address
+
+On the target:
+
+[source,bash]
+----
+ip -4 addr
+----
+
+== 4. Set a password for the `nixos` user
+
+The live system's `nixos` user has no password, and sshd refuses logins without one. On the target:
+
+[source,bash]
+----
+passwd
+----
+
+This password only lives in the live system and is gone after the install.
+
+== 5. Write the disk encryption passphrase
+
+Only for hosts with a LUKS layout (`disk/luks-lvm`, `disk/luks-lvm-span`). disko reads the passphrase from `/tmp/secret.key` on the target while partitioning. On the target, or from the admin machine through `ssh nixos@<ip>`:
+
+[source,bash]
+----
+read -rs pw && printf %s "$pw" > /tmp/secret.key
+----
+
+Do not use plain `echo`: the trailing newline would become part of the passphrase. This is the passphrase typed at every boot afterwards.
+
+== 6. Run the remote install
+
+On the admin machine:
+
+[source,bash]
+----
+just remote-install <host> nixos@<ip>
+----
+
+nixos-anywhere partitions the disks (destroying everything on them), installs the configuration, writes the generated hardware configuration to `modules/hosts/<host>/_hardware-configuration.nix` and reboots the target. Commit that file.
+
+== 7. Boot
+
+Remove the USB stick, type the disk passphrase at the prompt and let the machine boot. Workstations log in automatically. Then get the repository onto the new machine (over HTTPS, since SSH access is not enrolled yet):
+
+[source,bash]
+----
+jj git clone --colocate https://github.com/wjehee/.garland ~/.garland
+----
+
+For a server, add it to `modules/deploy.nix` instead (see link:../README.adoc#_adding_a_remote_host[Adding a remote host] in the README).
+
+== 8. Synchronize with Syncthing
+
+Workstations only. Syncthing runs as a system service with its data in `~/Sync`, which holds the KeePass database among other things.
+
+1. Open http://localhost:8384 on the new machine and copy its device ID (Actions > Show ID).
+2. On an existing device, add the new machine as a remote device and share the folders with it.
+3. Accept the device and the folders on the new machine, with `~/Sync` as the location.
+
+Wait for the first synchronization to finish before going on, the passwords for the next steps are in the KeePass database.
+
+== 9. Enroll in sops
+
+sops-nix decrypts with an age key derived from the SSH host key at `/etc/ssh/ssh_host_ed25519_key`. Servers get that key from sshd on first boot. Workstations do not run sshd, so nothing creates it; generate it once by hand on the new machine:
+
+[source,bash]
+----
+doas mkdir -p /etc/ssh
+doas ssh-keygen -t ed25519 -N "" -C "root@$(hostname)" -f /etc/ssh/ssh_host_ed25519_key
+----
+
+To keep the identity of a previous install, restore the old key file to that path (mode 600) instead. The key is state on disk and not part of the configuration: losing it means repeating this step with a new key.
+
+Derive the age private key for your own user (so that `just secrets` works on this machine) and print the age public key:
+
+[source,bash]
+----
+mkdir -p ~/.config/sops/age
+doas cat /etc/ssh/ssh_host_ed25519_key \
+  | nix run nixpkgs#ssh-to-age -- -private-key \
+  | (umask 077; cat > ~/.config/sops/age/keys.txt)
+nix run nixpkgs#ssh-to-age -- -i /etc/ssh/ssh_host_ed25519_key.pub
+----
+
+For a server, the public key can also be read remotely: `ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age`.
+
+Then make the host a recipient of its own secrets:
+
+1. Add the printed `age1...` key to `.sops.yaml` under `keys:` with an anchor (`&<host>`) and list it in the `creation_rules` entry for `secrets/<host>.yaml`, next to the admin machine's key.
+2. If `secrets/<host>.yaml` already exists (step 1), re-encrypt it for the new recipient. This must run on the admin machine, because the new host cannot decrypt the file yet:
++
+[source,bash]
+----
+nix run nixpkgs#sops -- updatekeys secrets/<host>.yaml
+----
++
+If the file does not exist yet, create it on either machine with `just secrets <host>`.
+3. Commit, get the change onto the new machine and rebuild there with `just r` (or `just deploy <host>` for a server). The secrets now decrypt at activation.
+
+Finally, enroll the Nitrokey on the new machine for SSH and commit signing, see link:nitrokey.adoc[nitrokey.adoc].

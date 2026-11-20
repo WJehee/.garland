@@ -1,6 +1,15 @@
 # LLM gateway and chat UI: LiteLLM exposes the Anthropic models and, when the
 # host also imports nixos.ollama, the local ones behind a single OpenAI
 # compatible endpoint; Open WebUI talks to that endpoint only.
+#
+# Secrets, add with `just secrets <host>`:
+#   anthropic-api-key:  an Anthropic API key (`sk-ant-...`), created in the
+#                       Anthropic console. LiteLLM uses it for the claude-*
+#                       models.
+#   litellm-master-key: generated, `echo "sk-$(openssl rand -hex 32)"`. It is
+#                       the admin key of the LiteLLM endpoint and the key
+#                       Open WebUI authenticates with. LiteLLM rejects master
+#                       keys that do not start with `sk-`.
 {
     flake.modules.nixos.llm = { config, lib, ... }: let
         ollama = config.services.ollama;

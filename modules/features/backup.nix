@@ -1,8 +1,18 @@
+# Daily borg backup of /var/lib, /home and a postgres dump to a remote
+# repository.
+#
+# Secrets, add with `just secrets <host>`:
+#   borg-passphrase: the encryption passphrase of the borg repository. For a
+#                    new repository generate one (`openssl rand -base64 32`)
+#                    and also store it in KeePass: without it the backups
+#                    cannot be restored.
+#   borg-ssh-key:    an OpenSSH private key (the whole file, as a YAML block
+#                    scalar: `borg-ssh-key: |` followed by the indented
+#                    lines) whose public key is authorized on the backup
+#                    target. Generate a dedicated one with
+#                    `ssh-keygen -t ed25519 -N "" -f borg-key`.
 {
     flake.modules.nixos.backup = { config, lib, ... }: {
-        # Add both to the host's secrets file with `just secrets <host>`:
-        # borg-passphrase: the repo encryption passphrase
-        # borg-ssh-key: private key authorized on the backup target
         sops.secrets."borg-passphrase" = {};
         sops.secrets."borg-ssh-key" = {};
 

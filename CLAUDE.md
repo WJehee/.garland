@@ -69,6 +69,8 @@ The same file is the single source for SSH access: `modules/base/ssh.nix` turns 
 
 Uses **sops-nix** with age encryption derived from SSH host keys. Secrets are stored encrypted in `secrets/<hostname>.yaml` (path derived from `config.networking.hostName` in `modules/base/sops.nix`) and decrypted at NixOS activation time. Key mapping is in `.sops.yaml`.
 
+Every module that declares `sops.secrets` starts with a "Secrets" comment block listing each key and what value it takes (how to generate it, or where it comes from). Keep that block in sync when adding or changing a secret: assertions in `modules/base/sops.nix` fail the evaluation when a declared secret is absent from the host's secrets file, and their message sends the reader to the top of the declaring file.
+
 ## Key Patterns
 
 - No `specialArgs` beyond `inputs`; modules read everything else from `config`

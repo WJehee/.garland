@@ -1,3 +1,16 @@
+# lldap, the user directory behind authelia and the mail server, with its web
+# UI at ldap.wouterjehee.com.
+#
+# Secrets, add with `just secrets <host>`:
+#   lldap-jwt-secret:     generated, `openssl rand -hex 32`. Signs the login
+#                         tokens of the lldap web UI; replacing it only logs
+#                         everyone out.
+#   lldap-admin-password: the password of the lldap `admin` user, chosen by
+#                         you (keep a copy in KeePass, it is the web UI
+#                         login). lldap resets the admin password to this
+#                         value on every start, so the file is authoritative.
+#                         Authelia binds to the directory with the same
+#                         secret (modules/server/authelia.nix).
 {
     flake.modules.nixos."services/lldap" = { config, ... }: {
         users.users.lldap = {

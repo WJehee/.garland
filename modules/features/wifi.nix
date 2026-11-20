@@ -1,7 +1,16 @@
+# Declarative NetworkManager profile for the home wifi, for headless hosts
+# that cannot be given the password interactively.
+#
+# Secrets, add with `just secrets <host>`:
+#   wifi-env: a dotenv blob holding the network name and password of the
+#             home wifi, as a YAML block scalar:
+#               wifi-env: |
+#                   WIFI_SSID=<network name>
+#                   WIFI_PSK=<wifi password>
+#             NetworkManager substitutes both variables into the profile
+#             below.
 {
     flake.modules.nixos.wifi = { config, lib, ... }: {
-        # WIFI_SSID and WIFI_PSK, stored as a dotenv blob in the host's
-        # sops file (edit with `just secrets <host>`)
         sops.secrets.wifi-env = { };
         networking.networkmanager.ensureProfiles = {
             environmentFiles = [ config.sops.secrets.wifi-env.path ];

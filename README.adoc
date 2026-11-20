@@ -14,13 +14,13 @@ All my configurations are named after poisonous plants, not because I am toxic, 
 * **Wormwood**: AdGuard Home, the network DNS filter, running on a Raspberry PI
 * **Belladonna**: Raspberry PI with Kodi for watching media
 
-A few hosts are stubs: they import only the base module and have no role yet, so they evaluate but are not installed anywhere.
-
-* **Manchineel**
-
 == Structure
 
 This repository follows the https://github.com/mightyiam/dendritic[dendritic pattern]: every Nix file under `modules/` is a flake-parts module, discovered automatically with https://github.com/vic/import-tree[import-tree] (files prefixed with an underscore are skipped). Feature modules write into the `flake.modules.nixos.<name>` and `flake.modules.homeManager.<name>` namespaces, and each host (`modules/hosts/<name>`) composes the features it wants by importing them. `modules/nixos-configurations.nix` turns every `hosts/<name>` module into a `nixosConfiguration`.
+
+== Host enrollment
+
+Taking a machine from bare hardware to a fully enrolled host (live USB, remote install with nixos-anywhere, Syncthing, sops and the Nitrokey) is described step by step in link:docs/host-enrollment.adoc[docs/host-enrollment.adoc].
 
 == Remote hosts
 
@@ -29,61 +29,39 @@ Servers are installed once with https://github.com/nix-community/nixos-anywhere[
 [source,bash]
 ----
 just remote-install <host> <user@address>   # first install, partitions the disk
-just deploy <host>                          # every update after that
+just deploy <host>                          # every update after that, built on the host
+just deploy-local <host>                    # same, but built here and copied over
 ----
 
-`just deploy` builds the configuration, copies the closure to the host, activates it and rolls back automatically if activation fails or the host becomes unreachable. It runs `nix flake check` first, which evaluates every host configuration, so a broken config anywhere stops the deploy.
+`just deploy` builds the configuration on the host itself (only the derivations are copied, the host reuses its own store), activates it and rolls back automatically if activation fails or the host becomes unreachable. `just deploy-local` builds on the machine you are on and copies the closure; use it when custom packages need compiling on the faster machine. Both skip deploy-rs's pre-checks, which would evaluate every host configuration and not just the target.
 
-All remote hosts are declared in one place, `modules/deploy.nix`. An entry gives the node its address and an explicit `remoteBuild`: build on the host itself, or build locally and copy the closure (the default for small VPSes). The login user, the target user and the doas command are shared by all nodes and set once at the top level.
+All remote hosts are declared in one place, `modules/deploy.nix`. An entry gives the node its address and `remoteBuild = false`. That flag must stay false: the deploy-rs `--remote-build` flag can only switch remote building on, so the justfile adds it for `just deploy` and leaves it out for `just deploy-local`. The login user, the target user and the doas command are shared by all nodes and set once at the top level.
 
 The same declaration feeds the SSH client config: every deploy node becomes a `Host <name>` alias with its address and user on all machines, so `ssh hemlock` works wherever this configuration is installed and never disagrees with the deploy target.
 
 === Adding a remote host
 
-1. Add the host module under `modules/hosts/<name>` as usual and install it with `just remote-install`.
-2. Add an entry to `hosts` in `modules/deploy.nix` with its address and `remoteBuild` choice.
+1. Add the host module under `modules/hosts/<name>` and install it, see link:docs/host-enrollment.adoc[docs/host-enrollment.adoc].
+2. Add an entry to `hosts` in `modules/deploy.nix` with its address and `remoteBuild = false`.
 3. Rebuild your workstation to pick up the SSH alias, then `just deploy <name>`.
 
 === When a deploy goes wrong
 
-The escape hatches, all passed after `--` to `just deploy`:
+The escape hatches are deploy-rs flags, passed after the host name (`just deploy hemlock --boot`):
 
 * `--boot` copies the closure and activates it on the next reboot.
 * `--dry-activate` copies and tests the closure without switching.
 * `--magic-rollback false` / `--auto-rollback false` disable the automatic rollback.
-* `--skip-checks` skips the `nix flake check` step.
 
 The manual fallback always works: ssh in and run `just r` in a checkout of this repository.
 
 == Vulnerability audit
 
-`just audit [host]` scans a system closure for known CVEs with https://github.com/tiiuae/sbomnix[vulnxscan], which runs vulnix, grype and OSV and merges their findings into one report. Without a host it scans the running system of the current machine; with a host name it evaluates that host from this flake and scans the toplevel it would deploy.
-
-[source,bash]
-----
-just audit                    # the machine you are on, as it runs
-just audit hemlock            # what a deploy to hemlock would ship
-just audit ivy --buildtime    # aarch64: scan the derivation graph without building
-just audit hemlock --triage   # also look up newer nixpkgs and upstream versions
-----
-
-Results are written to `audit/<host>.csv`. Findings that are known and accepted go in `audit/whitelist.csv` (columns `vuln_id`, `package`, `whitelist`, `comment`; `vuln_id` is a regular expression, `package` restricts the match to one package). Whitelisted findings disappear from the console output but stay annotated in the csv.
-
-The scanners match on package name and version, so expect false positives. vulnxscan drops a CVE when nixpkgs applies a patch file named after it, but fixes carried under other names or backported upstream without a version bump still show up. Check the tracker at https://tracker.security.nixos.org before acting on a finding, then whitelist it with a comment saying why.
+`just audit [host]` scans a system closure for known CVEs with https://github.com/tiiuae/sbomnix[vulnxscan]. Usage, the whitelist and how to treat false positives are in link:docs/vulnerability-audit.adoc[docs/vulnerability-audit.adoc].
 
 == Secrets management
 
 Secrets are managed with https://github.com/Mic92/sops-nix[sops-nix]. Encrypted secrets are stored in `secrets/<hostname>.yaml` and decrypted at NixOS activation time using the host's SSH ed25519 key.
-
-=== First-time setup
-
-Export the age private key from the SSH host key (once per machine):
-
-[source,bash]
-----
-mkdir -p ~/.config/sops/age
-sudo nix run nixpkgs#ssh-to-age -- -private-key -i /etc/ssh/ssh_host_ed25519_key > ~/.config/sops/age/keys.txt
-----
 
 === Editing secrets
 
@@ -92,29 +70,7 @@ sudo nix run nixpkgs#ssh-to-age -- -private-key -i /etc/ssh/ssh_host_ed25519_key
 just secrets <hostname>
 ----
 
-This opens the decrypted file in your editor. On save, sops re-encrypts automatically.
-
-=== Adding a new host
-
-1. Get the age public key from the host's SSH key:
-+
-[source,bash]
-----
-# From the host itself:
-cat /etc/ssh/ssh_host_ed25519_key.pub | nix run nixpkgs#ssh-to-age
-
-# Or remotely:
-ssh-keyscan -t ed25519 <host> | nix run nixpkgs#ssh-to-age
-----
-
-2. Add the key to `.sops.yaml` under `keys:` with an anchor (e.g. `&hostname`), and add a `creation_rules` entry for `secrets/<hostname>.yaml`
-
-3. Create the encrypted secrets file:
-+
-[source,bash]
-----
-just secrets <hostname>
-----
+This opens the decrypted file in your editor. On save, sops re-encrypts automatically. It only works on a machine whose age key is a recipient of that file in `.sops.yaml`; getting a new machine to that point is the last step of link:docs/host-enrollment.adoc[docs/host-enrollment.adoc].
 
 == SSH keys and commit signing
 
