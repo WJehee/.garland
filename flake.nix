@@ -54,6 +54,10 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
         blotter.url = "git+ssh://git@github.com/WJehee/blotter.git";
+        # Not following our nixpkgs, for the same reason as loodsenboekje:
+        # the knot is built with the toolchain and Cargo.nix pinned against
+        # tangled's own nixpkgs revision.
+        tangled.url = "git+https://tangled.org/@tangled.org/core";
     };
     outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
         imports = [
