@@ -1,5 +1,4 @@
 keys:
-  - &wisteria
   - &foxglove age1maveygcju9rluzd5cz4wrqlx3fewurm062caqdnl9a9yyzejpasqrayqk8
   - &hemlock age1gtuxtmfxm9y2363yf72fgg88r26l7e8ughldja3azzq7p54cy96qrrx083
   - &ivy age1ftz9x7qgv8zz35ta4vtt9kfehewz65ns5nlhuf9mn2mdey8a0fxq7q9euw
@@ -15,6 +14,7 @@ creation_rules:
       - age:
           - *hemlock
           - *foxglove
+          - *wisteria
   - path_regex: secrets/ivy\.yaml$
     key_groups:
       - age:
