@@ -1,7 +1,7 @@
 # Terminal agent harnesses next to Claude Code: goose, hermes and herdr (a
 # terminal multiplexer for running several agents side by side). Goose and
 # hermes run sandboxed exactly like claude (./_sandbox.nix), each with its
-# own persistent sandbox home under XDG_DATA_HOME; herdr runs on the host,
+# own persistent sandbox home under XDG_DATA_HOME; herdr (./herdr.nix) runs on the host,
 # since it only multiplexes terminals and starts the sandboxed agents.
 #
 # Both agents talk to the LiteLLM gateway of nixos.llm: on the host that runs
@@ -68,7 +68,6 @@ in {
         });
     in {
         home.packages = [
-            pkgs.herdr
             (withGateway {
                 name = "goose";
                 program = lib.getExe pkgs.goose-cli;
