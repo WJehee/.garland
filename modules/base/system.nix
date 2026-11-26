@@ -53,6 +53,7 @@
             tree                # Show tree of files
             psmisc              # Killall, etc.
             patchelf
+            nix-output-monitor  # Build progress for `just rebuild`
 
             # File manipulation
             zip

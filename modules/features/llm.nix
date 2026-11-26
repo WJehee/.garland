@@ -42,9 +42,9 @@ in {
         networking.firewall.allowedTCPPorts = [ config.services.litellm.port ];
         services.avahi = {
             enable = true;
-            publish = {
-                enable = true;
-                addresses = true;
+            settings.publish = {
+                disable-publishing = false;
+                publish-addresses = true;
             };
         };
 

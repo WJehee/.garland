@@ -4,9 +4,16 @@ alias u := update
 _default:
     just --list
 
+# nom (nix-output-monitor, installed by modules/base/system.nix) renders the
+# internal-json log as a build tree with progress and prints failing build
+# logs itself. It falls back to nix run so the first rebuild that installs it
+# works too.
 # Rebuild OS
 rebuild:
-    nixos-rebuild switch --sudo --flake . &>rebuild.log || grep -C 4 --color error rebuild.log
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if command -v nom >/dev/null; then nom=(nom); else nom=(nix run nixpkgs#nix-output-monitor --); fi
+    nixos-rebuild switch --sudo --flake . --log-format internal-json -v |& "${nom[@]}" --json
 
 # Update packages
 update:
