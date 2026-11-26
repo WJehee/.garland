@@ -1,0 +1,12 @@
+# `mix nerves.new .` silently skips files that already exist, so this file
+# carries the entries it would otherwise have generated.
+/_build/
+/cover/
+/deps/
+/doc/
+/tmp/
+erl_crash.dump
+*.fw
+.direnv
+.devenv*
+.env

@@ -41,6 +41,19 @@
             - mix new .
         '';
     };
+    elixir-nerves = {
+        path = ./elixir-nerves;
+        description = "An elixir Nerves project for embedded linux firmware";
+        welcomeText = ''
+            ## Getting started
+
+            - just init      # set the project name from the directory name
+            - set env.MIX_TARGET in devenv.nix to your board (default rpi3)
+            - direnv allow
+            - just scaffold  # mix nerves.new, device ssh key, deps
+            - just burn      # first flash; afterwards `just upload`
+        '';
+    };
     python = {
         path = ./python;
         description = "A python project";

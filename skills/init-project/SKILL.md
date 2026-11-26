@@ -26,6 +26,9 @@ Ask:
      If embedded, also ask the target: thumbv6m-none-eabi (Cortex-M0) /
      thumbv7em-none-eabihf (Cortex-M4F/M7) / riscv32imac-unknown-none-elf / other.
    - python: application or library (decides `uv init` vs `uv init --lib`).
+   - elixir: general or embedded (Nerves firmware). If embedded, ask the board
+     (a Nerves target tag: rpi3 / rpi4 / rpi5 / rpi0_2 / bbb / x86_64 / other)
+     and use the `elixir-nerves` template instead of `elixir`.
    - other languages: no follow-ups.
 
 3. **Assurance level**: high assurance or scratch project.
@@ -73,6 +76,16 @@ Run the language's scaffolding step where the template needs one:
 `uv init` or `uv init --lib` (python), `gleam new .` (gleam), `mix new .`
 (elixir), `zig init` (zig). Android projects are created from Android Studio;
 just tell the user.
+
+For `elixir-nerves`, first set `env.MIX_TARGET` in `devenv.nix` to the chosen
+board, then run `just scaffold` inside the dev shell (step 7). It runs
+`mix nerves.new .`, authorizes `~/.ssh/nerves_ed25519.pub` on the device and
+creates that key with an interactive passphrase prompt. Erlang's ssh daemon
+rejects FIDO2 keys, so the Nitrokey cannot be used for the device. The Claude
+sandbox has no real home directory, so if the key would be created there, tell
+the user to run `just scaffold` themselves instead. If the board's Nerves system
+ships a different OTP major than the `beam<NN>Packages` set in `devenv.nix`,
+`mix firmware` fails with a version mismatch; switch the package set to match.
 
 ## Step 3: Lint strictness
 

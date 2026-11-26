@@ -1,0 +1,43 @@
+
+# Erlang's ssh daemon on the device does not support FIDO2 (sk-ssh-ed25519)
+# keys, so the Nitrokey credential cannot log in; a plain key is used instead.
+ssh_key := home_directory() / ".ssh/nerves_ed25519"
+firmware := "_build/${MIX_TARGET}_${MIX_ENV:-dev}/nerves/images/*.fw"
+
+_default:
+    just --list
+
+# Set the project name to this directory's name (run after flake init, and again after adding the secretspec add-on)
+init:
+    for f in secretspec.toml; do if [ -f "$f" ]; then sed -i "s/changeme/{{file_name(justfile_directory())}}/g" "$f"; fi; done
+
+# One time: generate the Nerves project for $MIX_TARGET in this directory and create the device ssh key
+scaffold:
+    mix local.hex --force --if-missing
+    mix archive.install hex nerves_bootstrap --force
+    mix nerves.new . --target "$MIX_TARGET" </dev/null
+    # The generated config only authorizes ~/.ssh/id_{rsa,ecdsa,ed25519}.pub; also accept the device key.
+    grep -q '".ssh/id_{rsa,ecdsa,ed25519}.pub"' config/target.exs || { echo "ssh key glob not found in config/target.exs, add {{ssh_key}}.pub by hand"; exit 1; }
+    sed -i 's|".ssh/id_{rsa,ecdsa,ed25519}.pub"|".ssh/{id_rsa,id_ecdsa,id_ed25519,nerves_ed25519}.pub"|' config/target.exs
+    test -f {{ssh_key}} || ssh-keygen -t ed25519 -C nerves -f {{ssh_key}}
+    mix deps.get
+
+# Build the firmware for $MIX_TARGET
+build:
+    mix firmware
+
+# Write the firmware to an SD card (prompts for the device)
+burn: build
+    mix burn
+
+# Push the firmware to a running device over ssh and reboot it
+upload host="nerves.local": build
+    cat {{firmware}} | ssh -i {{ssh_key}} -s {{host}} fwup
+
+# Open an IEx shell on the device
+ssh host="nerves.local":
+    ssh -i {{ssh_key}} {{host}}
+
+# Run the tests on the host
+test:
+    MIX_TARGET=host mix test
