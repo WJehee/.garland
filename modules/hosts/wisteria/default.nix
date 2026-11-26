@@ -23,13 +23,7 @@ in {
             nixos.music
             nixos.gaming
             # nixos.backup
-
-            # TODO: re-enable once secrets/wisteria.yaml exists with
-            # `anthropic-api-key` and `litellm-master-key` (create it with
-            # `just secrets wisteria`; the wisteria key and rule are already
-            # in .sops.yaml).
-            # nixos.llm
-            # nixos.ollama
+            nixos.llm
         ];
 
         networking.hostName = "wisteria";

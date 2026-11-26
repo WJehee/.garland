@@ -58,6 +58,10 @@
         # the knot is built with the toolchain and Cargo.nix pinned against
         # tangled's own nixpkgs revision.
         tangled.url = "git+https://tangled.org/@tangled.org/core";
+        # Not following our nixpkgs: hermes is a uv2nix build whose Python
+        # package set is resolved against the nixpkgs revision upstream
+        # locks and tests in CI.
+        hermes-agent.url = "github:NousResearch/hermes-agent";
     };
     outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
         imports = [

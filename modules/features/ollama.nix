@@ -1,7 +1,6 @@
 # Local model server. Kept apart from nixos.llm (the LiteLLM gateway and
-# Open WebUI) so a host can run the gateway against remote APIs only, or
-# serve models without the gateway. nixos.llm picks up the local models
-# automatically when both are imported.
+# Open WebUI) so a host can serve models without the gateway; nixos.llm
+# imports this module, as Ollama is its only model source.
 {
     flake.modules.nixos.ollama = { config, pkgs, ... }: {
         services.ollama = {

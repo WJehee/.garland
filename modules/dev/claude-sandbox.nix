@@ -1,32 +1,8 @@
 # Claude Code never runs on the host: `claude` is a wrapper that starts the
-# real binary in a rootless podman container. Inside, the container sees
-#
-# - the project directory it was started from, at the same path, read-write
-# - the nix store (read-only) and the nix daemon socket, so nix builds and
-#   devenv shells work
-# - the system and per-user profiles, so everything on PATH here is on PATH
-#   there
-# - a persistent sandbox HOME (a directory under XDG_DATA_HOME, mounted at the
-#   real home path) that only holds the Claude config dir plus the jj and git
-#   configs; the real home directory is never mounted
-#
-# The wrapper refuses to start from the home directory or any of its parents,
-# since mounting those would hand the whole home directory over anyway.
-#
-# The container has no Wayland access, but Claude Code pastes screenshots
-# (Ctrl+V) by running `wl-paste -l` and `wl-paste --type image/png` itself.
-# Mounting the Wayland socket would also expose clipboard text, screen capture
-# and input injection, so instead the wrapper runs a clipboard broker on the
-# host that answers exactly those two requests over a unix socket, and the
-# container's PATH carries a `wl-paste` shim that forwards them. Any other
-# clipboard type is refused on both ends.
-#
-# A project can opt in to extra podman flags by setting CLAUDE_SANDBOX_ARGS in
-# its environment (devenv.nix: `env.CLAUDE_SANDBOX_ARGS = "...";`, picked up
-# through direnv). The value is split on whitespace and appended to the
-# `podman run` call, for example to hand a USB device to the session:
-#   --volume /dev/bus/usb:/dev/bus/usb:dev
-# Projects without the variable keep the locked-down defaults.
+# real binary in a rootless podman container, built by ./_sandbox.nix (see
+# there for what the container sees). On top of the common sandbox, Claude
+# gets its config dir mounted at the same path and image clipboard access
+# for pasting screenshots.
 #
 # Hosts that import the `playground-key` NixOS feature below additionally get
 # the upload key for the playground on hemlock (modules/server/playground.nix)
@@ -45,272 +21,39 @@
 
     flake.modules.homeManager.dev = { config, lib, pkgs, osConfig, ... }: let
         claude = pkgs.claude-code;
-        user = config.home.username;
         home = config.home.homeDirectory;
         configDir = config.programs.claude-code.configDir;
-        sandboxDir = "${config.xdg.dataHome}/claude-sandbox";
+        mkSandbox = import ./_sandbox.nix { inherit config lib pkgs osConfig; };
 
         # Null on hosts that do not import the playground-key feature, which
         # keeps this module usable without the secret.
         playgroundKey = osConfig.sops.secrets."playground-ssh-key".path or null;
-
-        osUser = osConfig.users.users.${user};
-        uid = toString osUser.uid;
-        gid = toString osConfig.users.groups.${osUser.group}.gid;
-
-        # Home-manager managed configs to mirror into the sandbox home. They
-        # are store symlinks on the host, and the store is mounted, so the
-        # sandbox just gets the same symlinks. Looked up by target since
-        # modules declare them under different home.file keys
-        managed = target: lib.findFirst (f: f.target == target) null (lib.attrValues config.home.file);
-        mirrored = lib.filter (f: f != null) (map (t: managed ".config/${t}") [
-            "jj/config.toml"
-            "git/config"
-            "git/ignore"
-        ]);
-
-        # Everything the container needs besides the (mounted) store: a shell
-        # at /bin/sh, users, certificates, timezone and the host's nix config
-        rootfs = pkgs.runCommand "claude-sandbox-rootfs" {} ''
-            mkdir -p $out/{bin,usr/bin,etc/nix,etc/ssl/certs,tmp,home}
-            ln -s ${pkgs.bash}/bin/bash $out/bin/sh
-            ln -s ${pkgs.bash}/bin/bash $out/bin/bash
-            ln -s ${pkgs.coreutils}/bin/env $out/usr/bin/env
-            ln -s ${osConfig.environment.etc."nix/nix.conf".source} $out/etc/nix/nix.conf
-            ln -s ${osConfig.environment.etc."nix/registry.json".source} $out/etc/nix/registry.json
-            ln -s ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt $out/etc/ssl/certs/ca-bundle.crt
-            ln -s ca-bundle.crt $out/etc/ssl/certs/ca-certificates.crt
-            ln -s ${pkgs.tzdata}/share/zoneinfo $out/etc/zoneinfo
-            ln -s ${pkgs.tzdata}/share/zoneinfo/${osConfig.time.timeZone} $out/etc/localtime
-            cat > $out/etc/passwd <<PASSWD
-            root:x:0:0:root:/root:/bin/sh
-            ${user}:x:${uid}:${gid}:${user}:${home}:/bin/bash
-            nobody:x:65534:65534:nobody:/:/bin/sh
-            PASSWD
-            cat > $out/etc/group <<GROUP
-            root:x:0:
-            ${osUser.group}:x:${gid}:
-            nogroup:x:65534:
-            GROUP
-            cat > $out/etc/nsswitch.conf <<NSS
-            passwd: files
-            group: files
-            hosts: files dns
-            NSS
-            cat > $out/etc/os-release <<OS
-            NAME="Claude sandbox"
-            ID=claude-sandbox
-            PRETTY_NAME="Claude Code sandbox (podman container on a NixOS host)"
-            OS
-        '';
-
-        image = pkgs.dockerTools.streamLayeredImage {
-            name = "localhost/claude-sandbox";
-            tag = "latest";
-            # Copied rather than passed as `contents`: podman reads /etc/passwd
-            # itself before any mount exists, so those must be real files in
-            # the layer, not symlinks into the (not included) store
-            extraCommands = "cp -a ${rootfs}/. .";
-            # The host store is bind mounted, no need to copy the closure
-            includeStorePaths = false;
-            config.Cmd = [ "/bin/sh" ];
-        };
-
-        # Host side of the clipboard broker: socat spawns one of these per
-        # connection with the socket on stdin and stdout. The request is a
-        # single line, either `types` or an image mime type, and the response
-        # is the raw wl-paste output. The accepted types are the ones Claude
-        # Code probes for, so text can never be read through here
-        clipboardBroker = pkgs.writeShellApplication {
-            name = "claude-clipboard-broker";
-            runtimeInputs = with pkgs; [ wl-clipboard gnugrep ];
-            text = ''
-                IFS= read -r request || exit 1
-                case "$request" in
-                    types)
-                        wl-paste --list-types | grep -E "^image/" || true ;;
-                    image/png|image/jpeg|image/jpg|image/gif|image/webp|image/bmp)
-                        wl-paste --type "$request" ;;
-                    *)
-                        echo "claude-clipboard-broker: refused request: $request" >&2
-                        exit 1 ;;
-                esac
-            '';
-        };
-
-        # Container side: shadows the real wl-paste on the sandbox PATH and
-        # speaks the broker protocol. After sending the request socat half
-        # closes the connection and keeps relaying the reply for at most the
-        # -t timeout; the default of half a second cuts off a large screenshot
-        clipboardSocket = "/run/claude-sandbox/clipboard.sock";
-        wlPasteShim = pkgs.writeShellApplication {
-            name = "wl-paste";
-            runtimeInputs = [ pkgs.socat ];
-            text = ''
-                request=""
-                while [ $# -gt 0 ]; do
-                    case "$1" in
-                        -l|--list-types) request=types ;;
-                        -t|--type) request="$2"; shift ;;
-                        --type=*) request="''${1#--type=}" ;;
-                        -n|--no-newline) ;;
-                        *) echo "wl-paste: option $1 is not supported in the Claude sandbox" >&2; exit 1 ;;
-                    esac
-                    shift
-                done
-                case "$request" in
-                    types|image/*) ;;
-                    *) echo "wl-paste: only image clipboard contents are available in the Claude sandbox" >&2; exit 1 ;;
-                esac
-                [ -S ${clipboardSocket} ] || { echo "wl-paste: clipboard broker socket is missing" >&2; exit 1; }
-                printf '%s\n' "$request" | socat -t 30 - UNIX-CONNECT:${clipboardSocket}
-            '';
-        };
-
-        sandbox = pkgs.writeShellApplication {
-            name = "claude";
-            # No runtimeInputs: that would prepend to PATH before the host
-            # PATH is captured below and leak podman into the container
-            runtimeInputs = [];
-            # The real version keeps home-manager's version-gated behaviour
-            # (personal plugins instead of the legacy --plugin-dir wrapper)
-            passthru = { inherit (claude) version; };
-            text = ''
-                # Inside the container the per-user profile is mounted too, so
-                # this wrapper is what `claude` resolves to: run the real thing
-                if [ -e /run/.containerenv ]; then
-                    exec ${claude}/bin/claude "$@"
-                fi
-
-                host_path=$PATH
-                export PATH=${lib.makeBinPath [ osConfig.virtualisation.podman.package pkgs.coreutils ]}:$PATH
-
-                home=${lib.escapeShellArg home}
-                pwd=$(pwd -P)
-                if [ "$pwd" = / ] || [ "$pwd" = "$home" ] || [[ "$home/" == "$pwd"/* ]]; then
-                    echo "claude: refusing to start in $pwd: that would expose the home directory, start from a project directory" >&2
-                    exit 1
-                fi
-
-                dir=${lib.escapeShellArg sandboxDir}
-                sandbox="$dir/home"
-                mkdir -p "$sandbox/.config/claude" ${lib.concatMapStringsSep " " (f: "\"$sandbox/${dirOf f.target}\"") mirrored}
-                ${lib.concatMapStrings (f: ''
-                    ln -sfn ${f.source} "$sandbox/${f.target}"
-                '') mirrored}
-
-                # The marker records which image build was loaded last, so a
-                # rebuilt image replaces the loaded one on the next start
-                image=localhost/claude-sandbox:latest
-                if [ "$(cat "$dir/image" 2>/dev/null)" != ${image} ] || ! podman image exists "$image"; then
-                    echo "claude: loading sandbox image" >&2
-                    old=$(podman image inspect --format '{{.Id}}' "$image" 2>/dev/null || true)
-                    ${image} | podman load --quiet >&2
-                    echo ${image} > "$dir/image"
-                    # Loading untagged the previous image; drop it unless a
-                    # running session still uses it
-                    if [ -n "$old" ]; then
-                        podman rmi "$old" >/dev/null 2>&1 || true
-                    fi
-                fi
-
-                # Pass the environment through (a direnv-loaded devenv shell
-                # keeps working inside) minus what belongs to this host
-                # session or gets set explicitly below
-                env_args=()
-                while IFS= read -r -d "" kv; do
-                    case "''${kv%%=*}" in
-                        PATH|HOME|USER|LOGNAME|SHELL|PWD|OLDPWD|SHLVL|_|TMPDIR|TMP|TEMP| \
-                        NIX_REMOTE|SSL_CERT_FILE|NIX_SSL_CERT_FILE|TZDIR| \
-                        XDG_RUNTIME_DIR|XDG_SESSION_*|XDG_SEAT*|XDG_VTNR|DBUS_*|SSH_*|GPG_TTY| \
-                        DISPLAY|WAYLAND_DISPLAY|XAUTHORITY|HYPRLAND_*|HYPRCURSOR_*|TMUX*|DIRENV_*|CLAUDE_SANDBOX_ARGS)
-                            continue ;;
-                    esac
-                    env_args+=(--env "$kv")
-                done < <(env -0)
-
-                # Only PATH entries that exist inside the container: the
-                # store, the mounted profiles and the project itself
-                path=""
-                IFS=: read -ra dirs <<< "$host_path"
-                for entry in "''${dirs[@]}"; do
-                    case "$entry" in
-                        /nix/store/*|/run/current-system/*|/etc/profiles/*|"$pwd"/*)
-                            path="''${path:+$path:}$entry" ;;
-                    esac
-                done
-                path=${wlPasteShim}/bin:$path
-
-                # Clipboard broker, one per session so that concurrent
-                # sessions do not share a socket; socat forks a broker per
-                # connection. The socket directory is mounted into the
-                # container at a fixed path, so the shim needs no
-                # configuration. podman is not exec'd below so that the EXIT
-                # trap can tear this down when the session ends
-                clipdir=$(mktemp -d "$dir/clipboard.XXXXXX")
-                trap 'kill "$broker" 2>/dev/null; rm -rf "$clipdir"' EXIT
-                ${pkgs.socat}/bin/socat -t 30 \
-                    UNIX-LISTEN:"$clipdir/clipboard.sock",fork,unlink-early,mode=600 \
-                    EXEC:${clipboardBroker}/bin/claude-clipboard-broker >/dev/null 2>&1 &
-                broker=$!
-
-                tty=()
-                if [ -t 0 ] && [ -t 1 ]; then
-                    tty=(--tty)
-                fi
-
-                # Per-project extra flags, see the header
-                extra=()
-                if [ -n "''${CLAUDE_SANDBOX_ARGS:-}" ]; then
-                    read -ra extra <<< "$CLAUDE_SANDBOX_ARGS"
-                fi
-
-                ${lib.optionalString (playgroundKey != null) ''
-                    # Resolved first because the path is a symlink into the
-                    # current sops generation and podman must bind the file
-                    # itself. The test covers the window between adding the
-                    # feature and the first activation that decrypts the key.
-                    # The mount point directory has to exist in the sandbox
-                    # home, otherwise podman creates it owned by root.
-                    if [ -r ${playgroundKey} ]; then
-                        mkdir -p "$sandbox/.ssh"
-                        extra+=(--volume "$(readlink -f ${playgroundKey}):$home/.ssh/playground:ro")
-                    fi
-                ''}
-                podman run --rm --interactive "''${tty[@]}" --init \
-                    --pull never \
-                    --hostname claude-sandbox \
-                    --userns keep-id \
-                    --workdir "$pwd" \
-                    --volume "$pwd:$pwd" \
-                    --volume "$sandbox:$home" \
-                    --volume ${lib.escapeShellArg "${configDir}:${configDir}"} \
-                    --volume /nix/store:/nix/store:ro \
-                    --volume /nix/var/nix/daemon-socket/socket:/nix/var/nix/daemon-socket/socket \
-                    --volume "$(readlink -f /run/current-system):/run/current-system:ro" \
-                    --volume "$(readlink -f /etc/profiles/per-user/${user}):/etc/profiles/per-user/${user}:ro" \
-                    --tmpfs /tmp:mode=1777 \
-                    --volume "$clipdir:${dirOf clipboardSocket}" \
-                    "''${extra[@]}" \
-                    "''${env_args[@]}" \
-                    --env HOME="$home" \
-                    --env USER=${user} \
-                    --env LOGNAME=${user} \
-                    --env SHELL=/bin/bash \
-                    --env PATH="$path" \
-                    --env NIX_REMOTE=daemon \
-                    --env SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt \
-                    --env NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt \
-                    --env TZDIR=/etc/zoneinfo \
-                    "$image" ${claude}/bin/claude "$@"
-            '';
-        };
     in {
         assertions = [{
             assertion = osConfig.virtualisation.podman.enable;
-            message = "The Claude Code sandbox needs podman on the host: import nixos.podman";
+            message = "The agent sandboxes (claude, goose, hermes) need podman on the host: import nixos.podman";
         }];
 
-        programs.claude-code.package = sandbox;
+        programs.claude-code.package = mkSandbox {
+            name = "claude";
+            program = "${claude}/bin/claude";
+            volumes = [ "${configDir}:${configDir}" ];
+            clipboard = true;
+            # The real version keeps home-manager's version-gated behaviour
+            # (personal plugins instead of the legacy --plugin-dir wrapper)
+            passthru = { inherit (claude) version; };
+            preRun = lib.optionalString (playgroundKey != null) ''
+                # Resolved first because the path is a symlink into the
+                # current sops generation and podman must bind the file
+                # itself. The test covers the window between adding the
+                # feature and the first activation that decrypts the key.
+                # The mount point directory has to exist in the sandbox
+                # home, otherwise podman creates it owned by root.
+                if [ -r ${playgroundKey} ]; then
+                    mkdir -p "$sandbox/.ssh"
+                    extra+=(--volume "$(readlink -f ${playgroundKey}):${home}/.ssh/playground:ro")
+                fi
+            '';
+        };
     };
 }
