@@ -46,7 +46,7 @@
                 DisplayBookmarksToolbar = "always";
                 Bookmarks = [
                     { Title = ""; URL = "https://github.com/WJehee"; Placement = "toolbar"; }
-                    { Title = ""; URL = "https://tangled.org/wouterjehee.bsky.social"; Placement = "toolbar"; }
+                    { Title = ""; URL = "https://tangled.org/wouterjehee.com"; Placement = "toolbar"; }
                     { Title = ""; URL = "https://mail.startmail.com/mail/folders/INBOX"; Placement = "toolbar"; }
 
                     { Title = "Syncthing"; URL = "http://localhost:8384/"; Placement = "toolbar"; Folder = "Tech"; }
