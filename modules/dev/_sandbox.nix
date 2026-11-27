@@ -1,5 +1,5 @@
 # Builds a wrapper that runs an agent CLI in a rootless podman container
-# instead of on the host. Used by claude-sandbox.nix and agents.nix. Inside,
+# instead of on the host. Used by agents.nix. Inside,
 # the container sees
 #
 # - the project directory it was started from, at the same path, read-write
@@ -23,7 +23,7 @@
 #   --volume /dev/bus/usb:/dev/bus/usb:dev
 # Projects without the variable keep the locked-down defaults.
 #
-# Optionally (claude only) the container gets image clipboard access: it has
+# Optionally the container gets image clipboard access: it has
 # no Wayland access, but Claude Code pastes screenshots (Ctrl+V) by running
 # `wl-paste -l` and `wl-paste --type image/png` itself. Mounting the Wayland
 # socket would also expose clipboard text, screen capture and input

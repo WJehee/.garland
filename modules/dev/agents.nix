@@ -1,6 +1,6 @@
 # Terminal agent harnesses next to Claude Code: goose, hermes and herdr (a
 # terminal multiplexer for running several agents side by side). Goose and
-# hermes run sandboxed exactly like claude (./_sandbox.nix), each with its
+# hermes run in the podman sandbox of ./_sandbox.nix, each with its
 # own persistent sandbox home under XDG_DATA_HOME; herdr (./herdr.nix) runs on the host,
 # since it only multiplexes terminals and starts the sandboxed agents.
 #
@@ -67,6 +67,11 @@ in {
             '';
         });
     in {
+        assertions = [{
+            assertion = osConfig.virtualisation.podman.enable;
+            message = "The agent sandboxes (goose, hermes) need podman on the host: import nixos.podman";
+        }];
+
         home.packages = [
             (withGateway {
                 name = "goose";

@@ -2,9 +2,8 @@
     flake.modules.homeManager.dev = { config, lib, pkgs, ... }: let
         claudeDir = lib.escapeShellArg config.programs.claude-code.configDir;
     in {
-        # rtk lives next to claude-code rather than in the system profile:
-        # the sandbox mounts the per-user profile, so this is what puts rtk
-        # on PATH inside the container where the hook actually runs
+        # rtk lives next to claude-code rather than in the system profile,
+        # so the PreToolUse hook below finds it on every host with hm.dev
         home.packages = [ pkgs.rtk ];
 
         # RTK rewrites Bash tool calls via a PreToolUse hook. Registered with
