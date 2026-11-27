@@ -1,0 +1,128 @@
+{
+  "blotter": {
+    "type": "git",
+    "url": "ssh://git@github.com/WJehee/blotter.git",
+    "ref": "HEAD",
+    "rev": "c37e7fa62c6c66ce53b88ee7ea9724f2d08ea831",
+    "narHash": "sha256-omvNWTnHTK9CV5gCIoBxWrj4TMweUUPtKwFFerB+sFs=",
+    "lastModified": 1795637667
+  },
+  "deploy-rs": {
+    "type": "github",
+    "owner": "serokell",
+    "repo": "deploy-rs",
+    "rev": "1cec0527bd09074bbee6d4461900ce5d58267217",
+    "narHash": "sha256-eINUtQW48bf9G3EYprthHMll8VDKxaXQP52TZFuwMmE=",
+    "lastModified": 1792446739
+  },
+  "disko": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "disko",
+    "rev": "44761d4f745b95e037458a0e57133c5700c8e320",
+    "narHash": "sha256-D35n2Q2v1KrlF9LS/pFl8Z3EBMJW6qvPw5q4HMbXXLg=",
+    "lastModified": 1795168368
+  },
+  "flake-parts": {
+    "type": "github",
+    "owner": "hercules-ci",
+    "repo": "flake-parts",
+    "rev": "ea2630b7470978622c7689a1ff75d2b389175399",
+    "narHash": "sha256-V1h85lUaJBQoHFrB2vpXZOE0Ju1MYSnIpsehoVZYlDo=",
+    "lastModified": 1793576659
+  },
+  "galeharp": {
+    "type": "github",
+    "owner": "WJehee",
+    "repo": "galeharp",
+    "rev": "1102bc77f91a4d8bb97ef0cef7b64b6dd9f656a2",
+    "narHash": "sha256-Gob7omRHDPsicBezAsZixI41+d1nR9kAM782FZ6BwJU=",
+    "lastModified": 1783782184
+  },
+  "hermes-agent": {
+    "type": "github",
+    "owner": "NousResearch",
+    "repo": "hermes-agent",
+    "rev": "1d15aad1dfa8e9e5fcbd2082cad5666a0907a07d",
+    "narHash": "sha256-AIY9sc3+S79j1AtO/AxKaRlMMPgtxRTGtJsK7WPVLW4=",
+    "lastModified": 1795762868
+  },
+  "home-manager": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "home-manager",
+    "rev": "54f903fdaaf5d5720ed36706fe75332af69eb793",
+    "narHash": "sha256-J1iQ1QMnkFwZFXnlPt2t3Qx7TsGjw08/0L3QMqNt+Wg=",
+    "lastModified": 1795748630
+  },
+  "import-tree": {
+    "type": "github",
+    "owner": "vic",
+    "repo": "import-tree",
+    "rev": "eb1b52eaecc57f7c136d07ae8a93e724dfecac46",
+    "narHash": "sha256-ljEMTXP/rH0tOvDzc9gzwww6KcHRPRnEHzd9lK48V7s=",
+    "lastModified": 1788467110
+  },
+  "loodsenboekje": {
+    "type": "github",
+    "owner": "wjehee",
+    "repo": "loodsenboekje.com",
+    "rev": "30e0b6d9b4156f1f10cd61a0fe872b69781b3f4d",
+    "narHash": "sha256-2nYB7GqoTub9YcthqLTunYC6us8+fqrD/r0VIaMHICY=",
+    "lastModified": 1791310893
+  },
+  "nixos-hardware": {
+    "type": "github",
+    "owner": "nixos",
+    "repo": "nixos-hardware",
+    "rev": "ec39df522f291a1da3bee80d3ff67d99c57a17b0",
+    "narHash": "sha256-9QjYnidlKg7EtcPkr07D3epP7I1WuVBfA5nk47+I5dc=",
+    "lastModified": 1795690694
+  },
+  "nixos-mailserver": {
+    "type": "gitlab",
+    "owner": "simple-nixos-mailserver",
+    "repo": "nixos-mailserver",
+    "rev": "3b3a0ca31f0ffb01e711473b3f729f95643c36a7",
+    "narHash": "sha256-uijMOK/+A7FjJrab7/uU2mE+Eg+3dYkEj9SlN9XGWVc=",
+    "lastModified": 1795612032
+  },
+  "nixpkgs": {
+    "type": "github",
+    "owner": "nixos",
+    "repo": "nixpkgs",
+    "rev": "2786a2a72088ecf32aea5b3ec52099e6a7cff78f",
+    "narHash": "sha256-f/VVvxf5RsQgWVhUtefoca5ktVg0DA2bnkMOcmSnozo=",
+    "lastModified": 1795234589
+  },
+  "nixvim": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "nixvim",
+    "rev": "b67578f451bd779e79ec42f8153a403421a4b266",
+    "narHash": "sha256-1d33ym1V/UxX9pcNbrpG0/P8riFHE8VuVAc3T8WN52I=",
+    "lastModified": 1794943345
+  },
+  "sops-nix": {
+    "type": "github",
+    "owner": "Mic92",
+    "repo": "sops-nix",
+    "rev": "d5abe5e53200ad48254e8e6bd95e6cef94e66577",
+    "narHash": "sha256-2p8/wnENYHU2Z79Ir/rpq+V1sMI9mSD6xGAlvlbVBUY=",
+    "lastModified": 1795471345
+  },
+  "stylix": {
+    "type": "github",
+    "owner": "danth",
+    "repo": "stylix",
+    "rev": "926063673683f3ed4810ae3edac4d69df7adf42a",
+    "narHash": "sha256-bzTDA4xxj8+KNo/qWDgDGOKqfWWlH5GCkVw+e70HWu0=",
+    "lastModified": 1795479262
+  },
+  "tangled": {
+    "type": "tarball",
+    "url": "https://mirror.tangled.network/xrpc/org.tangled.temp.git.getArchive?repo=did%3Aplc%3Aj5hmlfdrwkvtxm7cjmu7j2is&ref=580e0516f4845bfa9f37c28c10d224d3e34035a1&format=tar.gz&prefix=core-master",
+    "narHash": "sha256-7P6onOihb3r04zdD6xsxw8BK2a/oaGLP7COTBwbuIbg=",
+    "lastModified": 0
+  }
+}

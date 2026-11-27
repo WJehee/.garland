@@ -15,9 +15,26 @@ rebuild:
     if command -v nom >/dev/null; then nom=(nom); else nom=(nix run nixpkgs#nix-output-monitor --); fi
     nixos-rebuild switch --sudo --flake . --log-format internal-json -v |& "${nom[@]}" --json
 
-# Update packages
-update:
-    nix flake update
+# Inputs are pinned by tack (.tack/pins.toml), not by flake.lock. It falls back
+# to nix run on a machine that has not yet rebuilt with modules/base/tack.nix.
+# Update flake inputs (all, or only the named pins)
+update *pins="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # Unauthenticated GitHub API calls are capped at 60 per hour per IP, which
+    # a full update of this repo exhausts in about two runs; tack compares
+    # github: pins through that API. The gh login is reused instead of a
+    # separate token so no secret has to be stored for this.
+    if [ -z "${GITHUB_TOKEN:-}" ] && command -v gh >/dev/null && token="$(gh auth token 2>/dev/null)"; then
+        export GITHUB_TOKEN="$token"
+    fi
+    # tack reaches git+ssh pins (blotter) through gitoxide, which captures
+    # ssh's stderr, so ssh announces the Nitrokey touch via its askpass. The
+    # askpass would write to the terminal, where tack's progress redraw wipes
+    # it; this sends it to a desktop notification (modules/features/nitrokey.nix).
+    export NITROKEY_ANNOUNCE=desktop
+    if command -v tack >/dev/null; then tack=(tack); else tack=(nix run nixpkgs#tack --); fi
+    "${tack[@]}" update {{pins}}
 
 # Show size of current closure
 size:

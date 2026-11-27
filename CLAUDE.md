@@ -18,7 +18,7 @@ Garland is a NixOS configuration repository managing these machines (named after
 
 ```bash
 just rebuild          # Rebuild NixOS (alias: just r)
-just update           # Update flake inputs (alias: just u)
+just update [pins]    # Update flake inputs with tack, all or the named pins (alias: just u)
 just secrets <host>   # Edit encrypted secrets for a host (defaults to current hostname)
 just cleanup          # GC generations older than 14 days
 just build-sd <host>  # Build SD image for aarch64 (Raspberry PI)
@@ -41,7 +41,7 @@ This repository follows the **dendritic pattern** (https://github.com/mightyiam/
 
 ### Flake Structure
 
-`flake.nix` is minimal: inputs plus `mkFlake` over `import-tree ./modules`. Everything else lives in `modules/`:
+`flake.nix` is minimal: `mkFlake` over `import-tree ./modules`, with no `inputs` attribute of its own. Inputs are pinned by **tack** (https://github.com/manic-systems/tack): declared in `.tack/pins.toml` (url, `follows`, and a comment for every input that deliberately does not follow our nixpkgs), locked in `.tack/pins.lock.json`, and resolved into flakes by the tack-generated `.tack/default.nix`, which `flake.nix` imports. `flake.lock` is an empty stub and `nix flake update` does nothing; use `just update` or `tack add/rm/look/undo`. The private `blotter` input is fetched over SSH, so `tack update` and evaluating hemlock need the Nitrokey credential (not available inside the Claude sandbox). Everything else lives in `modules/`:
 
 - `modules/meta.nix` -- imports `flake-parts.flakeModules.modules`, which provides the `flake.modules.<class>.<name>` namespaces everything writes into
 - `modules/nixos-configurations.nix` -- turns every `flake.modules.nixos."hosts/<name>"` into `nixosConfigurations.<name>`

@@ -48,8 +48,14 @@
     # afterwards), and writing after it glued the message to that line.
     # Erasing it costs nothing, since the caller would have erased it anyway,
     # and jj's own erase then hits the empty line left behind.
+    #
+    # NITROKEY_ANNOUNCE=desktop skips the terminal. Callers set it when the
+    # process holding the terminal redraws it: tack (`just update`) keeps a
+    # live progress list on screen and its redraw wipes the line within
+    # milliseconds, so the touch for a git+ssh pin went unannounced.
     announce = pkgs: pkgs.writeShellScript "nitrokey-announce" ''
-        { printf '\r\033[K%s\n' "$1''${2:+ ($2)}" > /dev/tty; } 2>/dev/null \
+        { [ "''${NITROKEY_ANNOUNCE:-}" != desktop ] \
+            && printf '\r\033[K%s\n' "$1''${2:+ ($2)}" > /dev/tty; } 2>/dev/null \
             || ${notify pkgs} "$1''${2:+: $2}" \
             || true
     '';
@@ -68,7 +74,7 @@ in {
         # and host key confirmations without a terminal; there is no sane
         # way to answer those from here, so they fail like they did before,
         # just with a notification saying why.
-        askpass = pkgs.writeShellScript "nitrokey-askpass" ''
+        askpass = pkgs.writeShellScriptBin "nitrokey-askpass" ''
             if [ "$SSH_ASKPASS_PROMPT" = none ]; then
                 exec ${announce pkgs} "Touch the Nitrokey" "$1"
             fi
@@ -113,6 +119,7 @@ in {
             pynitrokey
             nitrokey-app2
             libfido2
+            askpass
         ];
 
         # Offer the token's key for every connection. ssh-keygen -K does not
@@ -122,7 +129,11 @@ in {
             Include ${touchNotifyConfig}
         '';
         programs.ssh.enableAskPassword = true;
-        programs.ssh.askPassword = "${askpass}";
+        # A path through /run/current-system rather than the store path:
+        # SSH_ASKPASS is copied into every session at login, so a store path
+        # kept running the askpass of the generation the session started on,
+        # and changes to it only took effect in newly opened terminals.
+        programs.ssh.askPassword = "/run/current-system/sw/bin/nitrokey-askpass";
     };
 
     # Sign git and jj commits with the token. Both point at the handle file

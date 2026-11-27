@@ -1,0 +1,95 @@
+# Flake inputs of this repo, pinned by tack (https://github.com/manic-systems/tack).
+# Edit by hand or with `tack add` / `tack rm`; `tack update` (just update)
+# rewrites pins.lock.json, which is the only file Nix reads at eval time.
+# flake.nix declares no inputs of its own and takes them all from here.
+#
+# Follows are spelled out per input instead of using [all_follow]: several
+# inputs deliberately do not follow our nixpkgs (see their comments), and an
+# explicit list keeps that visible where each input is declared.
+
+[tack]
+type = "flake"
+
+[shorturls]
+gh = "github:{path}"
+
+[inputs.nixpkgs]
+url = "gh:nixos/nixpkgs/nixos-unstable"
+
+[inputs.flake-parts]
+url = "gh:hercules-ci/flake-parts"
+follows = { nixpkgs-lib = "nixpkgs" }
+
+[inputs.import-tree]
+url = "gh:vic/import-tree"
+
+[inputs.home-manager]
+url = "gh:nix-community/home-manager"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.disko]
+url = "gh:nix-community/disko"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.stylix]
+url = "gh:danth/stylix"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.nixvim]
+url = "gh:nix-community/nixvim"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.nixos-hardware]
+url = "gh:nixos/nixos-hardware/master"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.sops-nix]
+url = "gh:Mic92/sops-nix"
+follows = { nixpkgs = "nixpkgs" }
+
+[inputs.deploy-rs]
+url = "gh:serokell/deploy-rs"
+follows = { nixpkgs = "nixpkgs" }
+
+# Follows master: SNM branches per NixOS release and master tracks
+# nixos-unstable, which is what this flake runs. Its release check warns when
+# the two drift apart.
+[inputs.nixos-mailserver]
+url = "gitlab:simple-nixos-mailserver/nixos-mailserver"
+follows = { nixpkgs = "nixpkgs" }
+
+# Not following our nixpkgs on purpose: loodsenboekje is a custom package
+# whose build depends on the exact nixpkgs, rust-overlay and crane revisions
+# locked in its own repo. Sharing nixpkgs would rebuild it against toolchain
+# versions it was never tested with.
+[inputs.loodsenboekje]
+url = "gh:wjehee/loodsenboekje.com"
+
+[inputs.galeharp]
+url = "gh:WJehee/galeharp"
+follows = { nixpkgs = "nixpkgs" }
+
+# Private repo: `tack update` needs the Nitrokey SSH credential, so run it
+# outside the Claude sandbox, which has no access to ~/.ssh.
+[inputs.blotter]
+url = "git+ssh://git@github.com/WJehee/blotter.git"
+
+# Not following our nixpkgs, for the same reason as loodsenboekje: the knot is
+# built with the toolchain and Cargo.nix pinned against tangled's own nixpkgs
+# revision.
+#
+# Fetched as a tarball rather than git+https because tack's git checkout
+# (gitoxide) refuses this repo: it contains file names that are invalid on
+# Windows and gitoxide enforces Windows path rules on every platform.
+# TODO: switch back to "git+https://tangled.org/tangled.org/core" once tack's
+# git fetcher no longer rejects those paths (no upstream issue filed yet; the
+# error is "Trailing spaces or dots, and the following characters anywhere,
+# are forbidden in Windows paths"). The tarball works because tangled answers
+# with a redirect to an immutable per-commit archive, which tack locks.
+[inputs.tangled]
+url = "https://tangled.org/tangled.org/core/archive/master.tar.gz"
+
+# Not following our nixpkgs: hermes is a uv2nix build whose Python package set
+# is resolved against the nixpkgs revision upstream locks and tests in CI.
+[inputs.hermes-agent]
+url = "gh:NousResearch/hermes-agent"
